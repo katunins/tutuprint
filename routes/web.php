@@ -11,6 +11,8 @@
 |
 */
 
+// use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -22,6 +24,11 @@ Route::get('/auth', function () {
 Route::get('/agree', function () {
     return view('auth.agree');
 })->name ('agree');
+
+Route::get('/logout', function (){
+    Auth::logout();
+    return View('auth');
+})->name('LogOut');
 
 
 Auth::routes();

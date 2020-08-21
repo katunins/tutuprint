@@ -27,6 +27,11 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = '/home';
 
+    // Павел. Функция перехода
+    protected function redirectTo(){
+        return redirect()->route('welcome')->with('modal-info', 'Пароль успешно обновлен!');
+     }
+
     /**
      * Create a new controller instance.
      *

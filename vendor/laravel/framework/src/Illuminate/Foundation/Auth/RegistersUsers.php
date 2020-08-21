@@ -35,9 +35,9 @@ trait RegistersUsers
         $this->guard()->login($user);
 
         // return $this->registered($request, $user) ?: redirect($this->redirectPath());
-        // Павел изменил. 
-        return $this->registered($request, $user) ?: $this->redirectTo(); //redirect($this->redirectPath());
-
+        // Павел изменил. Берет функцию из контроллера
+        return $this->registered($request, $user) ?: $this->redirectTo();
+        
     }
 
     /**

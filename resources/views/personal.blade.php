@@ -21,7 +21,7 @@
         </svg>
     </div>
 </div>
-<a class="logout" href="{{ Auth::logout() }}">Выйти из аккаунта</a>
+<a class="logout" href="{{ Route ('LogOut') }}">Выйти из аккаунта</a>
 
 <div class="orders-block">
     <div class="order">

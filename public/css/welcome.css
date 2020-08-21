@@ -17,6 +17,36 @@ video {
   margin: 0 7px;
 }
 
+.big-button {
+  border: 1px solid #BEBBBB;
+  border-radius: 12px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.big-button > div {
+  padding: 5px;
+}
+
+.big-button p {
+  font-size: 14px;
+  font-weight: 300;
+  margin-top: 8px;
+}
+
+a.big-button {
+  text-decoration: none;
+}
+
+.big-button svg {
+  height: 32px;
+}
+
 @media screen and (max-width: 768px) {
   .promo-video-block {
     width: 90%;

@@ -131,7 +131,7 @@ trait ResetsPasswords
     {
         // return redirect($this->redirectPath())->with('status', trans($response));
         // Павел исправил
-        return redirect()->route('welcome')->with('modal-info', 'Пароль успешно обновлен!');
+        return $this->redirectTo();
     }
 
     /**
