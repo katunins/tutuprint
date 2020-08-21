@@ -1,0 +1,34 @@
+
+
+.promo-video-block {
+    width: 45%;
+}
+
+video {
+    width: 100%;
+    filter: opacity(0.7);
+}
+
+.button-block {
+    display: flex;
+    margin-top: 40px;
+}
+
+.button-block>a {
+    margin: 0 7px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .promo-video-block {
+        width: 90%;
+    }
+
+    .button-block {
+        margin-top: 0;
+    }
+
+    .button-block svg {
+        width: 70px;
+    }
+}

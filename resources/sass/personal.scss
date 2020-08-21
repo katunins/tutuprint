@@ -1,0 +1,115 @@
+.contact {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 20px;
+    width: 320px;
+}
+
+.contact>div {
+    margin: 0 20px;
+}
+
+.contact svg {
+    width: 40px;
+}
+
+.contact p {
+    font-size: 14px
+}
+
+.contact h3 {
+    font-weight: 300;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.change-personal {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.logout {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.order-block {
+    width: 320px;
+}
+
+.order {
+    margin: 10px auto;
+    display: flex;
+    justify-content: start;
+    font-size: 14px;
+    // border: 1px solid grey;
+    padding: 20px 15px;
+}
+
+.goods {
+    font-size: 12px;
+    margin: 0 40px 0 20px;
+}
+
+.goods li {
+    list-style: none;
+    margin-bottom: 3px;
+}
+
+.status {
+    margin-top: 10px;
+    font-weight: 300;
+}
+
+.started {
+    color: green;
+}
+.started::after {
+    content: 'В печати';
+}
+
+.printed {
+    color: green;
+}
+.printed:after {
+    content: 'Напечатан';
+}
+
+.shiped {
+    color: green;
+}
+.shiped::after {
+    content: 'Отправлен';
+}
+
+.finished {
+    color: orange;
+}
+.finished::after {
+    content: 'Завершен';
+}
+
+.cost {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.cost div {
+    margin-bottom: 4px;
+}
+
+.cost a {
+    font-size: 14px;
+    text-decoration: none;
+    background-color: FFCC00;
+    padding: 2px 10px;
+}
+
+.closed {
+    opacity: 0.5;
+}
+

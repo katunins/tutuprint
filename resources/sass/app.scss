@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&subset=cyrillic-ext');
+
+$grey-color: #3b3b3b;
+
+* {
+    margin: 0 auto;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    color: $grey-color;
+}
+
+b {
+    font-weight: 400;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    background-color: rgb(240, 240, 238);
+    width: 800px;
+    padding: 180px 0;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.basket {
+    width: 40px;
+    transform: translate(200px, -60px);
+}
+
+.back {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.back>a {
+    opacity: 1;
+    text-decoration: none;
+    border: 1px solid grey;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+.logo {
+    width: 210px;
+    opacity: 0.9;
+}
+
+.logo>h1 {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 0;
+    margin-top: 5px;
+}
+
+.modal {
+    margin: 0px auto 30px;
+    font-size: 16px;
+    font-weight: 300;
+    padding: 20px 20px;
+    background-color: #FFCC00;
+    width: 320px;
+    text-align: center;
+
+    animation-name: open;
+    animation-duration: 1s;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+    animation-delay: 2s;
+}
+
+@keyframes open {
+    0% {}
+
+    99% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+        height: 0;
+        margin: 0 auto;
+        padding: 0;
+    }
+}
+
+.modal>svg {
+    width: 20px;
+    margin-right: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        background-color: rgb(240, 240, 238);
+    }
+
+    .container {
+        padding: 0px;
+        margin: 30px 0;
+    }
+
+    .logo {
+        width: 150px;
+    }
+
+    .logo>h1 {
+        font-size: 13px;
+    }
+
+    .basket {
+        width: 30px;
+        transform: translate(130px, -60px);
+    }
+
+    .back>a {
+        font-size: 14px;
+        padding: 4px 12px;
+    }
+
+    .modal {
+        width: 250px;
+        padding: 10px 20px;
+        margin-bottom: 15px;
+    }
+}
