@@ -30,10 +30,10 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/';
 
-    // Павел. Функция перехода после регистрации
-    protected function redirectTo(){
-        return redirect()->route('welcome')->with('modal-info', 'Вы успешно зарегестрированы!');
-     }
+    // // Павел. Функция перехода после регистрации
+    // protected function redirectTo(){
+    //     return redirect()->route('welcome')->with('modal-info', 'Вы успешно зарегестрированы!');
+    //  }
 
     /**
      * Create a new controller instance.
