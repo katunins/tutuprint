@@ -1,5 +1,11 @@
-/vendor/
-!vendor/laravel/framework/src/Illuminate/Foundation
+# /vendor/
+# !vendor/laravel/framework/src/Illuminate/Foundation
+
+#исключим всё содержимое папки application/language
+vendor/*
+#кроме подиректории:
+!vendor/laravel/framework/src/Illuminate/Foundation/
+
 node_modules/
 npm-debug.log
 yarn-error.log
