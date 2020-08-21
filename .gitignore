@@ -4,7 +4,7 @@
 #исключим всё содержимое папки application/language
 vendor/*
 #кроме подиректории:
-!vendor/laravel/framework/src/Illuminate/Foundation/
+!vendor/laravel/framework/src/Illuminate/Foundation/Auth/*
 
 node_modules/
 npm-debug.log
