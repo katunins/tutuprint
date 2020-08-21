@@ -12880,6 +12880,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/gallery.scss":
+/*!*************************************!*\
+  !*** ./resources/sass/gallery.scss ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/login.scss":
 /*!***********************************!*\
   !*** ./resources/sass/login.scss ***!
@@ -12914,9 +12925,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 0:
-/*!******************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/welcome.scss ./resources/sass/personal.scss ./resources/sass/login.scss ./resources/sass/app.scss ***!
-  \******************************************************************************************************************************************************/
+/*!************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/welcome.scss ./resources/sass/personal.scss ./resources/sass/login.scss ./resources/sass/gallery.scss ./resources/sass/app.scss ***!
+  \************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12924,6 +12935,7 @@ __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/js/
 __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/welcome.scss */"./resources/sass/welcome.scss");
 __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/personal.scss */"./resources/sass/personal.scss");
 __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/login.scss */"./resources/sass/login.scss");
+__webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/gallery.scss */"./resources/sass/gallery.scss");
 module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/app.scss */"./resources/sass/app.scss");
 
 

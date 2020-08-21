@@ -30,7 +30,10 @@ Route::get('/logout', function (){
     return View('auth');
 })->name('LogOut');
 
-
 Auth::routes();
+
+Route::get('/gallery', function (){
+    return View ('gallery');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
