@@ -51,22 +51,5 @@ a.big-button {
   .promo-video-block {
     width: 90%;
   }
-
-  .big-button {
-    width: 70px;
-    height: 70px;
-  }
-
-  .big-button p {
-    font-size: 10px;
-  }
-
-  .big-button div {
-    padding: 3px;
-  }
-
-  .big-button svg {
-    height: 25px;
-  }
 }
 
