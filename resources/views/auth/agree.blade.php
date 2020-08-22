@@ -2,6 +2,13 @@
 
 @section('title', 'Согласие на обработку персональных данных')
 <link rel="stylesheet" href={{ asset('css/login.css') }}>
+
+<style>
+    body {
+        overflow: scroll !important;
+        height: auto !important;
+    }
+</style>
 @section('content')
 
 <div class="agree-text">

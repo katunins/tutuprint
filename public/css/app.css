@@ -22,14 +22,22 @@ body {
   display: flex;
   width: 100%;
   max-width: 800px;
-  padding: 20px 0;
   flex-direction: column;
   justify-content: center;
 }
 
+.header {
+  width: 100%;
+  max-width: 500px;
+  height: 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
 .basket {
-  width: 40px;
-  transform: translate(200px, -60px);
+  width: 35px;
+  margin-right: 30px;
 }
 
 .back {
@@ -46,18 +54,6 @@ body {
 
 .back svg {
   width: 8px;
-}
-
-.logo {
-  width: 210px;
-  opacity: 0.9;
-}
-
-.logo h1 {
-  font-size: 18px;
-  font-weight: 300;
-  line-height: 0;
-  margin-top: 5px;
 }
 
 .modal {
@@ -112,28 +108,18 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-  .logo {
-    width: 150px;
-  }
-
-  .logo h1 {
-    font-size: 13px;
-  }
-
-  .basket {
-    width: 30px;
-    transform: translate(130px, -60px);
-  }
-
-  .basket a {
-    font-size: 14px;
-    padding: 4px 12px;
-  }
-
   .modal {
     width: 250px;
     padding: 10px 20px;
     margin-bottom: 15px;
+  }
+}
+
+@media screen and (max-height: 560px) {
+  body {
+    overflow: scroll;
+    height: auto;
+    margin: 20px 0;
   }
 }
 
