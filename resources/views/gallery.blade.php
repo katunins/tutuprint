@@ -3,11 +3,14 @@
 
 @section('content')
 <div class="gallery">
-    @for ($i = 0; $i < 20; $i++) <div class="image-square">
+    @foreach (Storage::files('public/images/mini') as $item)
+    <div class="image-box" style="background-image: url({{ Storage::url($item) }})">
 
-</div>
-@endfor
+    </div>
+    @endforeach
 </div>
 <div class="controls">
 </div>
 @endsection
+
+{{-- <script src="{{ asset('js/gallery.js') }}"></script> --}}

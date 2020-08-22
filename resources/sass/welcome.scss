@@ -1,5 +1,6 @@
 .promo-video-block {
-    width: 45%;
+    min-width: 330px;
+    width: 40%;
 }
 
 video {
@@ -49,7 +50,9 @@ a.big-button {
 
 @media screen and (max-width: 768px) {
     .promo-video-block {
+        min-width: 0;
         width: 90%;
+        max-width: 50vh;
     }
 
     .big-button {

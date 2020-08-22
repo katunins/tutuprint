@@ -17,8 +17,10 @@ b {
 body {
     display: flex;
     align-items: center;
-    min-height: 100vh;
+    // min-height: 100vh;
+    height: 100vh;
     width: 100vw;
+    overflow: hidden;
     // background-color: rgba(197, 218, 226, 0.212);
 }
 
