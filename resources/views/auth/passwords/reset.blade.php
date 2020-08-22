@@ -47,5 +47,5 @@
 @endsection
 
 @section('back')
-<a href="/auth">
-    <</a> @endsection
+"/auth"
+@endsection

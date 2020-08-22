@@ -36,5 +36,5 @@
 
 
 @section('back')
-<a href={{ url('/register')}}>ok</a>
+{{ url('/register')}}
 @endsection

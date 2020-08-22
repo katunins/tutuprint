@@ -11,7 +11,7 @@
     <title>@yield('title')</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -50,9 +50,23 @@
 
         @yield('content')
 
-        <div class="back">
-            @yield('back')
-        </div>
+        @if(View::hasSection('back'))
+        <a class="back" href=@yield('back')>
+            {{-- <svg viewBox="0 0 58 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 27L1 14L18 1" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M3 14H57" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+            </svg> --}}
+            {{-- <svg width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 27L1 14L18 1" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M35 27L18 14L35 1" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+            </svg> --}}
+            <svg viewBox="0 0 19 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 27L1 14L18 1" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+
+
+        </a>
+        @endif
 
     </div>
 </body>

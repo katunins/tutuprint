@@ -13,7 +13,7 @@ form {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 50px auto 10px;
+  margin: 50px auto 0px;
 }
 
 form input {
@@ -33,6 +33,16 @@ form a {
   font-size: 14px;
 }
 
+form .button {
+  background-color: FFCC00;
+  border: none;
+  margin-top: 30px;
+}
+
+form p {
+  font-size: 14px;
+}
+
 .button {
   width: 100%;
   padding: 10px 0;
@@ -43,19 +53,13 @@ form a {
   text-decoration: none;
 }
 
-form > .button {
-  background-color: FFCC00;
-  border: none;
-  margin-top: 30px;
-}
-
 .agree {
   font-size: 12px;
   text-align: start;
   margin-top: 30px;
 }
 
-.agree > a {
+.agree a {
   opacity: 1;
   font-size: inherit;
 }
@@ -67,11 +71,11 @@ form > .button {
   margin-top: 30px;
 }
 
-.agree-text > p {
+.agree-text p {
   margin: 10px 0;
 }
 
-.agree-text > li {
+.agree-text li {
   margin-left: 20px;
   list-style: none;
 }
@@ -88,17 +92,13 @@ form > .button {
   font-size: 14px;
 }
 
-.checkbox > input {
+.checkbox input {
   width: 15px;
   height: auto;
   margin-top: 20px;
 }
 
-.checkbox > label {
-  font-size: 14px;
-}
-
-form p {
+.checkbox label {
   font-size: 14px;
 }
 
@@ -136,11 +136,11 @@ form p {
     margin-top: 10px;
   }
 
-  .agree-text > p {
+  .agree-text p {
     margin: 8px 0;
   }
 
-  .agree-text > li {
+  .agree-text li {
     font-size: 10px;
   }
 }

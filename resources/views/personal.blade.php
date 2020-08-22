@@ -61,5 +61,5 @@
 @endsection
 
 @section('back')
-<a href={{Route('welcome')}}>
-    <</a> @endsection
+{{Route('welcome')}}
+@endsection

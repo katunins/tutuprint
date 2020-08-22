@@ -1,31 +1,47 @@
-// @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&subset=cyrillic-ext');
+.container {
+    height: 100vh !important;
+    max-width: 800px !important;
+}
 
-// $grey-color: #3b3b3b;
-
-// * {
-//     margin: 0 auto;
-//     padding: 0;
-//     font-family: 'Roboto', sans-serif;
-//     font-weight: 100;
-//     color: $grey-color;
-// }
-
-// .header {
-//     background-color: green;
-// }
-
-// .content {
-//     background-color: lightgrey;
-// }
-
-// .footer {
-//     background-color: honeydew;
-// }
+.header {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+    align-items: flex-end;
+    background-color: yellow;
+}
 
 .logo {
     width: 80px !important;
+
+    h1 {
+        display: none;
+    }
+}
+.basket {
+    transform: none !important;
+    width: 32px !important;
 }
 
-.logo h1 {
-    display: none;
+
+
+.gallery {
+    width: 100%;
+    background-color: wheat;
+    flex-grow: 3;
+
+    .image-square {
+        width: (100%-1)/4;
+    }
+}
+
+
+
+
+
+.controls {
+    width: 100%;
+    height: 100px;
+    background-color: grey;
 }

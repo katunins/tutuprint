@@ -57,5 +57,5 @@
 @endsection
 
 @section('back')
-<a href={{ url('/auth')}}>
-    <</a> @endsection
+{{ url('/auth')}}
+@endsection

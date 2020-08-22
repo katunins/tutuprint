@@ -13,14 +13,15 @@ b {
 body {
   display: flex;
   align-items: center;
-  height: 100%;
+  min-height: 100vh;
+  width: 100vw;
 }
 
 .container {
   display: flex;
-  background-color: #f0f0ee;
-  width: 800px;
-  padding: 180px 0;
+  width: 100%;
+  max-width: 800px;
+  padding: 20px 0;
   flex-direction: column;
   justify-content: center;
 }
@@ -31,17 +32,19 @@ body {
 }
 
 .back {
-  margin-top: 20px;
-  width: 100%;
   text-align: center;
-}
-
-.back > a {
-  opacity: 1;
+  width: 100px;
+  height: 25px;
+  opacity: 0.7;
   text-decoration: none;
   border: 1px solid grey;
-  padding: 5px 15px;
   border-radius: 5px;
+  margin-top: 20px;
+  display: flex;
+}
+
+.back svg {
+  width: 8px;
 }
 
 .logo {
@@ -49,7 +52,7 @@ body {
   opacity: 0.9;
 }
 
-.logo > h1 {
+.logo h1 {
   font-size: 18px;
   font-weight: 300;
   line-height: 0;
@@ -61,7 +64,7 @@ body {
   font-size: 16px;
   font-weight: 300;
   padding: 20px 20px;
-  background-color: #FFCC00;
+  background-color: #ffcc00;
   width: 320px;
   text-align: center;
   -webkit-animation-name: open;
@@ -74,6 +77,11 @@ body {
           animation-fill-mode: forwards;
   -webkit-animation-delay: 2s;
           animation-delay: 2s;
+}
+
+.modal svg {
+  width: 20px;
+  margin-right: 5px;
 }
 
 @-webkit-keyframes open {
@@ -102,26 +110,12 @@ body {
   }
 }
 
-.modal > svg {
-  width: 20px;
-  margin-right: 5px;
-}
-
 @media screen and (max-width: 768px) {
-  body {
-    background-color: #f0f0ee;
-  }
-
-  .container {
-    padding: 0px;
-    margin: 30px 0;
-  }
-
   .logo {
     width: 150px;
   }
 
-  .logo > h1 {
+  .logo h1 {
     font-size: 13px;
   }
 
@@ -130,7 +124,7 @@ body {
     transform: translate(130px, -60px);
   }
 
-  .back > a {
+  .basket a {
     font-size: 14px;
     padding: 4px 12px;
   }

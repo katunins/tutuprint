@@ -13,7 +13,7 @@ video {
   margin-top: 40px;
 }
 
-.button-block > a {
+.button-block a {
   margin: 0 7px;
 }
 
@@ -29,7 +29,7 @@ video {
   text-align: center;
 }
 
-.big-button > div {
+.big-button div {
   padding: 5px;
 }
 
@@ -39,17 +39,26 @@ video {
   margin-top: 8px;
 }
 
-a.big-button {
-  text-decoration: none;
-}
-
 .big-button svg {
   height: 32px;
+}
+
+a.big-button {
+  text-decoration: none;
 }
 
 @media screen and (max-width: 768px) {
   .promo-video-block {
     width: 90%;
+  }
+
+  .big-button {
+    width: 85px;
+    height: 85px;
+  }
+
+  .big-button p {
+    font-size: 12px;
   }
 }
 

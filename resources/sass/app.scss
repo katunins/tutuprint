@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&subset=cyrillic-ext');
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&subset=cyrillic-ext");
 
 $grey-color: #3b3b3b;
 
 * {
     margin: 0 auto;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-weight: 100;
     color: $grey-color;
 }
@@ -17,14 +17,18 @@ b {
 body {
     display: flex;
     align-items: center;
-    height: 100%;
+    min-height: 100vh;
+    width: 100vw;
+    // background-color: rgba(197, 218, 226, 0.212);
 }
 
 .container {
     display: flex;
-    background-color: rgb(240, 240, 238);
-    width: 800px;
-    padding: 180px 0;
+    // background-color: rgb(240, 240, 238);
+    width: 100%;
+    max-width: 800px;
+    // height: 100vh;
+    padding: 20px 0;
     flex-direction: column;
     justify-content: center;
 }
@@ -35,29 +39,31 @@ body {
 }
 
 .back {
-    margin-top: 20px;
-    width: 100%;
     text-align: center;
-}
-
-.back>a {
-    opacity: 1;
+    width: 100px;
+    height: 25px;
+    opacity: 0.7;
     text-decoration: none;
     border: 1px solid grey;
-    padding: 5px 15px;
     border-radius: 5px;
+    margin-top: 20px;
+    display: flex;
+
+    svg {
+        width: 8px;
+    }
 }
 
 .logo {
     width: 210px;
     opacity: 0.9;
-}
 
-.logo>h1 {
-    font-size: 18px;
-    font-weight: 300;
-    line-height: 0;
-    margin-top: 5px;
+    h1 {
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 0;
+        margin-top: 5px;
+    }
 }
 
 .modal {
@@ -65,7 +71,7 @@ body {
     font-size: 16px;
     font-weight: 300;
     padding: 20px 20px;
-    background-color: #FFCC00;
+    background-color: #ffcc00;
     width: 320px;
     text-align: center;
 
@@ -74,10 +80,16 @@ body {
     animation-direction: normal;
     animation-fill-mode: forwards;
     animation-delay: 2s;
+
+    svg {
+        width: 20px;
+        margin-right: 5px;
+    }
 }
 
 @keyframes open {
-    0% {}
+    0% {
+    }
 
     99% {
         opacity: 0;
@@ -91,37 +103,24 @@ body {
     }
 }
 
-.modal>svg {
-    width: 20px;
-    margin-right: 5px;
-}
-
 @media screen and (max-width: 768px) {
-    body {
-        background-color: rgb(240, 240, 238);
-    }
-
-    .container {
-        padding: 0px;
-        margin: 30px 0;
-    }
 
     .logo {
         width: 150px;
-    }
 
-    .logo>h1 {
-        font-size: 13px;
+        h1 {
+            font-size: 13px;
+        }
     }
 
     .basket {
         width: 30px;
         transform: translate(130px, -60px);
-    }
 
-    .back>a {
-        font-size: 14px;
-        padding: 4px 12px;
+        a {
+            font-size: 14px;
+            padding: 4px 12px;
+        }
     }
 
     .modal {
