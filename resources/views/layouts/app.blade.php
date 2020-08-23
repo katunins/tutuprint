@@ -16,6 +16,12 @@
 <body>
     <div class="container">
         <div class="header" style="background-image: url({{ asset ('logo.svg') }})">
+
+
+            <a class="top-back" href=@yield('back')>
+                <img src="{{ asset('back-button.svg') }}" alt="Назад">
+            </a>
+
             <div class="basket">
                 <svg viewBox="0 0 39 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -32,19 +38,7 @@
 
         @if(View::hasSection('back'))
         <a class="back" href=@yield('back')>
-            {{-- <svg viewBox="0 0 58 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 27L1 14L18 1" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M3 14H57" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-            </svg> --}}
-            {{-- <svg width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 27L1 14L18 1" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M35 27L18 14L35 1" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-            </svg> --}}
-            <svg viewBox="0 0 19 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 27L1 14L18 1" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-
-
+            <img src="{{ asset('back-button.svg') }}" alt="Назад">
         </a>
         @endif
 

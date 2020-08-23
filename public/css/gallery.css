@@ -6,59 +6,98 @@
 .header {
   display: flex !important;
   width: 100% !important;
-  height: 45px !important;
-  justify-content: space-between;
+  height: 60px !important;
   align-items: center;
+  margin: 10px auto !important;
 }
 
-.header * {
-  margin: 0 !important;
+.top-back {
+  display: block !important;
+  margin: 0 0 0 25px;
+  width: 14px;
+  opacity: 0.6;
 }
 
-.logo {
-  width: 140px !important;
-}
-
-.logo h1 {
-  display: none;
-}
-
-.basket {
-  transform: none !important;
-  width: 32px !important;
-  margin-right: 30px !important;
-}
-
-.gallery {
+.gallery-block {
   display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  flex-direction: column;
   width: 100%;
-  background-color: wheat;
-  flex-grow: 1;
   height: 100%;
   overflow: overlay;
 }
 
-.gallery .image-box {
-  background-size: cover;
-  background-position: center;
-  flex-grow: 1;
-  flex-basis: 15.6666666667vw;
-  height: 16.6666666667vw;
-  margin: 1px;
+.gallery-block .gallery {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(6, 1fr);
+  overflow: overlay;
 }
 
-@media screen and (max-width: 768px) {
-  .gallery .image-box {
-    flex-basis: 24vw !important;
-    height: 25vw !important;
-  }
+.gallery-block .gallery a {
+  width: 100%;
+  height: 100%;
+}
+
+.gallery-block .gallery .image-box {
+  padding-bottom: 100%;
+  height: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: #f3f3f3;
+  margin: 1px;
 }
 
 .controls {
   width: 100%;
-  height: 100px;
+  height: 150px;
   background-color: grey;
+}
+
+.back {
+  display: none !important;
+}
+
+@media screen and (orientation: landscape) and (max-height: 600px) {
+  .gallery-block {
+    flex-direction: row;
+  }
+
+  .controls {
+    width: 400px;
+    height: 100%;
+  }
+}
+
+@media screen and (max-height: 568px) {
+  body {
+    margin: 5px 0 !important;
+    height: auto !important;
+  }
+
+  .header {
+    height: 30px !important;
+    margin: 5px auto !important;
+  }
+
+  .header .basket {
+    width: 20px;
+  }
+
+  .header .top-back {
+    width: 8px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .gallery {
+    grid-template-columns: repeat(5, 1fr) !important;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .gallery {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
 }
 

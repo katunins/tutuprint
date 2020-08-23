@@ -40,8 +40,8 @@ body {
 }
 
 .basket {
-    width:  35px;
-    margin-right: 30px;
+    width: 32px;
+    margin-right: 25px;
 }
 
 .back {
@@ -55,11 +55,14 @@ body {
     margin-top: 20px;
     display: flex;
 
-    svg {
+    img {
         width: 8px;
     }
 }
 
+.top-back {
+    display: none;
+}
 .modal {
     margin: 0px auto 30px;
     font-size: 16px;
@@ -98,7 +101,6 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-
     .modal {
         width: 250px;
         padding: 10px 20px;

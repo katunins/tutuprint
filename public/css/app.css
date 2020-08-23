@@ -36,8 +36,8 @@ body {
 }
 
 .basket {
-  width: 35px;
-  margin-right: 30px;
+  width: 32px;
+  margin-right: 25px;
 }
 
 .back {
@@ -52,8 +52,12 @@ body {
   display: flex;
 }
 
-.back svg {
+.back img {
   width: 8px;
+}
+
+.top-back {
+  display: none;
 }
 
 .modal {
