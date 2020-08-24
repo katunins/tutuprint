@@ -93,7 +93,27 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js'");
+function UpdateControls(product) {
+  console.log(product);
+  var allProducts = document.querySelectorAll('.param-block:not(.main)');
+  allProducts.forEach(function (elem) {
+    if (elem.getAttribute('parent') == product) {
+      elem.classList.remove('hide');
+    } else {
+      elem.classList.add('hide');
+    }
+  }); // console.log(allProducts)
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  UpdateControls();
+  var productControls = document.querySelectorAll('input[name="product"]');
+  productControls.forEach(function (elem) {
+    elem.addEventListener('change', function () {
+      UpdateControls(this.id);
+    });
+  });
+});
 
 /***/ }),
 
@@ -104,7 +124,7 @@ throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

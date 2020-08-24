@@ -1,17 +1,18 @@
 @charset "UTF-8";
 
+.personal {
+  margin-top: 20px;
+}
+
 .contact {
   display: flex;
-  align-items: flex-start;
+  align-items: start;
   justify-content: space-between;
   border: 1px solid grey;
   border-radius: 5px;
   padding: 20px;
   width: 320px;
-}
-
-.contact div {
-  margin: 0 20px;
+  margin-bottom: 10px;
 }
 
 .contact svg {
@@ -28,15 +29,14 @@
   font-size: 22px;
 }
 
-.change-personal {
+.links {
   width: 100%;
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
-.logout {
-  margin: 20px 0;
-  text-align: center;
+.links a {
+  margin-right: 5px;
 }
 
 .order-block {
@@ -44,7 +44,6 @@
 }
 
 .order {
-  margin: 10px auto;
   display: flex;
   justify-content: start;
   font-size: 14px;
@@ -116,5 +115,37 @@
 
 .closed {
   opacity: 0.5;
+}
+
+@media screen and (max-width: 768px) {
+  .contact {
+    width: 250px;
+  }
+
+  .contact svg {
+    width: 20px;
+  }
+
+  .personal {
+    margin: 20px 10px 0 10px;
+  }
+
+  .order {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .goods {
+    font-size: 11px;
+  }
+
+  .cost {
+    width: 90px;
+    font-size: 16px;
+  }
+
+  .cost a {
+    font-size: 12px;
+  }
 }
 

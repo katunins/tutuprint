@@ -3,6 +3,10 @@
   max-width: 800px !important;
 }
 
+.hide {
+  display: none;
+}
+
 .header {
   display: flex !important;
   width: 100% !important;
@@ -48,10 +52,29 @@
   margin: 1px;
 }
 
-.controls {
+.gallery-block .controls {
   width: 100%;
   height: 150px;
-  background-color: grey;
+  background-color: #eeebeb;
+}
+
+.gallery-block .controls form {
+  display: flex;
+  padding: 10px;
+}
+
+.gallery-block .controls button {
+  border: none;
+}
+
+.gallery-block .controls .button-order {
+  width: 100px;
+  height: 100px;
+  background-color: #ffcc00;
+}
+
+.param-block {
+  margin-bottom: 5px;
 }
 
 .back {
@@ -86,6 +109,12 @@
 
   .header .top-back {
     width: 8px;
+  }
+}
+
+@media screen and (min-height: 1060px) {
+  .container {
+    height: 85% !important;
   }
 }
 

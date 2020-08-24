@@ -3,6 +3,10 @@
     max-width: 800px !important;
 }
 
+.hide {
+    display: none;
+}
+
 .header {
     display: flex !important;
     width: 100% !important;
@@ -25,10 +29,10 @@
     height: 100%;
     overflow: overlay;
     .gallery {
-a {
-    width: 100%;
-    height: 100%;
-}
+        a {
+            width: 100%;
+            height: 100%;
+        }
 
         display: grid;
         width: 100%;
@@ -44,20 +48,35 @@ a {
             margin: 1px;
         }
     }
-}
+    .controls {
+        width: 100%;
+        height: 150px;
+        background-color: rgb(238, 235, 235);
 
-.controls {
-    width: 100%;
-    height: 150px;
-    background-color: grey;
+        form {
+            display: flex;
+            padding: 10px;
+        }
+        button {
+            border: none;
+        }
+        .button-order {
+            width: 100px;
+            height: 100px;
+            background-color: #ffcc00;
+        }
+        
+    }
 }
-
+.param-block {
+    margin-bottom: 5px;
+}
 
 .back {
     display: none !important;
 }
 
-@media screen and (orientation: landscape) and (max-height: 600px){
+@media screen and (orientation: landscape) and (max-height: 600px) {
     .gallery-block {
         flex-direction: row;
     }
@@ -70,10 +89,10 @@ a {
 
 @media screen and (max-height: 568px) {
     body {
-        margin: 5px 0!important;
+        margin: 5px 0 !important;
         height: auto !important;
     }
-    
+
     .header {
         height: 30px !important;
         margin: 5px auto !important;
@@ -84,7 +103,12 @@ a {
             width: 8px;
         }
     }
+}
 
+@media screen and (min-height: 1060px) {
+    .container {
+        height: 85% !important;
+    }
 }
 
 @media screen and (max-width: 568px) {
@@ -92,7 +116,6 @@ a {
         grid-template-columns: repeat(5, 1fr) !important;
     }
 }
-
 
 @media screen and (max-width: 320px) {
     .gallery {

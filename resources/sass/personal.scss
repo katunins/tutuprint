@@ -1,24 +1,25 @@
+.personal {
+    margin-top: 20px;
+}
+
 .contact {
     display: flex;
-    align-items: flex-start;
+    align-items: start;
     justify-content: space-between;
     border: 1px solid grey;
     border-radius: 5px;
     padding: 20px;
     width: 320px;
-    
-    div {
-        margin: 0 20px;
-    }
+    margin-bottom: 10px;
 
     svg {
         width: 40px;
     }
-    
+
     p {
-        font-size: 14px
+        font-size: 14px;
     }
-    
+
     h3 {
         font-weight: 300;
         margin-bottom: 20px;
@@ -26,15 +27,14 @@
     }
 }
 
-.change-personal {
+.links {
     width: 100%;
     margin-top: 10px;
-    font-size: 14px;
-}
+    font-size: 13px;
 
-.logout {
-    margin: 20px 0;
-    text-align: center;
+    a {
+        margin-right: 5px;
+    }
 }
 
 .order-block {
@@ -42,7 +42,7 @@
 }
 
 .order {
-    margin: 10px auto;
+    // margin: 10px auto;
     display: flex;
     justify-content: start;
     font-size: 14px;
@@ -58,9 +58,7 @@
         list-style: none;
         margin-bottom: 3px;
     }
-    
 }
-
 
 .status {
     margin-top: 10px;
@@ -71,28 +69,28 @@
     color: green;
 }
 .started::after {
-    content: 'В печати';
+    content: "В печати";
 }
 
 .printed {
     color: green;
 }
 .printed:after {
-    content: 'Напечатан';
+    content: "Напечатан";
 }
 
 .shiped {
     color: green;
 }
 .shiped::after {
-    content: 'Отправлен';
+    content: "Отправлен";
 }
 
 .finished {
     color: orange;
 }
 .finished::after {
-    content: 'Завершен';
+    content: "Завершен";
 }
 
 .cost {
@@ -102,7 +100,7 @@
     div {
         margin-bottom: 4px;
     }
-    
+
     a {
         font-size: 14px;
         text-decoration: none;
@@ -111,9 +109,33 @@
     }
 }
 
-
-
 .closed {
     opacity: 0.5;
 }
 
+@media screen and (max-width: 768px) {
+    .contact {
+        width: 250px;
+
+        svg {
+            width: 20px;
+        }
+    }
+    .personal {
+        margin: 20px 10px 0 10px;
+    }
+    .order {
+        font-size: 12px;
+        padding: 10px;
+    }
+    .goods {
+        font-size: 11px;
+    }
+    .cost {
+        width: 90px;
+        font-size: 16px;
+        a {
+            font-size: 12px;
+        }
+    }
+}
