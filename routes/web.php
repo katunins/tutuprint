@@ -37,3 +37,7 @@ Route::get('/gallery', function (){
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/test', function (){
+    return View ('test');
+});
