@@ -4,7 +4,7 @@
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 .header {
@@ -50,33 +50,199 @@
     }
     .controls {
         width: 100%;
-        height: 150px;
+        height: 200px;
         background-color: rgb(238, 235, 235);
 
         form {
             display: flex;
-            padding: 10px;
+            height: 100%;
+            align-items: center;
         }
-        button {
-            border: none;
+
+        .inactive {
+            opacity: 0.3;
+            transition: 0.3s ease-in-out;
         }
-        .button-order {
-            width: 100px;
-            height: 100px;
-            background-color: #ffcc00;
+
+        .active {
+            opacity: 1;
+            transition: 0.3s ease-in-out;
         }
-        
     }
 }
 .param-block {
     margin-bottom: 5px;
+    display: flex;
+
+    .param {
+        width: 100%;
+        text-align: center;
+
+        font-weight: 300;
+    }
+}
+
+.param-check-block {
+    display: flex;
+    margin-top: 10px;
+
+    * {
+        user-select: none;
+    }
+
+    .param-check {
+        font-weight: 300;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    input {
+        position: absolute;
+        left: -9999px;
+    }
+
+    label {
+        border: 1px solid #ffcc00; // rgb(216, 216, 216);
+        display: block;
+        width: 130px;
+        height: 18px;
+
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 300;
+    }
+
+    input:not(:checked) + label {
+        opacity: 0.5;
+        transition: 0.3s ease-in-out;
+    }
+
+    input:checked + label {
+        opacity: 1;
+        background-color: #ffcc00;
+        transition: 0.3s ease-in-out;
+        // transition: 0.7s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
+    }
+}
+
+.text-for-box > input {
+    width: 100%;
+    margin: 12px 5px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ffcc00;
+    background-color: transparent;
+    outline: none;
+}
+
+.to-order-block {
+    .price-block,
+    span {
+        font-weight: 400;
+        font-size: 24px;
+    }
+
+    .price-description-block {
+        font-weight: 300;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    button {
+        font-size: 14px;
+        font-weight: 300;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        width: 140px;
+        height: 70px;
+        background-color: #ffcc00;
+        margin-bottom: 10px;
+        border-radius: 3px;
+
+        img {
+            width: 18px;
+            opacity: 0.7;
+            position: relative;
+            top: 2px;
+        }
+    }
+
+    button:active {
+        opacity: 0.6;
+    }
 }
 
 .back {
     display: none !important;
 }
 
-@media screen and (orientation: landscape) and (max-height: 600px) {
+// button
+$switch-buttion-high: 15px;
+.button {
+    position: relative;
+    top: 50%;
+    width: $switch-buttion-high * 5;
+    height: $switch-buttion-high;
+    margin: 3px 5px 0 5px;
+    overflow: hidden;
+    border-radius: 100px;
+
+    * {
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .knobs,
+    .layer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: 100px;
+    }
+
+    .checkbox {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 3;
+    }
+
+    .knobs {
+        z-index: 2;
+    }
+
+    .layer {
+        border: 1px solid rgba(160, 160, 160, 0.699);
+        transition: 0.3s ease all;
+        z-index: 1;
+    }
+
+    .knobs {
+        position: absolute;
+        top: 0px;
+        left: -$switch-buttion-high;
+        width: $switch-buttion-high + 1px;
+        height: $switch-buttion-high;
+        color: #fff;
+        background-color: #ffcc00;
+        border-radius: 50%;
+        transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
+    }
+
+    .checkbox:checked + .knobs {
+        left: $switch-buttion-high;
+    }
+}
+// button
+
+@media screen and (orientation: landscape) and (max-height: 550px) {
     .gallery-block {
         flex-direction: row;
     }

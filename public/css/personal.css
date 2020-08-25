@@ -6,7 +6,7 @@
 
 .contact {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
   border: 1px solid grey;
   border-radius: 5px;
@@ -45,7 +45,7 @@
 
 .order {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   font-size: 14px;
   padding: 20px 15px;
 }
