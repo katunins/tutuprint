@@ -1,4 +1,4 @@
-const priceArr = new Object ({
+const priceArr = new Object({
   photoprint: {
     size: {
       '10x15': 10,
@@ -81,32 +81,32 @@ const priceArr = new Object ({
   },
 });
 
-function getPhotoCount () {
-  let allPhotos = document.querySelectorAll ('.image-box');
+function getPhotoCount() {
+  let allPhotos = document.querySelectorAll('.image-box');
   let count = 0;
-  allPhotos.forEach (el => {
-    count += Number (el.getAttribute ('count'));
+  allPhotos.forEach(el => {
+    count += Number(el.getAttribute('count'));
   });
   return count;
 }
 
-function updatePrice () {
+function updatePrice() {
 
   let paramSelected = {
-    product: document.querySelector ('.param.active[name="product"]').attributes
+    product: document.querySelector('.param.active[name="product"]').attributes
       .value.value,
-    size: document.querySelector ('.param.active[name="size"]').attributes.value
+    size: document.querySelector('.param.active[name="size"]').attributes.value
       .value,
-    'white-border': document.getElementById ('white-border').checked,
-    box: document.getElementById ('box').checked,
+    'white-border': document.getElementById('white-border').checked,
+    box: document.getElementById('box').checked,
   };
 
   let pricePerOne = priceArr[paramSelected.product].size[paramSelected.size];
-  let count = getPhotoCount ();
+  let count = getPhotoCount();
 
   if (paramSelected.box) {
     priceAdditionally = 0;
-    priceArr[paramSelected.product].box[paramSelected.size].forEach (ee => {
+    priceArr[paramSelected.product].box[paramSelected.size].forEach(ee => {
       if (count <= ee.maxCount && count >= ee.minCount)
         priceAdditionally = ee.price;
     });
@@ -116,61 +116,90 @@ function updatePrice () {
 
   let priceToBasket = pricePerOne * count + priceAdditionally;
 
-  document.querySelector ('input[name="summ"]').value = priceToBasket;
-  document.getElementById (
+  document.querySelector('input[name="summ"]').value = priceToBasket;
+  document.getElementById(
     'price-to-basket'
-  ).innerHTML = priceToBasket.toLocaleString ('rus-IN');
+  ).innerHTML = priceToBasket.toLocaleString('rus-IN');
 
-  let productName = document.querySelector ('.param.active[name="product"]')
+  let productName = document.querySelector('.param.active[name="product"]')
     .innerHTML;
-  document.getElementById ('description-1').innerHTML =
+  document.getElementById('description-1').innerHTML =
     productName + ': <b>' + count + ' шт.</b> x <b>' + pricePerOne + '₽</b>';
-  document.getElementById ('description-2').innerHTML = paramSelected.box
+  document.getElementById('description-2').innerHTML = paramSelected.box
     ? '+ коробка: <b>' + priceAdditionally + '₽</b>'
     : '';
 }
 
-function switchRefresh (element) {
+function switchRefresh(element) {
   // обновление переключателя
-  let switchStatus = element.checked.toString ();
-  let params = element.parentNode.parentNode.querySelectorAll ('.param');
-  params.forEach (el => {
-    if (el.getAttribute ('switchdata') === switchStatus) {
-      el.classList.add ('active');
-      el.classList.remove ('inactive');
+  let switchStatus = element.checked.toString();
+  let params = element.parentNode.parentNode.querySelectorAll('.param');
+  params.forEach(el => {
+    if (el.getAttribute('switchdata') === switchStatus) {
+      el.classList.add('active');
+      el.classList.remove('inactive');
     } else {
-      el.classList.add ('inactive');
-      el.classList.remove ('active');
+      el.classList.add('inactive');
+      el.classList.remove('active');
     }
   });
 
-  updatePrice ();
+  updatePrice();
 }
 
-document.addEventListener ('DOMContentLoaded', function () {
-  updatePrice ();
+function changeModalCount(param) {
+  // this.increase
+  // this.id
+  let currentImage = document.getElementById(this.id)
+  let currentCount = Number(currentImage.getAttribute('count'))
+  currentCount != 0 ? currentCount += Number(this.increase) :
+    // console.log(currentCount)
+    currentImage.setAttribute('count', currentCount)
+    document.getElementById('image-modal-count').innerHTML = currentCount
+ }
 
-  document.querySelectorAll ('.switcher').forEach (elem => {
-    elem.addEventListener ('click', function () {
-      switchRefresh (this);
+document.addEventListener('DOMContentLoaded', function () {
+  updatePrice();
+
+  document.querySelectorAll('.switcher').forEach(elem => {
+    elem.addEventListener('click', function () {
+      switchRefresh(this);
     });
   });
 
-  document.getElementById ('box').addEventListener ('click', function () {
-    let textForBox = document.querySelector ('.text-for-box');
+  // обработчик пересчета цены с коробкой
+  document.getElementById('box').addEventListener('click', function () {
+    let textForBox = document.querySelector('.text-for-box');
     if (this.checked) {
-      textForBox.classList.remove ('hide');
+      textForBox.classList.remove('hide');
     } else {
-      textForBox.classList.add ('hide');
-      document.querySelector ('textarea[name="text-for-box"]').value = '';
+      textForBox.classList.add('hide');
+      document.querySelector('textarea[name="text-for-box"]').value = '';
     }
-
-    updatePrice ();
+    updatePrice();
   });
 
   document
-    .getElementById ('white-border')
-    .addEventListener ('click', function () {
-      updatePrice ();
+    .getElementById('white-border')
+    .addEventListener('click', function () {
+      updatePrice();
     });
+
+  // обработчик нажатия на фотогарфию
+  let allImageBlocks = document.querySelectorAll('.image-box')
+  allImageBlocks.forEach(elem => {
+    elem.addEventListener('click', function () {
+      // console.log(this.id)
+
+      document.querySelector('.modal-img-block').style = 'background-image: url(' + this.id + ')'
+      document.getElementById('image-modal-count').innerHTML = this.getAttribute('count')
+      
+      let changeModalButton = document.getElementById('inc-modal-button')
+      changeModalButton.onclick = changeModalCount.bind({ 
+          id: this.id, 
+          increase: changeModalButton.getAttribute ('direction')
+        })
+      document.querySelector('.super-modal').classList.remove('hide')
+    })
+  })
 });

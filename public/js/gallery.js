@@ -216,13 +216,24 @@ function switchRefresh(element) {
   updatePrice();
 }
 
+function changeModalCount(param) {
+  // this.increase
+  // this.id
+  var currentImage = document.getElementById(this.id);
+  var currentCount = Number(currentImage.getAttribute('count'));
+  currentCount != 0 ? currentCount += Number(this.increase) : // console.log(currentCount)
+  currentImage.setAttribute('count', currentCount);
+  document.getElementById('image-modal-count').innerHTML = currentCount;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   updatePrice();
   document.querySelectorAll('.switcher').forEach(function (elem) {
     elem.addEventListener('click', function () {
       switchRefresh(this);
     });
-  });
+  }); // обработчик пересчета цены с коробкой
+
   document.getElementById('box').addEventListener('click', function () {
     var textForBox = document.querySelector('.text-for-box');
 
@@ -237,6 +248,21 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   document.getElementById('white-border').addEventListener('click', function () {
     updatePrice();
+  }); // обработчик нажатия на фотогарфию
+
+  var allImageBlocks = document.querySelectorAll('.image-box');
+  allImageBlocks.forEach(function (elem) {
+    elem.addEventListener('click', function () {
+      // console.log(this.id)
+      document.querySelector('.modal-img-block').style = 'background-image: url(' + this.id + ')';
+      document.getElementById('image-modal-count').innerHTML = this.getAttribute('count');
+      var changeModalButton = document.getElementById('inc-modal-button');
+      changeModalButton.onclick = changeModalCount.bind({
+        id: this.id,
+        increase: changeModalButton.getAttribute('direction')
+      });
+      document.querySelector('.super-modal').classList.remove('hide');
+    });
   });
 });
 
@@ -249,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })
