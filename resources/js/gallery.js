@@ -147,16 +147,17 @@ function switchRefresh(element) {
   updatePrice();
 }
 
-function changeModalCount(param) {
-  // this.increase
-  // this.id
-  let currentImage = document.getElementById(this.id)
-  let currentCount = Number(currentImage.getAttribute('count'))
-  currentCount != 0 ? currentCount += Number(this.increase) :
-    // console.log(currentCount)
-    currentImage.setAttribute('count', currentCount)
-    document.getElementById('image-modal-count').innerHTML = currentCount
- }
+function changeModalCount() {
+  let currentImage = document.getElementById(this.id) //div самого изображения
+  let modalTempData = document.getElementById('modal-temporary-data') //буфер модального окна
+
+  let currentCount = modalTempData.value ? modalTempData.value : currentImage.getAttribute('count')
+  console.log(this)
+  currentCount = Number(currentCount) + Number(this.increase)
+  if (currentCount < 0) currentCount = 0
+  document.getElementById('image-modal-count').innerHTML = currentCount
+  modalTempData.value = currentCount
+}
 
 document.addEventListener('DOMContentLoaded', function () {
   updatePrice();
@@ -189,16 +190,17 @@ document.addEventListener('DOMContentLoaded', function () {
   let allImageBlocks = document.querySelectorAll('.image-box')
   allImageBlocks.forEach(elem => {
     elem.addEventListener('click', function () {
-      // console.log(this.id)
 
       document.querySelector('.modal-img-block').style = 'background-image: url(' + this.id + ')'
       document.getElementById('image-modal-count').innerHTML = this.getAttribute('count')
-      
-      let changeModalButton = document.getElementById('inc-modal-button')
-      changeModalButton.onclick = changeModalCount.bind({ 
-          id: this.id, 
-          increase: changeModalButton.getAttribute ('direction')
+
+      document.querySelectorAll(".inc-modal-button").forEach(changeModalButton => {
+        changeModalButton.onclick = changeModalCount.bind({
+          id: this.id,
+          increase: changeModalButton.getAttribute('direction')
         })
+      })
+
       document.querySelector('.super-modal').classList.remove('hide')
     })
   })

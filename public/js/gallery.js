@@ -216,14 +216,17 @@ function switchRefresh(element) {
   updatePrice();
 }
 
-function changeModalCount(param) {
-  // this.increase
-  // this.id
-  var currentImage = document.getElementById(this.id);
-  var currentCount = Number(currentImage.getAttribute('count'));
-  currentCount != 0 ? currentCount += Number(this.increase) : // console.log(currentCount)
-  currentImage.setAttribute('count', currentCount);
+function changeModalCount() {
+  var currentImage = document.getElementById(this.id); //div самого изображения
+
+  var modalTempData = document.getElementById('modal-temporary-data'); //буфер модального окна
+
+  var currentCount = modalTempData.value ? modalTempData.value : currentImage.getAttribute('count');
+  console.log(this);
+  currentCount = Number(currentCount) + Number(this.increase);
+  if (currentCount < 0) currentCount = 0;
   document.getElementById('image-modal-count').innerHTML = currentCount;
+  modalTempData.value = currentCount;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -253,13 +256,15 @@ document.addEventListener('DOMContentLoaded', function () {
   var allImageBlocks = document.querySelectorAll('.image-box');
   allImageBlocks.forEach(function (elem) {
     elem.addEventListener('click', function () {
-      // console.log(this.id)
+      var _this = this;
+
       document.querySelector('.modal-img-block').style = 'background-image: url(' + this.id + ')';
       document.getElementById('image-modal-count').innerHTML = this.getAttribute('count');
-      var changeModalButton = document.getElementById('inc-modal-button');
-      changeModalButton.onclick = changeModalCount.bind({
-        id: this.id,
-        increase: changeModalButton.getAttribute('direction')
+      document.querySelectorAll(".inc-modal-button").forEach(function (changeModalButton) {
+        changeModalButton.onclick = changeModalCount.bind({
+          id: _this.id,
+          increase: changeModalButton.getAttribute('direction')
+        });
       });
       document.querySelector('.super-modal').classList.remove('hide');
     });
