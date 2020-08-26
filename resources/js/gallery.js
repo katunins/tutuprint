@@ -1,4 +1,4 @@
-const priceArr = new Object({
+const priceArr = new Object ({
   photoprint: {
     size: {
       '10x15': 10,
@@ -16,25 +16,25 @@ const priceArr = new Object({
       '10x15': [
         {
           price: 500,
-          'maxCount': 100,
-          'minCount': 1,
+          maxCount: 100,
+          minCount: 1,
         },
         {
           price: 3500,
-          'maxCount': 1000,
-          'minCount': 101,
+          maxCount: 1000,
+          minCount: 101,
         },
       ],
       '15x21': [
         {
           price: 700,
-          'maxCount': 150,
-          'minCount': 1,
+          maxCount: 150,
+          minCount: 1,
         },
         {
           price: 5000,
-          'maxCount': 1000,
-          'minCount': 151,
+          maxCount: 1000,
+          minCount: 151,
         },
       ],
     },
@@ -56,57 +56,56 @@ const priceArr = new Object({
       '10x15': [
         {
           price: 500,
-          'maxCount': 100,
-          'minCount': 1,
+          maxCount: 100,
+          minCount: 1,
         },
         {
           price: 3500,
-          'maxCount': 1000,
-          'minCount': 101,
+          maxCount: 1000,
+          minCount: 101,
         },
       ],
       '15x21': [
         {
           price: 700,
-          'maxCount': 150,
-          'minCount': 1,
+          maxCount: 150,
+          minCount: 1,
         },
         {
           price: 5000,
-          'maxCount': 1000,
-          'minCount': 151,
+          maxCount: 1000,
+          minCount: 151,
         },
       ],
     },
   },
 });
 
-function getPhotoCount() {
-  let allPhotos = document.querySelectorAll('.image-box');
+function getPhotoCount () {
+  let allPhotos = document.querySelectorAll ('.image-box');
   let count = 0;
-  allPhotos.forEach(el => {
-    count += Number(el.getAttribute('count'));
+  allPhotos.forEach (el => {
+    count += Number (el.getAttribute ('count'));
   });
   return count;
 }
 
-function updatePrice() {
-
+function updatePrice () {
   let paramSelected = {
-    product: document.querySelector('.param.active[name="product"]').attributes
+    product: document.querySelector ('.param.active[name="product"]').attributes
       .value.value,
-    size: document.querySelector('.param.active[name="size"]').attributes.value
+    size: document.querySelector ('.param.active[name="size"]').attributes.value
       .value,
-    'white-border': document.getElementById('white-border').checked,
-    box: document.getElementById('box').checked,
+    'white-border': document.getElementById ('white-border').checked,
+    box: document.getElementById ('box').checked,
   };
 
   let pricePerOne = priceArr[paramSelected.product].size[paramSelected.size];
-  let count = getPhotoCount();
+  let count = getPhotoCount ();
 
   if (paramSelected.box) {
     priceAdditionally = 0;
-    priceArr[paramSelected.product].box[paramSelected.size].forEach(ee => {
+    priceArr[paramSelected.product].box[paramSelected.size].forEach (ee => {
       if (count <= ee.maxCount && count >= ee.minCount)
         priceAdditionally = ee.price;
     });
@@ -116,92 +115,111 @@ function updatePrice() {
 
   let priceToBasket = pricePerOne * count + priceAdditionally;
 
-  document.querySelector('input[name="summ"]').value = priceToBasket;
-  document.getElementById(
+  document.querySelector ('input[name="summ"]').value = priceToBasket;
+  document.getElementById (
     'price-to-basket'
-  ).innerHTML = priceToBasket.toLocaleString('rus-IN');
+  ).innerHTML = priceToBasket.toLocaleString ('rus-IN');
 
-  let productName = document.querySelector('.param.active[name="product"]')
+  let productName = document.querySelector ('.param.active[name="product"]')
     .innerHTML;
-  document.getElementById('description-1').innerHTML =
+  document.getElementById ('description-1').innerHTML =
     productName + ': <b>' + count + ' шт.</b> x <b>' + pricePerOne + '₽</b>';
-  document.getElementById('description-2').innerHTML = paramSelected.box
+  document.getElementById ('description-2').innerHTML = paramSelected.box
     ? '+ коробка: <b>' + priceAdditionally + '₽</b>'
     : '';
 }
 
-function switchRefresh(element) {
+function switchRefresh (element) {
   // обновление переключателя
-  let switchStatus = element.checked.toString();
-  let params = element.parentNode.parentNode.querySelectorAll('.param');
-  params.forEach(el => {
-    if (el.getAttribute('switchdata') === switchStatus) {
-      el.classList.add('active');
-      el.classList.remove('inactive');
+  let switchStatus = element.checked.toString ();
+  let params = element.parentNode.parentNode.querySelectorAll ('.param');
+  params.forEach (el => {
+    if (el.getAttribute ('switchdata') === switchStatus) {
+      el.classList.add ('active');
+      el.classList.remove ('inactive');
     } else {
-      el.classList.add('inactive');
-      el.classList.remove('active');
+      el.classList.add ('inactive');
+      el.classList.remove ('active');
     }
   });
 
-  updatePrice();
+  updatePrice ();
 }
 
-function changeModalCount() {
-  let currentImage = document.getElementById(this.id) //div самого изображения
-  let modalTempData = document.getElementById('modal-temporary-data') //буфер модального окна
+function changeModalCount () {
+  let currentImage = document.getElementById (this.id); //div самого изображения
+  let modalTempData = document.getElementById ('modal-temporary-data'); //буфер модального окна
 
-  let currentCount = modalTempData.value ? modalTempData.value : currentImage.getAttribute('count')
-  console.log(this)
-  currentCount = Number(currentCount) + Number(this.increase)
-  if (currentCount < 0) currentCount = 0
-  document.getElementById('image-modal-count').innerHTML = currentCount
-  modalTempData.value = currentCount
+  let currentCount = modalTempData.value
+    ? modalTempData.value
+    : currentImage.getAttribute ('count');
+  currentCount = Number (currentCount) + Number (this.increase);
+  if (currentCount < 0) currentCount = 0;
+  document.getElementById ('image-modal-count').innerHTML = currentCount;
+  modalTempData.value = currentCount;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  updatePrice();
+document.addEventListener ('DOMContentLoaded', function () {
+  updatePrice ();
 
-  document.querySelectorAll('.switcher').forEach(elem => {
-    elem.addEventListener('click', function () {
-      switchRefresh(this);
+  document.querySelectorAll ('.switcher').forEach (elem => {
+    elem.addEventListener ('click', function () {
+      switchRefresh (this);
     });
   });
 
   // обработчик пересчета цены с коробкой
-  document.getElementById('box').addEventListener('click', function () {
-    let textForBox = document.querySelector('.text-for-box');
+  document.getElementById ('box').addEventListener ('click', function () {
+    let textForBox = document.querySelector ('.text-for-box');
     if (this.checked) {
-      textForBox.classList.remove('hide');
+      textForBox.classList.remove ('hide');
     } else {
-      textForBox.classList.add('hide');
-      document.querySelector('textarea[name="text-for-box"]').value = '';
+      textForBox.classList.add ('hide');
+      document.querySelector ('textarea[name="text-for-box"]').value = '';
     }
-    updatePrice();
+    updatePrice ();
   });
 
   document
-    .getElementById('white-border')
-    .addEventListener('click', function () {
-      updatePrice();
+    .getElementById ('white-border')
+    .addEventListener ('click', function () {
+      updatePrice ();
     });
 
   // обработчик нажатия на фотогарфию
-  let allImageBlocks = document.querySelectorAll('.image-box')
-  allImageBlocks.forEach(elem => {
-    elem.addEventListener('click', function () {
+  document.querySelectorAll ('.image-box').forEach (elem => {
+    elem.addEventListener ('click', function () {
+      
+      // настраиваем модальное окно
+      document.querySelector ('.super-modal').classList.remove ('hide');
+      document.querySelector ('.modal-img-block').style =
+        'background-image: url(' + this.id + ')';
+      document.getElementById (
+        'image-modal-count'
+      ).innerHTML = this.getAttribute ('count');
 
-      document.querySelector('.modal-img-block').style = 'background-image: url(' + this.id + ')'
-      document.getElementById('image-modal-count').innerHTML = this.getAttribute('count')
+      document.getElementById('ok-modal-button').onclick = ()=>{
+        // onclick кнопки OK модального окна
+        let count = document.getElementById('modal-temporary-data').value
+        this.setAttribute ('count', count)
+        let imageCountElement = this.querySelector('div')
+        if (count > 1) {
+          imageCountElement.innerHTML = count+'x'
+          imageCountElement.classList.remove('hide')
+        } else {imageCountElement.classList.add('hide')}
+        document.querySelector ('.super-modal').classList.add ('hide');
+      }
 
-      document.querySelectorAll(".inc-modal-button").forEach(changeModalButton => {
-        changeModalButton.onclick = changeModalCount.bind({
-          id: this.id,
-          increase: changeModalButton.getAttribute('direction')
-        })
-      })
+      document
+        .querySelectorAll ('.inc-modal-button')
+        .forEach (changeModalButton => {
+          changeModalButton.onclick = changeModalCount.bind ({
+            id: this.id,
+            increase: changeModalButton.getAttribute ('direction'),
+          });
+        });
 
-      document.querySelector('.super-modal').classList.remove('hide')
-    })
-  })
+      document.querySelector ('.super-modal').classList.remove ('hide');
+    });
+  });
 });

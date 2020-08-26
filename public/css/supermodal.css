@@ -47,9 +47,9 @@
 }
 
 .count-block {
-  margin-top: 20px;
+  font-size: 17px;
   display: flex;
-  width: 140px;
+  width: 180px;
   align-items: center;
 }
 
@@ -58,9 +58,9 @@
 }
 
 .image-change-count button {
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
   border: 1px solid #ffcc00;
   background: transparent;
   font-size: 21px;
@@ -72,11 +72,8 @@
   opacity: 0.5;
 }
 
-.remove-button {
+#ok-modal-button {
   margin-top: 10px;
-}
-
-.remove-button button {
   width: 120px;
   height: 30px;
   border-radius: 3px;
@@ -84,5 +81,7 @@
   border: none;
   outline: none;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 300;
 }
 

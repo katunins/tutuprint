@@ -110,21 +110,21 @@ var priceArr = new Object({
     box: {
       '10x15': [{
         price: 500,
-        'maxCount': 100,
-        'minCount': 1
+        maxCount: 100,
+        minCount: 1
       }, {
         price: 3500,
-        'maxCount': 1000,
-        'minCount': 101
+        maxCount: 1000,
+        minCount: 101
       }],
       '15x21': [{
         price: 700,
-        'maxCount': 150,
-        'minCount': 1
+        maxCount: 150,
+        minCount: 1
       }, {
         price: 5000,
-        'maxCount': 1000,
-        'minCount': 151
+        maxCount: 1000,
+        minCount: 151
       }]
     }
   },
@@ -144,21 +144,21 @@ var priceArr = new Object({
     box: {
       '10x15': [{
         price: 500,
-        'maxCount': 100,
-        'minCount': 1
+        maxCount: 100,
+        minCount: 1
       }, {
         price: 3500,
-        'maxCount': 1000,
-        'minCount': 101
+        maxCount: 1000,
+        minCount: 101
       }],
       '15x21': [{
         price: 700,
-        'maxCount': 150,
-        'minCount': 1
+        maxCount: 150,
+        minCount: 1
       }, {
         price: 5000,
-        'maxCount': 1000,
-        'minCount': 151
+        maxCount: 1000,
+        minCount: 151
       }]
     }
   }
@@ -222,7 +222,6 @@ function changeModalCount() {
   var modalTempData = document.getElementById('modal-temporary-data'); //буфер модального окна
 
   var currentCount = modalTempData.value ? modalTempData.value : currentImage.getAttribute('count');
-  console.log(this);
   currentCount = Number(currentCount) + Number(this.increase);
   if (currentCount < 0) currentCount = 0;
   document.getElementById('image-modal-count').innerHTML = currentCount;
@@ -253,14 +252,34 @@ document.addEventListener('DOMContentLoaded', function () {
     updatePrice();
   }); // обработчик нажатия на фотогарфию
 
-  var allImageBlocks = document.querySelectorAll('.image-box');
-  allImageBlocks.forEach(function (elem) {
+  document.querySelectorAll('.image-box').forEach(function (elem) {
     elem.addEventListener('click', function () {
       var _this = this;
 
+      // настраиваем модальное окно
+      document.querySelector('.super-modal').classList.remove('hide');
       document.querySelector('.modal-img-block').style = 'background-image: url(' + this.id + ')';
       document.getElementById('image-modal-count').innerHTML = this.getAttribute('count');
-      document.querySelectorAll(".inc-modal-button").forEach(function (changeModalButton) {
+
+      document.getElementById('ok-modal-button').onclick = function () {
+        // onclick кнопки OK модального окна
+        var count = document.getElementById('modal-temporary-data').value;
+
+        _this.setAttribute('count', count);
+
+        var imageCountElement = _this.querySelector('div');
+
+        if (count > 1) {
+          imageCountElement.innerHTML = count + 'x';
+          imageCountElement.classList.remove('hide');
+        } else {
+          imageCountElement.classList.add('hide');
+        }
+
+        document.querySelector('.super-modal').classList.add('hide');
+      };
+
+      document.querySelectorAll('.inc-modal-button').forEach(function (changeModalButton) {
         changeModalButton.onclick = changeModalCount.bind({
           id: _this.id,
           increase: changeModalButton.getAttribute('direction')
@@ -280,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

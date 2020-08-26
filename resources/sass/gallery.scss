@@ -40,12 +40,28 @@
         grid-template-columns: repeat(6, 1fr);
         overflow: overlay;
         .image-box {
+            cursor: pointer;
             padding-bottom: 100%;
             height: 0;
             background-size: cover;
             background-position: center;
             background-color: rgb(243, 243, 243);
             margin: 1px;
+        }
+
+        .img-count {
+            width: 25px;
+            height: 25px;
+            border-radius: 15px;
+            position: relative;
+            margin-top: 100%;
+            margin-left: 100%;
+            transform: translate(-25px, -23px);
+            background-color: #ffcc00;
+            font-size: 13px;
+            font-weight: 400;
+            text-align: center;
+            line-height: 2;
         }
     }
     .controls {
@@ -70,7 +86,6 @@
         }
     }
 }
-
 
 .param-block {
     margin-bottom: 5px;
