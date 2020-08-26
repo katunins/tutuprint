@@ -13,14 +13,30 @@ const priceArr = new Object ({
       },
     },
     box: {
-      '10x15': {
-        price: 500,
-        maxcount: 100,
-      },
-      '15x21': {
-        price: 700,
-        maxcount: 150,
-      },
+      '10x15': [
+        {
+          price: 500,
+          'maxCount': 100,
+          'minCount': 1,
+        },
+        {
+          price: 3500,
+          'maxCount': 1000,
+          'minCount': 101,
+        },
+      ],
+      '15x21': [
+        {
+          price: 700,
+          'maxCount': 150,
+          'minCount': 1,
+        },
+        {
+          price: 5000,
+          'maxCount': 1000,
+          'minCount': 151,
+        },
+      ],
     },
   },
   photocards: {
@@ -37,14 +53,30 @@ const priceArr = new Object ({
       },
     },
     box: {
-      '10x15': {
-        price: 500,
-        maxcount: 15,
-      },
-      '15x21': {
-        price: 700,
-        maxcount: 30,
-      },
+      '10x15': [
+        {
+          price: 500,
+          'maxCount': 100,
+          'minCount': 1,
+        },
+        {
+          price: 3500,
+          'maxCount': 1000,
+          'minCount': 101,
+        },
+      ],
+      '15x21': [
+        {
+          price: 700,
+          'maxCount': 150,
+          'minCount': 1,
+        },
+        {
+          price: 5000,
+          'maxCount': 1000,
+          'minCount': 151,
+        },
+      ],
     },
   },
 });
@@ -59,6 +91,7 @@ function getPhotoCount () {
 }
 
 function updatePrice () {
+
   let paramSelected = {
     product: document.querySelector ('.param.active[name="product"]').attributes
       .value.value,
@@ -69,10 +102,18 @@ function updatePrice () {
   };
 
   let pricePerOne = priceArr[paramSelected.product].size[paramSelected.size];
-  let priceAdditionally = paramSelected.box
-    ? priceArr[paramSelected.product].box[paramSelected.size].price
-    : 0;
   let count = getPhotoCount ();
+
+  if (paramSelected.box) {
+    priceAdditionally = 0;
+    priceArr[paramSelected.product].box[paramSelected.size].forEach (ee => {
+      if (count <= ee.maxCount && count >= ee.minCount)
+        priceAdditionally = ee.price;
+    });
+  } else {
+    priceAdditionally = 0;
+  }
+
   let priceToBasket = pricePerOne * count + priceAdditionally;
 
   document.querySelector ('input[name="summ"]').value = priceToBasket;
@@ -121,7 +162,7 @@ document.addEventListener ('DOMContentLoaded', function () {
       textForBox.classList.remove ('hide');
     } else {
       textForBox.classList.add ('hide');
-      document.querySelector ('input[name="text-for-box"]').value = '';
+      document.querySelector ('textarea[name="text-for-box"]').value = '';
     }
 
     updatePrice ();

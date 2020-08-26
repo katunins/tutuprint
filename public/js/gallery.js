@@ -108,14 +108,24 @@ var priceArr = new Object({
       }
     },
     box: {
-      '10x15': {
+      '10x15': [{
         price: 500,
-        maxcount: 100
-      },
-      '15x21': {
+        'maxCount': 100,
+        'minCount': 1
+      }, {
+        price: 3500,
+        'maxCount': 1000,
+        'minCount': 101
+      }],
+      '15x21': [{
         price: 700,
-        maxcount: 150
-      }
+        'maxCount': 150,
+        'minCount': 1
+      }, {
+        price: 5000,
+        'maxCount': 1000,
+        'minCount': 151
+      }]
     }
   },
   photocards: {
@@ -132,14 +142,24 @@ var priceArr = new Object({
       }
     },
     box: {
-      '10x15': {
+      '10x15': [{
         price: 500,
-        maxcount: 15
-      },
-      '15x21': {
+        'maxCount': 100,
+        'minCount': 1
+      }, {
+        price: 3500,
+        'maxCount': 1000,
+        'minCount': 101
+      }],
+      '15x21': [{
         price: 700,
-        maxcount: 30
-      }
+        'maxCount': 150,
+        'minCount': 1
+      }, {
+        price: 5000,
+        'maxCount': 1000,
+        'minCount': 151
+      }]
     }
   }
 });
@@ -161,8 +181,17 @@ function updatePrice() {
     box: document.getElementById('box').checked
   };
   var pricePerOne = priceArr[paramSelected.product].size[paramSelected.size];
-  var priceAdditionally = paramSelected.box ? priceArr[paramSelected.product].box[paramSelected.size].price : 0;
   var count = getPhotoCount();
+
+  if (paramSelected.box) {
+    priceAdditionally = 0;
+    priceArr[paramSelected.product].box[paramSelected.size].forEach(function (ee) {
+      if (count <= ee.maxCount && count >= ee.minCount) priceAdditionally = ee.price;
+    });
+  } else {
+    priceAdditionally = 0;
+  }
+
   var priceToBasket = pricePerOne * count + priceAdditionally;
   document.querySelector('input[name="summ"]').value = priceToBasket;
   document.getElementById('price-to-basket').innerHTML = priceToBasket.toLocaleString('rus-IN');
@@ -201,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function () {
       textForBox.classList.remove('hide');
     } else {
       textForBox.classList.add('hide');
-      document.querySelector('input[name="text-for-box"]').value = '';
+      document.querySelector('textarea[name="text-for-box"]').value = '';
     }
 
     updatePrice();

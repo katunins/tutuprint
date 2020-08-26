@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
 
 @section('content')
+@include('layouts.supermodal')
 
 <div class="gallery-block">
     <div class="gallery">
@@ -57,7 +58,8 @@
                 </div>
 
                 <div class="text-for-box param-block hide">
-                    <input type="text" name="text-for-box" placeholder="Надпись на коробке">
+                    <textarea name="text-for-box" cols="30" rows="2" placeholder="Надпись на коробке"></textarea>
+                    {{-- <input type="text" name="text-for-box" placeholder="Надпись на коробке"> --}}
                 </div>
 
             </div>
@@ -69,7 +71,7 @@
 
                 <button type="submit">
                     <div class="price-block"><span id="price-to-basket"></span>₽</div>
-                    <img src="{{ asset('images/basket.svg') }}" alt=""> В корзину
+                    <img src="{{ asset('images/basket.svg') }}" alt=""> Добавить
                 </button>
                 <div class="price-description-block">
                     <p id="description-1"></p>
