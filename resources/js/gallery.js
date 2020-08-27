@@ -147,7 +147,8 @@ function switchRefresh (element) {
 }
 
 function changeModalCount () {
-  let currentImage = document.getElementById (this.id); //div самого изображения
+  // let currentImage = document.getElementById (this.id); //div самого изображения
+  let currentImage = document.querySelector ('div[name="' + this.id + '"]');
   let modalTempData = document.getElementById ('modal-temporary-data'); //буфер модального окна
 
   let currentCount = modalTempData.value
@@ -159,7 +160,35 @@ function changeModalCount () {
   modalTempData.value = currentCount;
 }
 
+function ajax (url, data, callBack) {
+  fetch (url, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json, text-plain, */*',
+      'X-Requested-With': 'XMLHttpRequest',
+      'X-CSRF-TOKEN': document
+        .querySelector ('meta[name="csrf-token"]')
+        .getAttribute ('content'),
+    },
+    method: 'post',
+    credentials: 'same-origin',
+    body: JSON.stringify (data),
+  })
+    .then (response => response.json ())
+    .then (response => {
+      callBack (response)
+      // console.log (response)
+      // console.log (JSON.parse(response));
+      // form.reset ();
+      // window.location.href = redirect;
+    })
+    .catch (function (error) {
+      console.log (error);
+    });
+}
+
 document.addEventListener ('DOMContentLoaded', function () {
+  
   updatePrice ();
 
   document.querySelectorAll ('.switcher').forEach (elem => {
@@ -188,33 +217,64 @@ document.addEventListener ('DOMContentLoaded', function () {
 
   // обработчик нажатия на фотогарфию
   document.querySelectorAll ('.image-box').forEach (elem => {
+
+    // пропишем стартовые колличества
+    let count = elem.getAttribute('count')
+    let imageCountElement = elem.querySelector ('div');
+
+    // покажем количество, если более 1шт
+    if (count > 1) {
+      imageCountElement.innerHTML = count + 'x';
+      imageCountElement.classList.remove ('hide');
+    }
+    
     elem.addEventListener ('click', function () {
       
       // настраиваем модальное окно
+      let imageUrl = this.getAttribute ('name')
       document.querySelector ('.super-modal').classList.remove ('hide');
       document.querySelector ('.modal-img-block').style =
-        'background-image: url(' + this.id + ')';
+        'background-image: url(' + imageUrl + ')';
       document.getElementById (
         'image-modal-count'
       ).innerHTML = this.getAttribute ('count');
 
-      document.getElementById('ok-modal-button').onclick = ()=>{
-        // onclick кнопки OK модального окна
-        let count = document.getElementById('modal-temporary-data').value
-        this.setAttribute ('count', count)
-        let imageCountElement = this.querySelector('div')
+      // повесим onclick на компку OK модального окна
+      document.getElementById ('ok-modal-button').onclick = () => {
+        let count = document.getElementById ('modal-temporary-data').value;
+        this.setAttribute ('count', count);
+        let imageCountElement = this.querySelector ('div');
+
+        //Передадим данные в контроллер для изменения данных сессии
+        ajax ('/updatecount', {
+          url: imageUrl, 
+          count: count
+        }, ()=>{console.log (this)});
+
+        // 
+
+        // покажем количество, если более 1шт
         if (count > 1) {
-          imageCountElement.innerHTML = count+'x'
-          imageCountElement.classList.remove('hide')
-        } else {imageCountElement.classList.add('hide')}
+          imageCountElement.innerHTML = count + 'x';
+          imageCountElement.classList.remove ('hide');
+        } else {
+          imageCountElement.classList.add ('hide');
+        }
+
+        // удалим фотогарфию
+        if (count == 0) {
+          this.remove ();
+        } else {
+        }
+
         document.querySelector ('.super-modal').classList.add ('hide');
-      }
+      };
 
       document
         .querySelectorAll ('.inc-modal-button')
         .forEach (changeModalButton => {
           changeModalButton.onclick = changeModalCount.bind ({
-            id: this.id,
+            id: this.getAttribute ('name'),
             increase: changeModalButton.getAttribute ('direction'),
           });
         });

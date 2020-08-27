@@ -29,16 +29,19 @@
     height: 100%;
     overflow: overlay;
     .gallery {
-        a {
+        #imgLoad{
             width: 100%;
             height: 100%;
         }
+
+        
 
         display: grid;
         width: 100%;
         height: 100%;
         grid-template-columns: repeat(6, 1fr);
         overflow: overlay;
+
         .image-box {
             cursor: pointer;
             padding-bottom: 100%;
@@ -47,6 +50,19 @@
             background-position: center;
             background-color: rgb(243, 243, 243);
             margin: 1px;
+        }
+
+
+        form {
+            width: 100%;
+            height: 100%;
+
+            label {
+                cursor: pointer;
+            }
+            label:active {
+                opacity: 0.3;
+            }
         }
 
         .img-count {
@@ -62,6 +78,12 @@
             font-weight: 400;
             text-align: center;
             line-height: 2;
+        }
+
+        .removed-image {
+            // opacity: 0.3;
+            background-color: rgb(49, 49, 49);
+            background-blend-mode: multiply;
         }
     }
     .controls {
@@ -269,13 +291,14 @@ $switch-buttion-high: 15px;
         height: 100% !important;
         width: 30% !important;
         min-width: 250px !important;
+        form {
+            flex-direction: column;
+            justify-content: center;
+            transform: scale(0.9);
+        }
     }
 
-    form {
-        flex-direction: column;
-        justify-content: center;
-        transform: scale(0.9);
-    }
+    
 
     .to-order-block {
         margin-top: 20px;

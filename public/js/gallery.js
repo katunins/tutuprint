@@ -217,8 +217,8 @@ function switchRefresh(element) {
 }
 
 function changeModalCount() {
-  var currentImage = document.getElementById(this.id); //div самого изображения
-
+  // let currentImage = document.getElementById (this.id); //div самого изображения
+  var currentImage = document.querySelector('div[name="' + this.id + '"]');
   var modalTempData = document.getElementById('modal-temporary-data'); //буфер модального окна
 
   var currentCount = modalTempData.value ? modalTempData.value : currentImage.getAttribute('count');
@@ -226,6 +226,29 @@ function changeModalCount() {
   if (currentCount < 0) currentCount = 0;
   document.getElementById('image-modal-count').innerHTML = currentCount;
   modalTempData.value = currentCount;
+}
+
+function ajax(url, data, callBack) {
+  fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json, text-plain, */*',
+      'X-Requested-With': 'XMLHttpRequest',
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    },
+    method: 'post',
+    credentials: 'same-origin',
+    body: JSON.stringify(data)
+  }).then(function (response) {
+    return response.json();
+  }).then(function (response) {
+    callBack(response); // console.log (response)
+    // console.log (JSON.parse(response));
+    // form.reset ();
+    // window.location.href = redirect;
+  })["catch"](function (error) {
+    console.log(error);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -253,35 +276,58 @@ document.addEventListener('DOMContentLoaded', function () {
   }); // обработчик нажатия на фотогарфию
 
   document.querySelectorAll('.image-box').forEach(function (elem) {
+    // пропишем стартовые колличества
+    var count = elem.getAttribute('count');
+    var imageCountElement = elem.querySelector('div'); // покажем количество, если более 1шт
+
+    if (count > 1) {
+      imageCountElement.innerHTML = count + 'x';
+      imageCountElement.classList.remove('hide');
+    }
+
     elem.addEventListener('click', function () {
       var _this = this;
 
       // настраиваем модальное окно
+      var imageUrl = this.getAttribute('name');
       document.querySelector('.super-modal').classList.remove('hide');
-      document.querySelector('.modal-img-block').style = 'background-image: url(' + this.id + ')';
-      document.getElementById('image-modal-count').innerHTML = this.getAttribute('count');
+      document.querySelector('.modal-img-block').style = 'background-image: url(' + imageUrl + ')';
+      document.getElementById('image-modal-count').innerHTML = this.getAttribute('count'); // повесим onclick на компку OK модального окна
 
       document.getElementById('ok-modal-button').onclick = function () {
-        // onclick кнопки OK модального окна
         var count = document.getElementById('modal-temporary-data').value;
 
         _this.setAttribute('count', count);
 
-        var imageCountElement = _this.querySelector('div');
+        var imageCountElement = _this.querySelector('div'); //Передадим данные в контроллер для изменения данных сессии
+
+
+        ajax('/updatecount', {
+          url: imageUrl,
+          count: count
+        }, function () {
+          console.log(_this);
+        }); // 
+        // покажем количество, если более 1шт
 
         if (count > 1) {
           imageCountElement.innerHTML = count + 'x';
           imageCountElement.classList.remove('hide');
         } else {
           imageCountElement.classList.add('hide');
-        }
+        } // удалим фотогарфию
+
+
+        if (count == 0) {
+          _this.remove();
+        } else {}
 
         document.querySelector('.super-modal').classList.add('hide');
       };
 
       document.querySelectorAll('.inc-modal-button').forEach(function (changeModalButton) {
         changeModalButton.onclick = changeModalCount.bind({
-          id: _this.id,
+          id: _this.getAttribute('name'),
           increase: changeModalButton.getAttribute('direction')
         });
       });
