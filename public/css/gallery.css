@@ -33,7 +33,7 @@
 .gallery-block .gallery {
   display: grid;
   width: 100%;
-  height: 100%;
+  max-height: 100%;
   grid-template-columns: repeat(6, 1fr);
   overflow: overlay;
 }
@@ -56,13 +56,20 @@
 .gallery-block .gallery form {
   width: 100%;
   height: 100%;
+  background-color: blue;
 }
 
-.gallery-block .gallery form label {
+.gallery-block .gallery label {
   cursor: pointer;
+  padding-bottom: 100%;
+  height: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: #f3f3f3;
+  margin: 1px;
 }
 
-.gallery-block .gallery form label:active {
+.gallery-block .gallery label:active {
   opacity: 0.3;
 }
 
@@ -70,10 +77,9 @@
   width: 25px;
   height: 25px;
   border-radius: 15px;
-  position: relative;
   margin-top: 100%;
   margin-left: 100%;
-  transform: translate(-25px, -23px);
+  transform: translate(-32px, -32px);
   background-color: #ffcc00;
   font-size: 13px;
   font-weight: 400;
@@ -81,15 +87,25 @@
   line-height: 2;
 }
 
-.gallery-block .gallery .removed-image {
-  background-color: #313131;
-  background-blend-mode: multiply;
+.gallery-block .gallery .img-select {
+  width: 23px;
+  height: 23px;
+  background-color: #ffcc00;
+  margin-top: 100%;
+  margin-right: 100%;
+  transform: translate(-32px, -32px);
+  text-align: center;
+  font-size: 23px;
 }
 
 .gallery-block .controls {
   width: 100%;
   height: 200px;
   background-color: #eeebeb;
+}
+
+.gallery-block .controls .active-button {
+  background-color: #ffcc00;
 }
 
 .gallery-block .controls form {
@@ -117,6 +133,18 @@
   width: 100%;
   text-align: center;
   font-weight: 300;
+}
+
+.param-block button {
+  padding: 5px 15px;
+  margin-bottom: 10px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.param-block button:active {
+  opacity: 0.3;
 }
 
 .param-check-block {

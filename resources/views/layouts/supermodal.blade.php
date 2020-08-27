@@ -4,9 +4,9 @@
 <div class="super-modal hide">
     <div class="modal-block">
         <div class="close-modal-button">
-            <button onclick="
-            document.querySelector('.super-modal').classList.add('hide');
-            document.getElementById('modal-temporary-data').value = null">×</button>
+            {{-- <button onclick="document.querySelector('.super-modal').classList.add('hide');
+            document.getElementById('modal-temporary-data').value = null">×</button> --}}
+            <button>×</button>
         </div>
         <div class="modal-img-block"></div>
         <div class="count-block">

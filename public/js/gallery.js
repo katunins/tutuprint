@@ -251,8 +251,108 @@ function ajax(url, data, callBack) {
   });
 }
 
+function turnOffSuperModal() {
+  document.querySelector('.super-modal').classList.add('hide');
+  document.querySelector('.modal-img-block').style = '';
+  document.getElementById('image-modal-count').innerHTML = '';
+}
+
+var imageBoxListener = function ImageBoxClick() {
+  var _this = this;
+
+  // функция нажатия на фотографию
+  // настраиваем модальное окно
+  var imageUrl = this.getAttribute('name');
+  document.querySelector('.super-modal').classList.remove('hide');
+  document.querySelector('.modal-img-block').style = 'background-image: url(' + imageUrl + ')';
+  document.getElementById('image-modal-count').innerHTML = this.getAttribute('count'); // повесим onclick на компку OK модального окна
+
+  document.getElementById('ok-modal-button').onclick = function () {
+    var count = document.getElementById('modal-temporary-data').value;
+
+    _this.setAttribute('count', count);
+
+    var imageCountElement = _this.querySelector('div'); //Передадим данные в контроллер для изменения данных сессии
+
+
+    ajax('/updatecount', {
+      url: imageUrl,
+      count: count
+    }, function () {
+      console.log(_this);
+    }); // 
+    // покажем количество, если более 1шт
+
+    if (count > 1) {
+      imageCountElement.innerHTML = count + 'x';
+      imageCountElement.classList.remove('hide');
+    } else {
+      imageCountElement.classList.add('hide');
+    } // удалим фотогарфию
+
+
+    if (count == 0) {
+      _this.remove();
+    } else {}
+
+    document.querySelector('.super-modal').classList.add('hide');
+  };
+
+  document.querySelectorAll('.inc-modal-button').forEach(function (changeModalButton) {
+    changeModalButton.onclick = changeModalCount.bind({
+      id: _this.getAttribute('name'),
+      increase: changeModalButton.getAttribute('direction')
+    });
+  });
+  document.addEventListener('keyup', function (key) {
+    if (key.key === 'Escape') turnOffSuperModal();
+  }, {
+    once: true
+  });
+  document.querySelector('.close-modal-button').querySelector('button').onclick = turnOffSuperModal;
+  document.querySelector('.super-modal').classList.remove('hide');
+};
+
+var imageSelectListener = function imageSelectListener() {
+  console.log(this);
+};
+
+function turnCheckBoxes() {
+  var button = document.getElementById('changeGroupButton');
+  var status = button.value == 'on' ? true : false;
+
+  if (status) {
+    // выключен режим выделения
+    button.value = 'off';
+    button.classList.remove('active-button');
+    var imageBoxes = document.querySelectorAll('.image-box');
+    imageBoxes.forEach(function (elem) {
+      elem.addEventListener('click', imageBoxListener, false);
+      if (elem.getAttribute('count') > 1) elem.querySelector('.img-count').classList.remove('hide');
+      elem.querySelector('.img-select').classList.add('hide');
+    });
+  } else {
+    // включен режим выделения
+    button.value = 'on';
+    button.classList.add('active-button');
+
+    var _imageBoxes = document.querySelectorAll('.image-box');
+
+    _imageBoxes.forEach(function (elem) {
+      elem.removeEventListener('click', imageBoxListener, false);
+      elem.querySelector('.img-select').addEventListener('click', imageSelectListener.bind(elem), false);
+      elem.querySelector('.img-count').classList.add('hide');
+      elem.querySelector('.img-select').classList.remove('hide');
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
-  updatePrice();
+  updatePrice(); // обработчик нажатия на кнопку группового изменения
+
+  console.log(document.getElementById('changeGroupButton'));
+  document.getElementById('changeGroupButton').onclick = turnCheckBoxes;
+  console.log(document.getElementById('changeGroupButton'));
   document.querySelectorAll('.switcher').forEach(function (elem) {
     elem.addEventListener('click', function () {
       switchRefresh(this);
@@ -285,54 +385,7 @@ document.addEventListener('DOMContentLoaded', function () {
       imageCountElement.classList.remove('hide');
     }
 
-    elem.addEventListener('click', function () {
-      var _this = this;
-
-      // настраиваем модальное окно
-      var imageUrl = this.getAttribute('name');
-      document.querySelector('.super-modal').classList.remove('hide');
-      document.querySelector('.modal-img-block').style = 'background-image: url(' + imageUrl + ')';
-      document.getElementById('image-modal-count').innerHTML = this.getAttribute('count'); // повесим onclick на компку OK модального окна
-
-      document.getElementById('ok-modal-button').onclick = function () {
-        var count = document.getElementById('modal-temporary-data').value;
-
-        _this.setAttribute('count', count);
-
-        var imageCountElement = _this.querySelector('div'); //Передадим данные в контроллер для изменения данных сессии
-
-
-        ajax('/updatecount', {
-          url: imageUrl,
-          count: count
-        }, function () {
-          console.log(_this);
-        }); // 
-        // покажем количество, если более 1шт
-
-        if (count > 1) {
-          imageCountElement.innerHTML = count + 'x';
-          imageCountElement.classList.remove('hide');
-        } else {
-          imageCountElement.classList.add('hide');
-        } // удалим фотогарфию
-
-
-        if (count == 0) {
-          _this.remove();
-        } else {}
-
-        document.querySelector('.super-modal').classList.add('hide');
-      };
-
-      document.querySelectorAll('.inc-modal-button').forEach(function (changeModalButton) {
-        changeModalButton.onclick = changeModalCount.bind({
-          id: _this.getAttribute('name'),
-          increase: changeModalButton.getAttribute('direction')
-        });
-      });
-      document.querySelector('.super-modal').classList.remove('hide');
-    });
+    elem.addEventListener('click', imageBoxListener, false);
   });
 });
 
@@ -345,7 +398,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

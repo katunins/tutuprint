@@ -15,15 +15,13 @@
         } else {
             $imageArr = [];
             foreach (Storage::files('public/images/mini') as $item) {
-                        $imageArr [] = [
+                $imageArr [] = [
                     'url' => Storage::url($item), 
                     'count' => 1
-            ];
+                ];
             }
             Session::put('images', $imageArr);
-             
         }
-        // print_r (Session::all());
         ?>
 
         @foreach ($imageArr as $item)
@@ -31,31 +29,17 @@
         <div class="image-box" name={{ $item['url'] }} style="background-image: url({{ $item['url'] }})"
             count={{ $item['count'] }}>
             <div class="img-count hide"></div>
+            <div class="img-select hide">
+                <span class="hide">✓</span>
+            </div>
         </div>
         @endif
 
         @endforeach
-
-        <form action="" method="post" method="post" enctype="multipart/form-data">
             @csrf
             <input type="file" id="imgLoad" multiple name="image[]" style="display: none">
-
-
-            <label for="imgLoad">
-                <img src="{{ asset('images/plus.svg') }}" alt="">
+            <label for="imgLoad" style="background-image: url({{ asset('images/plus.svg') }})">
             </label>
-
-
-
-            {{-- <label for="imgLoad">
-                <div class="image-box" style="background-image: url({{ asset('images/plus.svg') }}">
-    </div>
-    </label> --}}
-    {{-- <a href="">
-                <div class="image-box" style="background-image: url({{ asset('images/plus.svg') }}">
-</div>
-</a> --}}
-</form>
 </div>
 
 <div class="controls">
@@ -64,6 +48,12 @@
         @csrf
 
         <div class="params">
+
+            <div class="param-block">
+                <button type="button" id="changeGroupButton" value="off">✓ Групповое изменение</button>
+                {{-- <button>Удалить все</button> --}}
+            </div>
+
             <div class="param-block">
                 <div class="param active" switchdata='false' name='product' value='photoprint'>фотографии</div>
                 <div class="button">
@@ -97,8 +87,6 @@
 
             <div class="text-for-box param-block hide">
                 <textarea name="text-for-box" cols="30" rows="2" placeholder="Надпись на коробке"></textarea>
-                {{-- <input type="text" name="text-for-box"
-                            placeholder="Надпись на коробке"> --}}
             </div>
 
         </div>
