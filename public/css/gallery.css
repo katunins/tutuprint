@@ -7,6 +7,13 @@
   display: none !important;
 }
 
+.half-opacity {
+  opacity: 0.3;
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
+  pointer-events: none;
+}
+
 .header {
   display: flex !important;
   width: 100% !important;
@@ -122,6 +129,70 @@
   transition: 0.3s ease-in-out;
 }
 
+.general-params-block,
+.general-additional-params-block {
+  width: 300px;
+  margin-top: 10px;
+}
+
+.general-params-block p,
+.general-additional-params-block p {
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 5px;
+  font-weight: 300;
+}
+
+.general-params-block .reset-all-button,
+.general-additional-params-block .reset-all-button {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.general-params-block .reset-all-button button,
+.general-additional-params-block .reset-all-button button {
+  width: 209px;
+  border: 1px solid #80808063;
+  background: transparent;
+  padding: 4px 0;
+  border-radius: 3px;
+}
+
+.general-params-block .buttons,
+.general-additional-params-block .buttons {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.general-params-block .buttons button,
+.general-additional-params-block .buttons button {
+  border: 1px solid #ffcc00;
+  border-radius: 3px;
+  width: 100px;
+  height: 30px;
+  background: transparent;
+  font-weight: 300;
+  margin: 0 3px;
+  cursor: pointer;
+}
+
+.general-params-block .buttons button:active,
+.general-additional-params-block .buttons button:active {
+  opacity: 0.3;
+  outline: none;
+}
+
+.general-count-block {
+  font-size: 17px;
+  display: flex;
+  width: 180px;
+  align-items: center;
+}
+
+.general-count-block * {
+  font-weight: 300;
+}
+
 .param-block {
   margin-bottom: 5px;
   display: flex;
@@ -135,11 +206,10 @@
 
 .param-block button {
   padding: 5px 15px;
-  margin-bottom: 10px;
-  border: none;
   outline: none;
   background-color: transparent;
   cursor: pointer;
+  border: 1px solid #cfcfcf;
 }
 
 .param-block button:active {
@@ -149,6 +219,7 @@
 .param-check-block {
   display: flex;
   margin-top: 10px;
+  justify-content: center;
 }
 
 .param-check-block * {
@@ -162,6 +233,7 @@
   font-weight: 300;
   text-align: center;
   font-size: 14px;
+  margin: 0 3px;
 }
 
 .param-check-block input {
@@ -172,15 +244,18 @@
 .param-check-block label {
   border: 1px solid #ffcc00;
   display: block;
-  width: 130px;
-  height: 18px;
-  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+  border-radius: 3px;
   cursor: pointer;
+  line-height: 2;
+}
+
+.param-check-block span {
   font-weight: 300;
 }
 
 .param-check-block input:not(:checked) + label {
-  opacity: 0.5;
   transition: 0.3s ease-in-out;
 }
 
@@ -192,7 +267,7 @@
 
 .text-for-box > textarea {
   width: 100%;
-  margin: 12px 5px;
+  margin-top: 10px;
   padding: 5px;
   text-align: center;
   border: 1px solid #ffcc00;
@@ -202,6 +277,7 @@
 
 .to-order-block {
   text-align: center;
+  width: 160px;
 }
 
 .to-order-block .price-block,
