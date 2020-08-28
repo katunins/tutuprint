@@ -17667,13 +17667,18 @@ function turnSelectMode() {
     document.getElementById('imgLoadPlusButton').classList.add('hide');
     document.getElementById('clearAllImagesButton').classList.remove('hide');
   }
+}
+
+function clearAll() {// удаляет се фотографии
 } // --------------
 
 
 document.addEventListener('DOMContentLoaded', function () {
   updatePrice(); // обработчик нажатия на кнопку группового изменения
 
-  document.getElementById('changeGroupButton').onclick = turnSelectMode; // обработчик переключателя
+  document.getElementById('changeGroupButton').onclick = turnSelectMode; // обработчик на кнопку удалить все
+
+  document.getElementById('clearAllImagesButton').onclick = clearAll; // обработчик переключателя
 
   document.querySelectorAll('.switcher').forEach(function (elem) {
     elem.addEventListener('click', function () {

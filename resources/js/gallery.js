@@ -405,6 +405,12 @@ function turnSelectMode() {
   }
 }
 
+function clearAll () {
+  // удаляет се фотографии
+  
+
+}
+
 // --------------
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -412,6 +418,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // обработчик нажатия на кнопку группового изменения
   document.getElementById('changeGroupButton').onclick = turnSelectMode;
+
+  // обработчик на кнопку удалить все
+  document.getElementById('clearAllImagesButton').onclick=clearAll
 
   // обработчик переключателя
   document.querySelectorAll('.switcher').forEach(elem => {
