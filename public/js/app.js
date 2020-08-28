@@ -12942,13 +12942,13 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/welcome.scss */"./resources/sass/welcome.scss");
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/personal.scss */"./resources/sass/personal.scss");
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/login.scss */"./resources/sass/login.scss");
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/gallery.scss */"./resources/sass/gallery.scss");
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/supermodal.scss */"./resources/sass/supermodal.scss");
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/welcome.scss */"./resources/sass/welcome.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/personal.scss */"./resources/sass/personal.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/login.scss */"./resources/sass/login.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/gallery.scss */"./resources/sass/gallery.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/supermodal.scss */"./resources/sass/supermodal.scss");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

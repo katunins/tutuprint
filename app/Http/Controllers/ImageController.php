@@ -8,14 +8,12 @@ use Illuminate\Http\Request;
 class ImageController extends Controller
 {
     public function updateSessionImageCount (Request $request) {
-        $imageArr = array_map(function ($item) use ($request) {
-            if ($request->url == $item['url']) $item['count'] = $request->count;
-            return $item;
-        }, $request->session()->get('images'));
-        
-        // echo json_encode($request->all());
-        // echo json_encode($imageArr);
-        $request->session()->put('images', $imageArr);
-        echo json_encode($imageArr);
+
+        if ($request->count > 0) {
+            $request->session()->put('images.'.$request->id.'.count', $request->count);
+        } else {
+            $request->session()->forget($request->id);
+        }
+        echo json_encode(['result'=>true]);
     }
 }
