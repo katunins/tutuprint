@@ -1,4 +1,3 @@
-const { words } = require("lodash");
 
 const priceArr = new Object({
   photoprint: {
@@ -177,7 +176,7 @@ function ajax(url, data) {
   })
     .then(response => response.json())
     .then(response => {
-      // console.log(response);
+      console.log(response);
     })
     .catch(function (error) {
       console.log(error);
@@ -286,7 +285,7 @@ const generalButtonsListnerSave = function () {
       elem.querySelector('.img-count').innerHTML = window.selectElemsArr.count + 'x'
     } else {
       elem.parentNode.removeChild(elem);
-     }
+    }
 
   })
   // Передадим данные в контроллер для изменения данных сессии
@@ -321,15 +320,15 @@ function turnAdditionalConfigButtons() {
 
   if (status) {
 
-    document.querySelector ('.general-count-block').classList.remove('half-opacity')
-    document.getElementById ('general-additional-button-save').classList.remove('half-opacity')
+    document.querySelector('.general-count-block').classList.remove('half-opacity')
+    document.getElementById('general-additional-button-save').classList.remove('half-opacity')
 
     document.querySelector('.general-additional-params-block').querySelector('p').classList.add('hide')
 
   } else {
 
-    document.querySelector ('.general-count-block').classList.add('half-opacity')
-    document.getElementById ('general-additional-button-save').classList.add('half-opacity')
+    document.querySelector('.general-count-block').classList.add('half-opacity')
+    document.getElementById('general-additional-button-save').classList.add('half-opacity')
 
     document.querySelector('.general-additional-params-block').querySelector('p').classList.remove('hide')
     clearGeneralCount()
@@ -379,8 +378,8 @@ function turnSelectMode() {
 
     document.querySelector('.general-additional-params-block').classList.add('hide')
     document.querySelector('.general-params-block').classList.remove('hide')
-    document.getElementById ('imgLoadPlusButton').classList.remove('hide')
-    document.getElementById ('clearAllImagesButton').classList.add('hide')
+    document.getElementById('imgLoadPlusButton').classList.remove('hide')
+    document.getElementById('clearAllImagesButton').classList.add('hide')
 
   } else {
 
@@ -400,18 +399,96 @@ function turnSelectMode() {
 
     document.querySelector('.general-additional-params-block').classList.remove('hide')
     document.querySelector('.general-params-block').classList.add('hide')
-    document.getElementById ('imgLoadPlusButton').classList.add('hide')
-    document.getElementById ('clearAllImagesButton').classList.remove('hide')
+    document.getElementById('imgLoadPlusButton').classList.add('hide')
+    document.getElementById('clearAllImagesButton').classList.remove('hide')
   }
 }
 
-function clearAll () {
+function clearAll() {
   // удаляет се фотографии
-  
+
 
 }
 
+function uploadToController(file) {
+	if (file) {
+		var xhr = new XMLHttpRequest();
+
+		upload = xhr.upload;
+
+		// Создаем прослушиватель события progress, который будет "двигать" прогресс-бар.
+		upload.addEventListener('progress', function(event) {
+			if (event.lengthComputable) {
+				// var pbar = $('tr.' + trnum + ' td.size div.pbar');
+        console.log (Math.round((event.loaded / event.total) * 100))
+        // pbar.css('width', Math.round((event.loaded / event.total) * 100) + 'px');
+			}
+		}, false);
+		// // Создаем прослушиватель события load, который по окончанию загрузки подсветит прогресс-бар зеленым.
+		// upload.addEventListener('load', function(event) {
+		// 	var pbar = $('tr.' + trnum + ' td.size div.pbar');
+		// 	pbar.css('width', '100px');
+		// 	pbar.css('background', 'green');
+		// }, false);
+		// // Создаем прослушиватель события error, который при ошибке подсветит прогресс-бар красным.
+		// upload.addEventListener('error', function(event) {
+		// 	var pbar = $('tr.' + trnum + ' td.size div.pbar');
+		// 	pbar.css('width', '100px');
+		// 	pbar.css('background', 'red');
+		// }, false);
+
+		// Откроем соединение.
+		xhr.open('POST', '/imageupload');
+
+		// Устанавливаем заголовки.
+		xhr.setRequestHeader('Cache-Control', 'no-cache');
+		xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+		xhr.setRequestHeader("X-File-Name", file.name);
+		// Отправляем файл.
+		xhr.send(file);
+	}
+}
+
+function filesUpload(data) {
+  let files = data.target.files
+  console.log (files)
+  
+  for (var i = 0, file; file = data.target.files[i]; i++)
+   {
+    if (!file.type.match('image.*')) {
+      console.log('noJPEG', file)
+    }
+    uploadToController(file)
+
+    // var reader = new FileReader();
+
+
+    // reader.onload = function (result) {
+    //   console.log('result', result)
+    //   // ajax ('/imageupload', result)
+    // // uploadToController ()
+    // };
+
+    // reader.onprogress = function (progress) {
+    //   console.log('progress', progress)
+    // }
+
+    // reader.readAsDataURL(file);
+  };
+}
+
 // --------------
+// document.addEventListener("dragenter", function(event) {
+//   // console.log (event.target.className)
+//   if ( event.target.className=="imgLoadPlusButton" ) {
+//     event.target.style.opacity = '0.2'
+//   }
+// });
+
+// document.addEventListener("drop", function(event) {
+//   event.preventDefault();
+//   console.log (event)
+//   });
 
 document.addEventListener('DOMContentLoaded', function () {
   updatePrice();
@@ -420,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('changeGroupButton').onclick = turnSelectMode;
 
   // обработчик на кнопку удалить все
-  document.getElementById('clearAllImagesButton').onclick=clearAll
+  document.getElementById('clearAllImagesButton').onclick = clearAll
 
   // обработчик переключателя
   document.querySelectorAll('.switcher').forEach(elem => {
@@ -463,4 +540,11 @@ document.addEventListener('DOMContentLoaded', function () {
     elem.addEventListener('click', generalChangeCountListner, false)
   })
 
+  // обработчик загрузки фотографий
+  document.getElementById('imgLoad').onchange = filesUpload
+  // document.querySelector('.gallery').ondrop = filesUpload
+  
+  // document.querySelector('.gallery').ondragstart = ()=>{
+  //   console.log
+  // }
 });

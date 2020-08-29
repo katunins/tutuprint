@@ -4,7 +4,6 @@
 
 @section('content')
     @include('layouts.supermodal')
-
     <div class="gallery-block">
         <div class="gallery">
 {{-- {{ dd(Session::all()) }} --}}
@@ -37,8 +36,10 @@
 
             @endforeach
             @csrf
-            <input type="file" id="imgLoad" multiple name="image[]" style="display: none">
-            <label for="imgLoad" id="imgLoadPlusButton" style="background-image: url({{ asset('images/plus.svg') }})">
+            <form class="hide" action="" method="post">
+                <input type="file" id="imgLoad" multiple name="image[]" >
+            </form>
+            <label class="imgLoadPlusButton" for="imgLoad" id="imgLoadPlusButton" style="background-image: url({{ asset('images/plus.svg') }})">
             </label>
         </div>
 

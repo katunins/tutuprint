@@ -18,4 +18,9 @@ class ImageController extends Controller
         }
         echo json_encode(['result'=>true]);
     }
+
+    public function imageUpload (Request $request) {
+        echo (json_encode(['result'=>$request->data]));
+        // dd ($request);
+    }
 }
