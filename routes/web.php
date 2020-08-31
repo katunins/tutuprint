@@ -39,5 +39,5 @@ Route::get('/gallery', function (){
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('updatecount', 'ImageController@updateSessionImageCount');
-
+Route::post('eraseall', 'ImageController@eraseAllImages');
 Route::post('imageupload', 'ImageController@imageUpload');

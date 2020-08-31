@@ -12,9 +12,9 @@
   width: -moz-fit-content;
   width: fit-content;
   padding: 40px;
+  max-width: 80%;
   position: relative;
   top: 50%;
-  margin-top: -200px;
   border-radius: 5px;
   border: 1px solid rgba(128, 128, 128, 0.466);
   background-color: white;
@@ -23,6 +23,27 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.modal-block .super-model-buttons {
+  display: flex;
+}
+
+.modal-block .super-model-buttons button {
+  margin: 10px 5px 0 5px;
+  width: 120px;
+  height: 30px;
+  border-radius: 3px;
+  background-color: #ffcc00;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.super-modal-message {
+  margin-bottom: 20px;
 }
 
 .close-modal-button {
@@ -41,6 +62,7 @@
 .modal-img-block {
   width: 300px;
   height: 300px;
+  margin-bottom: 10px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -70,18 +92,5 @@
 
 .image-change-count button:active {
   opacity: 0.5;
-}
-
-#ok-modal-button {
-  margin-top: 10px;
-  width: 120px;
-  height: 30px;
-  border-radius: 3px;
-  background-color: #ffcc00;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 300;
 }
 

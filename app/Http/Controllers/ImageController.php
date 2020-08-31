@@ -19,8 +19,14 @@ class ImageController extends Controller
         echo json_encode(['result'=>true]);
     }
 
+    public function eraseAllImages (Request $request) {
+        $request->session()->forget('images');
+        echo (json_encode(['result'=>true]));
+        // удаление папки
+    }
+
     public function imageUpload (Request $request) {
         echo (json_encode(['result'=>$request->data]));
-        // dd ($request);
     }
+    
 }

@@ -4,12 +4,10 @@
 <div class="super-modal hide">
     <div class="modal-block">
         <div class="close-modal-button">
-            {{-- <button onclick="document.querySelector('.super-modal').classList.add('hide');
-            document.getElementById('modal-temporary-data').value = null">×</button> --}}
-            <button>×</button>
+            <button onclick="turnOFFSuperModal()">×</button>
         </div>
-        <div class="modal-img-block"></div>
-        <div class="count-block">
+        <div class="modal-img-block hide"></div>
+        <div class="count-block hide">
             <div class="image-change-count">
                 <button class="inc-modal-button" direction=1>+</button>
             </div>
@@ -18,6 +16,30 @@
                 <button class="inc-modal-button" direction=-1>-</button>
             </div>
         </div>
-        <button id="ok-modal-button">ok</button>
+        <div class="super-modal-message hide">Удалить все фотографии?</div>
+        <div class="super-model-buttons">
+            <button id="ok-modal-button">ok</button>
+            <button class="hide" id="cancel-modal-button" onclick="turnOFFSuperModal()">Отменить</button>
+        </div>
+
     </div>
 </div>
+<script>
+    function turnOFFSuperModal () {
+        document.querySelector('.super-modal').classList.add('hide')
+        document.querySelector('.modal-img-block').classList.add('hide')
+        document.querySelector('.count-block').classList.add('hide')
+        document.querySelector ('.super-modal-message').innerHTML = '' 
+        document.querySelector ('.super-modal-message').classList.add('hide')
+        document.getElementById('cancel-modal-button').classList.add('hide')
+        document.querySelector('.modal-block').style=''
+        }
+
+        document.addEventListener(
+            'keyup',
+            key => {
+            if (key.key === 'Escape') turnOFFSuperModal();
+            },
+            { once: true }
+        );
+</script>

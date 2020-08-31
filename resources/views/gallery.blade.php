@@ -3,12 +3,12 @@
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
 
 @section('content')
-    @include('layouts.supermodal')
-    <div class="gallery-block">
-        <div class="gallery">
-{{-- {{ dd(Session::all()) }} --}}
-            {{-- Прогрузка истории количества из сессии --}}
-            <?php if (Session::has('images')) {
+@include('layouts.supermodal')
+<div class="gallery-block">
+    <div class="gallery">
+        {{-- {{ dd(Session::all()) }} --}}
+        {{-- Прогрузка истории количества из сессии --}}
+        <?php if (Session::has('images')) {
 
 
             $imageArr = Session::get('images', null);
@@ -24,125 +24,131 @@
             Session::put('images', $imageArr);
             } ?>
 
-            @foreach ($imageArr as $key => $item)
-                @if ($item['count'] > 0)
-                    <div class="image-box" id={{ $key }} name={{ $item['url'] }}
-                        style="background-image: url({{ $item['url'] }})" count={{ $item['count'] }}>
-                        <div class="img-count hide"></div>
-                        <div class="img-select hide">
-                        </div>
-                    </div>
-                @endif
-
-            @endforeach
-            @csrf
-            <form class="hide" action="" method="post">
-                <input type="file" id="imgLoad" multiple name="image[]" >
-            </form>
-            <label class="imgLoadPlusButton" for="imgLoad" id="imgLoadPlusButton" style="background-image: url({{ asset('images/plus.svg') }})">
-            </label>
+        @foreach ($imageArr as $key => $item)
+        @if ($item['count'] > 0)
+        <div class="image-box" id={{ $key }} url={{ $item['url'] }} style="background-image: url({{ $item['url'] }})"
+            count={{ $item['count'] }}>
+            <div class="img-count hide"></div>
+            <div class="img-select hide">
+            </div>
         </div>
+        @endif
 
-        <div class="controls">
-
-            <form action="">
-                @csrf
-
-                <div class="params">
-
-                    <div class="param-block">
-                        <button type="button" id="changeGroupButton" value="off">✓ Групповое изменение</button>
-                        
-                    </div>
-
-                    <div class="general-additional-params-block hide">
-                        <p>Выберете фотографии для изменения</p>
-                        <div class="reset-all-button">
-                            
-                        </div>
-                        
-                        <div class="general-count-block half-opacity">
-                            <div class="image-change-count">
-                                <button type="button" class="general-inc-modal-button" direction=1>+</button>
-                            </div>
-                            <div class="count"><span id="general-image-modal-count">1</span> шт.</div>
-                            <div class="image-change-count">
-                                <button type="button" class="general-inc-modal-button" direction=-1>-</button>
-                            </div>
-                        </div>
-                        <div class="reset-all-button">
-                            <button type="button" class="hide" id="clearAllImagesButton">Стереть все</button>
-                        </div>
-                        <div class="buttons">
-                            <button class="half-opacity" id="general-additional-button-save" type="button" style="background-color: ffcc00;">Сохранить</button>
-                            <button id="general-additional-button-cancel" type="button">Отменить</button>
-                        </div>
-                        
-                    </div>
-
-                    <div class="general-params-block">
-                        <div class="param-block">
-                            <div class="param active" switchdata='false' name='product' value='photoprint'>фотографии</div>
-                            <div class="button">
-                                <input type="checkbox" class="checkbox switcher">
-                                <div class="knobs"></div>
-                                <div class="layer"></div>
-                            </div>
-                            <div class="param inactive" switchdata='true' name='product' value='photocards'>фотокарточки
-                            </div>
-                        </div>
-
-                        <div class="param-block">
-                            <div class="param active" switchdata='false' name='size' value='10x15'>10 x 15 cm</div>
-                            <div class="button">
-                                <input type="checkbox" class="checkbox switcher">
-                                <div class="knobs"></div>
-                                <div class="layer"></div>
-                            </div>
-                            <div class="param inactive" switchdata='true' name='size' value='15x21'>15 x 21 cm</div>
-                        </div>
-
-                        <div class="param-check-block">
-                            <div class="param-check">
-                                <input type="checkbox" id="white-border" checked>
-                                <label for="white-border"><span>Белая рамка</span></label>
-                            </div>
-                            <div class="param-check">
-                                <input type="checkbox" id="box">
-                                <label for="box"><span>Коробка</span></label>
-                            </div>
-                        </div>
-
-                        <div class="text-for-box param-block hide">
-                            <textarea name="text-for-box" cols="30" rows="2" placeholder="Надпись на коробке"></textarea>
-                        </div>
-                    </div>
-
-                </div>
-
-                <input type="hidden" name='summ'>
-
-                <div class="to-order-block">
-
-
-                    <button type="submit">
-                        <div class="price-block"><span id="price-to-basket"></span>₽</div>
-                        <img src="{{ asset('images/basket.svg') }}" alt=""> Добавить
-                    </button>
-                    <div class="price-description-block">
-                        <p id="description-1"></p>
-                        <p id="description-2"></p>
-                    </div>
-                </div>
-            </form>
-        </div>
-
+        @endforeach
+        @csrf
+        <form class="hide" action="" method="post">
+            <input type="file" id="imgLoad" multiple name="image[]">
+        </form>
+        <label class="imgLoadPlusButton" for="imgLoad" id="imgLoadPlusButton"
+            style="background-image: url({{ asset('images/plus.svg') }})">
+        </label>
     </div>
 
+    <div class="controls">
+
+        <form action="">
+            @csrf
+
+            <div class="params">
+                <div class="info">
+                    <img src="images/info.svg" alt="">
+                </div>
+                <div class="param-block">
+                    <button type="button" id="changeGroupButton" value="off">Групповое изменение</button>
+
+                </div>
+
+                <div class="general-additional-params-block hide">
+                    <p>Выберете фотографии для изменения</p>
+                    <div class="reset-all-button">
+
+                    </div>
+
+                    <div class="general-count-block half-opacity">
+                        <div class="image-change-count">
+                            <button type="button" class="general-inc-modal-button" direction=1>+</button>
+                        </div>
+                        <div class="count"><span id="general-image-modal-count">1</span> шт.</div>
+                        <div class="image-change-count">
+                            <button type="button" class="general-inc-modal-button" direction=-1>-</button>
+                        </div>
+                    </div>
+                    <div class="reset-all-button">
+                        <button type="button" class="hide" id="clearAllImagesButton">Стереть все</button>
+                    </div>
+                    <div class="buttons">
+                        <button class="half-opacity" id="general-additional-button-save" type="button"
+                            style="background-color: ffcc00;">Сохранить</button>
+                        <button id="general-additional-button-cancel" type="button">Назад</button>
+                    </div>
+
+                </div>
+
+                <div class="general-params-block">
+                    <div class="param-block">
+                        <div class="param active" switchdata='false' name='product' value='photoprint'>фотографии</div>
+                        <div class="button">
+                            <input type="checkbox" class="checkbox switcher">
+                            <div class="knobs"></div>
+                            <div class="layer"></div>
+                        </div>
+                        <div class="param inactive" switchdata='true' name='product' value='photocards'>фотокарточки
+                        </div>
+                    </div>
+
+                    <div class="param-block">
+                        <div class="param active" switchdata='false' name='size' value='10x15'>10 x 15 cm</div>
+                        <div class="button">
+                            <input type="checkbox" class="checkbox switcher">
+                            <div class="knobs"></div>
+                            <div class="layer"></div>
+                        </div>
+                        <div class="param inactive" switchdata='true' name='size' value='15x21'>15 x 21 cm</div>
+                    </div>
+
+                    <div class="param-check-block">
+                        <div class="param-check">
+                            <input type="checkbox" id="white-border" checked>
+                            <label for="white-border"><span>Белая рамка</span></label>
+                        </div>
+                        <div class="param-check">
+                            <input type="checkbox" id="box">
+                            <label for="box"><span>Коробка</span></label>
+                        </div>
+                    </div>
+
+                    <div class="text-for-box param-block hide">
+                        <textarea name="text-for-box" cols="30" rows="2" placeholder="Надпись на коробке"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+            <input type="hidden" name='summ'>
+
+            <div class="to-order-block">
+
+
+                <button type="submit">
+                    <div class="price-block"><span id="price-to-basket"></span>₽</div>
+                    <img src="{{ asset('images/basket.svg') }}" alt=""> Добавить
+                </button>
+                <div class="price-description-block">
+                    <p id="description-1"></p>
+                    <p id="description-2"></p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<div class="hide" id="info-page">
+    @include('layouts.info')
+</div>
 @endsection
 
 @section('back')
-    {{ url('/') }}
+{{ url('/') }}
 @endsection
 
 <script src="{{ asset('js/gallery.js') }}"></script>
