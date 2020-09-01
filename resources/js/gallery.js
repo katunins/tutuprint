@@ -185,12 +185,12 @@ function ajax (url, data) {
 const imageBoxOpenModalListener = function () {
   // функция нажатия на фотографию - открытие модального окна
   // настраиваем модальное окно
-  let imageUrl = this.getAttribute ('thumbnail');
+  // console.log (this.style.backgroundImage)
+  // let imageUrl = this.getAttribute ('url');
   document.querySelector ('.super-modal').classList.remove ('hide');
   document.querySelector ('.modal-img-block').classList.remove ('hide');
   document.querySelector ('.count-block').classList.remove ('hide');
-  document.querySelector ('.modal-img-block').style =
-    'background-image: url(' + imageUrl + ')';
+  document.querySelector ('.modal-img-block').style.backgroundImage = this.style.backgroundImage //='background-image: url(' + imageUrl + ')';
   document.getElementById ('image-modal-count').innerHTML = this.getAttribute (
     'count'
   );
