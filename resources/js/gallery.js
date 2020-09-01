@@ -175,7 +175,7 @@ function ajax (url, data) {
   })
     .then (response => response.json ())
     .then (response => {
-      console.log (response);
+      // console.log (response);
     })
     .catch (function (error) {
       console.log (error);

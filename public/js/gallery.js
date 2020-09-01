@@ -240,8 +240,7 @@ function ajax(url, data) {
     body: JSON.stringify(data)
   }).then(function (response) {
     return response.json();
-  }).then(function (response) {
-    console.log(response);
+  }).then(function (response) {// console.log (response);
   })["catch"](function (error) {
     console.log(error);
   });
