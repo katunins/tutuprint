@@ -185,7 +185,7 @@ function ajax (url, data) {
 const imageBoxOpenModalListener = function () {
   // функция нажатия на фотографию - открытие модального окна
   // настраиваем модальное окно
-  let imageUrl = this.getAttribute ('url');
+  let imageUrl = this.getAttribute ('thumbnail');
   document.querySelector ('.super-modal').classList.remove ('hide');
   document.querySelector ('.modal-img-block').classList.remove ('hide');
   document.querySelector ('.count-block').classList.remove ('hide');

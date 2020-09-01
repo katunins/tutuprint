@@ -252,7 +252,7 @@ var imageBoxOpenModalListener = function imageBoxOpenModalListener() {
 
   // функция нажатия на фотографию - открытие модального окна
   // настраиваем модальное окно
-  var imageUrl = this.getAttribute('url');
+  var imageUrl = this.getAttribute('thumbnail');
   document.querySelector('.super-modal').classList.remove('hide');
   document.querySelector('.modal-img-block').classList.remove('hide');
   document.querySelector('.count-block').classList.remove('hide');
