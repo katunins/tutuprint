@@ -432,49 +432,6 @@ function clearAll () {
     );
 }
 
-function uploadToController (file) {
-  if (file) {
-    var xhr = new XMLHttpRequest ();
-
-    upload = xhr.upload;
-
-    // Создаем прослушиватель события progress, который будет "двигать" прогресс-бар.
-    upload.addEventListener (
-      'progress',
-      function (event) {
-        if (event.lengthComputable) {
-          // var pbar = $('tr.' + trnum + ' td.size div.pbar');
-          console.log (Math.round (event.loaded / event.total * 100));
-          // pbar.css('width', Math.round((event.loaded / event.total) * 100) + 'px');
-        }
-      },
-      false
-    );
-    // // Создаем прослушиватель события load, который по окончанию загрузки подсветит прогресс-бар зеленым.
-    // upload.addEventListener('load', function(event) {
-    // 	var pbar = $('tr.' + trnum + ' td.size div.pbar');
-    // 	pbar.css('width', '100px');
-    // 	pbar.css('background', 'green');
-    // }, false);
-    // // Создаем прослушиватель события error, который при ошибке подсветит прогресс-бар красным.
-    // upload.addEventListener('error', function(event) {
-    // 	var pbar = $('tr.' + trnum + ' td.size div.pbar');
-    // 	pbar.css('width', '100px');
-    // 	pbar.css('background', 'red');
-    // }, false);
-
-    // Откроем соединение.
-    xhr.open ('POST', '/imageupload');
-
-    // Устанавливаем заголовки.
-    xhr.setRequestHeader ('Cache-Control', 'no-cache');
-    xhr.setRequestHeader ('X-Requested-With', 'XMLHttpRequest');
-    xhr.setRequestHeader ('X-File-Name', file.name);
-    // Отправляем файл.
-    xhr.send (file);
-  }
-}
-
 function filesUpload () {
 
   let filesToRequest = new FormData ();
@@ -491,11 +448,12 @@ function filesUpload () {
   upload.addEventListener (
     'progress',
     function (event) {
-      if (event.lengthComputable) {
+      // if (event.lengthComputable) {
         // var pbar = $('tr.' + trnum + ' td.size div.pbar');
-        console.log (Math.round (event.loaded / event.total * 100));
+        console.log (event.loaded,event.total);
+        // console.log (Math.round (event.loaded / event.total * 100));
         // pbar.css('width', Math.round((event.loaded / event.total) * 100) + 'px');
-      }
+      // }
     },
     false
   );
@@ -507,13 +465,30 @@ function filesUpload () {
     'X-CSRF-TOKEN',
     document.querySelector ('meta[name="csrf-token"]').getAttribute ('content')
   );
-  // xhr.setRequestHeader ('X-File-Name', file.name);
   // Отправляем файл.
   xhr.send (filesToRequest);
-  xhr.onload = function (data) {
-    console.log (JSON.parse (xhr.response));
+  xhr.onload = function () {
+    
+    // Добавим полученные элементы в DOM
+    let gallery = document.querySelector('.gallery')
+    let elementBefore = gallery.querySelector('form')
+    let result = JSON.parse (xhr.response).result
+    result.forEach(image=>{
+      
+      // создадим элемент
+      let elem = document.createElement('div')
+      elem.id = image.id
+      elem.classList.add('image-box')
+      elem.setAttribute('count', 1)
+      elem.setAttribute('url', image.url)
+      elem.style = 'background-image: url('+image.thumbnail+')'
+      elem.innerHTML = '<div class="img-count hide"></div><div class="img-select hide"></div>'
+      elem.addEventListener ('click', imageBoxOpenModalListener, false);
+      gallery.insertBefore(elem, elementBefore)
+
+    })
+    // 
   };
-  // console.log (filesToRequest.get('file'))
 }
 
 function turnInfo () {

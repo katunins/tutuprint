@@ -7,15 +7,20 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Image;
 
 class ImageController extends Controller
 {
     public function updateSessionImageCount (Request $request) {
         
+        $folder = 'public/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token');
         foreach ($request->data as $data) {
             if ($data['count'] > 0) {
                 $request->session()->put('images.'.$data['id'].'.count', $data['count']);
             } else {
+                $fileTodelete = Session::get('images.'.$data['id'])['filename'];
+                Storage::delete($folder.'/HD/'.$fileTodelete);
+                Storage::delete($folder.'/Thumbnail/'.$fileTodelete);
                 $request->session()->forget('images.'.$data['id']);
             }
         }
@@ -25,71 +30,63 @@ class ImageController extends Controller
     public function eraseAllImages (Request $request) {
         $request->session()->forget('images');
         echo (json_encode(['result'=>true]));
-        // удаление папки
-    }
 
-    static function ImagesToSession ($newImageArr) {
+        // грохнем сразу всю папку сессии
+        Storage::deleteDirectory('public/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token'));
 
-        if (Session::has('images') && isset ($newImageArr)) {
-            $id = intval(array_key_last(Session::get('images')));
-            $imageArr = clone $newImageArr;
-        } else {
-            $id = 0;
-            $folder = 'public/upload/'.Carbon::now()->format('d-m-Y').'/'.Session::get('_token');
-            $imageArr = Storage::files($folder);
-        }
-
-        return Session::all();
-        foreach ($imageArr as $item) {
-            $id ++;
-            $imageArr[$id] = [
-                'url' => Storage::url($item),
-                'count' => 1,
-            ];
-            Session::put('images.'.$id, $imageArr[$id]);
-        }
-
-        // if (isset ($newImageArr)) {
-        //     // $id = intval(array_key_last(Session::get('images')));
-        //     // $imageArr = Session::get('images');
-        //     foreach ($newImageArr as $item) {
-        //         $id ++;
-        //         $imageArr[$id] = [
-        //             'url' => Storage::url($item),
-        //             'count' => 1,
-        //         ];
-        //         Session::put('images.'.$id, $imageArr[$id]);
-        //     }
-
-        // } else {
-        //     // $imageArr = [];
-        //     // $folder = 'public/upload/'.Carbon::now()->format('d-m-Y').'/'.Session::get('_token');
-        //     // $id = 0;
-        //     foreach (Storage::files($folder) as $item) {
-        //         $id ++;
-        //         $imageArr[$id] = [
-        //             'url' => Storage::url($item),
-        //             'count' => 1,
-        //         ];
-        //         Session::put('images.'.$id, $imageArr[$id]);
-        //     }
-        //     // Session::put('images', $imageArr);
-        // }
-            return Session::get('images');
     }
 
     public function imageUpload (Request $request) {
+        // добавляет фотографии к сессии и возвращает массив загруженных фотографий
+
         $imageArr = [];
+        $id = Session::has('images') ? intval(array_key_last(Session::get('images'))) : 0; //последний ID из сессии, если она есть
         $folder = 'public/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token');
+        
+        // кривое решение из за Image Intervention - он не может доступ получить к Storage
+        $thumbnailFolder = 'storage/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token').'/Thumbnail/';
+
         foreach ($request->file('image') as $file) {
             
             // преобразуем русские название файлов
             $original_name = Str::slug (pathinfo($file->getClientOriginalName())['basename']);
             $original_ext = pathinfo($file->getClientOriginalName())['extension'];
+            
+            // Вдруг одинаковые названия у файлов
+            if (Storage::exists($folder.'/'.$original_name.'.'.$original_ext)) $original_name .= '_copy_'.Str::random(2);
+            $current_file_name = $original_name.'.'.$original_ext;
 
-            $imageArr [] = $file->storeAs($folder, $original_name.'.'.$original_ext);
+            $path = $file->storeAs($folder.'/HD', $current_file_name);
+            
+            $thumbnail = Image::make($file->getRealPath());
+            $thumbnail->resize(300, 300 , function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            if(!Storage::exists($folder.'/Thumbnail')) Storage::makeDirectory($folder.'/Thumbnail', 0775, true); //creates directory
+            
+            
+            $thumbnail->save($thumbnailFolder.$current_file_name);
+            $pathThumbnail = $folder.'/Thumbnail/'.$current_file_name;
+
+            $id++;
+            $imageArr [] = [
+                
+                'url' => Storage::url($path),
+                'id' => $id,
+                'thumbnail' => Storage::url($pathThumbnail),
+                'filename' => $current_file_name
+            ];
+            Session::put ('images.'.$id, [
+                'url' => Storage::url($path),
+                'count' => 1,
+                'thumbnail' => Storage::url($pathThumbnail),
+                'filename' => $current_file_name
+            ]);
         }
-        echo (json_encode([ 'result'=> $this->ImagesToSession($imageArr) ]));
+
+        echo json_encode([ 'result'=> $imageArr]);
     }
     
 }
