@@ -1,3 +1,7 @@
+<?php
+use \App\Http\Controllers\ImageController;
+?>
+
 @extends('layouts.app')
 
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
@@ -6,28 +10,18 @@
 @include('layouts.supermodal')
 <div class="gallery-block">
     <div class="gallery">
-        {{-- {{ dd(Session::all()) }} --}}
-        {{-- Прогрузка истории количества из сессии --}}
-        <?php if (Session::has('images')) {
 
+        <?php 
+        // dd (Session::get('images'));
+        // dd (intval(array_key_last(Session::get('images'))));
+            $imageArr = Session::has('images') ? Session::get('images') : ImageController::ImagesToSession (null); 
+        ?>
 
-            $imageArr = Session::get('images', null);
-            } else {
-            $imageArr = [];
-            foreach (Storage::files('public/images/mini') as $item) {
-            $id = Str::random(15);
-            $imageArr[$id] = [
-            'url' => Storage::url($item),
-            'count' => 1,
-            ];
-            }
-            Session::put('images', $imageArr);
-            } ?>
-
+        {{ dd($imageArr) }}
         @foreach ($imageArr as $key => $item)
         @if ($item['count'] > 0)
-        <div class="image-box" id={{ $key }} url={{ $item['url'] }} style="background-image: url({{ $item['url'] }})"
-            count={{ $item['count'] }}>
+        <div class="image-box" id={{ $key }} url={{ $item['url'] }}
+            style="background-image: url( {{ asset($item['url']) }})" count={{ $item['count'] }}>
             <div class="img-count hide"></div>
             <div class="img-select hide">
             </div>
@@ -35,7 +29,7 @@
         @endif
 
         @endforeach
-        @csrf
+        {{-- @csrf --}}
         <form class="hide" action="" method="post">
             <input type="file" id="imgLoad" multiple name="image[]">
         </form>

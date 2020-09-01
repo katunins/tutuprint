@@ -475,36 +475,53 @@ function uploadToController (file) {
   }
 }
 
-function filesUpload (data) {
-  let files = data.target.files;
-  console.log (files);
+function filesUpload () {
 
-  for (var i = 0, file; (file = data.target.files[i]); i++) {
-    if (!file.type.match ('image.*')) {
-      console.log ('noJPEG', file);
+  let filesToRequest = new FormData ();
+  for (var x = 0; x < this.files.length; x++) {
+    if (!this.files[x].type.match ('image.*')) {
+      continue;
     }
-    uploadToController (file);
-
-    // var reader = new FileReader();
-
-    // reader.onload = function (result) {
-    //   console.log('result', result)
-    //   // ajax ('/imageupload', result)
-    // // uploadToController ()
-    // };
-
-    // reader.onprogress = function (progress) {
-    //   console.log('progress', progress)
-    // }
-
-    // reader.readAsDataURL(file);
+    filesToRequest.append ('image[]', this.files[x]);
   }
+  var xhr = new XMLHttpRequest ();
+  upload = xhr.upload;
+
+  // Создаем прослушиватель события progress, который будет "двигать" прогресс-бар.
+  upload.addEventListener (
+    'progress',
+    function (event) {
+      if (event.lengthComputable) {
+        // var pbar = $('tr.' + trnum + ' td.size div.pbar');
+        console.log (Math.round (event.loaded / event.total * 100));
+        // pbar.css('width', Math.round((event.loaded / event.total) * 100) + 'px');
+      }
+    },
+    false
+  );
+  xhr.open ('POST', '/imageupload');
+  xhr.setRequestHeader ('enctype', 'multipart/form-data');
+  xhr.setRequestHeader ('Cache-Control', 'no-cache');
+  xhr.setRequestHeader ('X-Requested-With', 'XMLHttpRequest');
+  xhr.setRequestHeader (
+    'X-CSRF-TOKEN',
+    document.querySelector ('meta[name="csrf-token"]').getAttribute ('content')
+  );
+  // xhr.setRequestHeader ('X-File-Name', file.name);
+  // Отправляем файл.
+  xhr.send (filesToRequest);
+  xhr.onload = function (data) {
+    console.log (JSON.parse (xhr.response));
+  };
+  // console.log (filesToRequest.get('file'))
 }
 
 function turnInfo () {
   // настроем моадальное окно
   document.querySelector ('.super-modal').classList.remove ('hide');
-  document.querySelector ('.super-modal-message').innerHTML = document.getElementById('info-page').innerHTML
+  document.querySelector (
+    '.super-modal-message'
+  ).innerHTML = document.getElementById ('info-page').innerHTML;
   document.querySelector ('.super-modal-message').classList.remove ('hide');
   // document.querySelector ('.modal-block').style = 'margin-top: -78px';
 
