@@ -249,17 +249,10 @@ function ajax(url, data) {
 var imageBoxOpenModalListener = function imageBoxOpenModalListener() {
   var _this = this;
 
-  // функция нажатия на фотографию - открытие модального окна
-  // настраиваем модальное окно
-  // console.log (this.style.backgroundImage)
-  // let imageUrl = this.getAttribute ('url');
-  document.querySelector('.super-modal').classList.remove('hide');
-  document.querySelector('.modal-img-block').classList.remove('hide');
-  document.querySelector('.count-block').classList.remove('hide');
+  turnONSuperModal('clickToImage');
   document.querySelector('.modal-img-block').style.backgroundImage = this.style.backgroundImage; //='background-image: url(' + imageUrl + ')';
 
-  document.getElementById('image-modal-count').innerHTML = this.getAttribute('count');
-  document.querySelector('.modal-block').style = 'margin-top: -205px'; // повесим onclick на компку OK модального окна
+  document.getElementById('image-modal-count').innerHTML = this.getAttribute('count'); // повесим onclick на компку OK модального окна
 
   document.getElementById('ok-modal-button').addEventListener('click', function () {
     var count = document.getElementById('modal-temporary-data').value;
@@ -343,14 +336,12 @@ function clearGeneralCount() {
   window.selectElemsArr = {
     list: [],
     count: 1
-  };
-  document.getElementById('general-image-modal-count').innerHTML = 1;
+  }; // document.getElementById('general-image-modal-count').innerHTML = 1;
 }
 
 function turnAdditionalConfigButtons() {
-  var status = window.selectElemsArr.list.length !== 0;
-  var countBlock = document.querySelector('.general-count-block');
-  var buttonsBlock = document.querySelector('.buttons');
+  var status = window.selectElemsArr.list.length !== 0; // let countBlock = document.querySelector('.general-count-block');
+  // let buttonsBlock = document.querySelector('.buttons');
 
   if (status) {
     document.querySelector('.general-count-block').classList.remove('half-opacity');
@@ -377,7 +368,7 @@ var imageSelectListener = function imageSelectListener() {
     var idTodelete = this.id;
     window.selectElemsArr.list = window.selectElemsArr.list.filter(function (item) {
       return item !== idTodelete;
-    }); // delete window.selectElemsArr.list[this.id]
+    });
   }
 
   turnAdditionalConfigButtons();
@@ -425,17 +416,13 @@ function turnSelectMode() {
     document.getElementById('clearAllImagesButton').classList.remove('hide');
     document.querySelector('.to-order-block').classList.add('half-opacity');
     document.querySelector('.info').classList.add('half-opacity');
+    document.getElementById('general-image-modal-count').innerHTML = 1;
   }
 }
 
 function clearAll() {
-  // удаляет все фотографии
   // настроем моадальное окно
-  document.querySelector('.super-modal').classList.remove('hide');
-  document.querySelector('.super-modal-message').innerHTML = 'Удалить все загруженные фотографии?';
-  document.querySelector('.super-modal-message').classList.remove('hide');
-  document.getElementById('cancel-modal-button').classList.remove('hide');
-  document.querySelector('.modal-block').style = 'margin-top: -78px'; // повесим onclick на компку OK модального окна
+  turnONSuperModal('clearAll'); // повесим onclick на компку OK модального окна
 
   document.getElementById('ok-modal-button').addEventListener('click', function () {
     // Удалим все блоки с изображениями
@@ -451,39 +438,58 @@ function clearAll() {
 }
 
 function filesUpload() {
-  // настроем моадальное окно
-  document.querySelector('.super-modal').classList.remove('hide');
-  document.querySelector('.modal-cssload-wrap').classList.remove('hide');
-  document.querySelector('.super-modal-message').classList.remove('hide');
-  document.getElementById('ok-modal-button').classList.add('hide');
-  document.getElementById('ok-modal-button').classList.add('hide');
-  document.querySelector('.close-modal-button').classList.add('hide');
-  document.querySelector('.modal-block').style = 'margin-top: -135px';
-  var totalProgress = 0;
-  var onePointProgress = 100 / this.files.length;
-  Array.prototype.forEach.call(this.files, function (file) {
+  function timeRecalc() {
+    var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    // Вспомогательная функция для плавного пересчета процента загрузки в промежутке между ответами сервера.
+    if (start) {
+      timepoints = {
+        totalProgress: 0,
+        progressShift: 0,
+        time: parseInt(new Date().getTime()),
+        lasttime: 0,
+        onePointPerSecond: 1
+      };
+    } else {
+      timepoints.totalProgress += onePointProgress;
+      timepoints.progressShift = 0;
+      timepoints.lasttime = timepoints.time;
+      timepoints.time = parseInt(new Date().getTime());
+      timepoints.onePointPerSecond = (timepoints.time - timepoints.lasttime) / onePointProgress; // расчетное время прохождения одного процента 
+    } // запустим фукнцию с интервалом, разным расчтеному времени 1 процента
+
+
+    var shiftProgress = setInterval(function () {
+      if (timepoints.progressShift < onePointProgress) {
+        document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(timepoints.totalProgress + timepoints.progressShift) + '%';
+      } else {
+        clearInterval(shiftProgress);
+      }
+
+      timepoints.progressShift++;
+    }, timepoints.onePointPerSecond);
+
+    if (Math.round(timepoints.totalProgress) == 100) {
+      clearInterval(shiftProgress);
+      turnOFFSuperModal();
+    }
+  }
+
+  turnONSuperModal('uploadProgress'); // одна фотография - это onePointProgress процентов загрузки
+
+  var onePointProgress = 100 / this.files.length; // Запустим функцию плавного пересчета progress бара, пока нет ответа от сервера
+
+  timeRecalc(true); // пройдемся по всему циклу выбранных файлов
+
+  for (i = 0; i < this.files.length; i++) {
     var xhr = new XMLHttpRequest();
+    xhr.open("POST", '/imageupload', true);
 
-    xhr.upload.onprogress = function (event) {
-      // console.log (event)
-      document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Number(event.loaded / event.total * 100) + '%';
-    };
+    xhr.onload = function (event) {
+      var result = JSON.parse(event.target.response).result; // Добавим загруженную миниатюру в элемент
 
-    xhr.open('POST', '/imageupload');
-    xhr.setRequestHeader('Cache-Control', 'no-cache');
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xhr.setRequestHeader('enctype', 'multipart/form-data');
-    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-    var formData = new FormData();
-    formData.append('image', file);
-
-    xhr.upload.onloadend = function () {
-      // Добавим полученные элементы в DOM
       var gallery = document.querySelector('.gallery');
       var elementBefore = gallery.querySelector('form');
-      console.log('result', xhr.response);
-      var result = JSON.parse(xhr.response); // создадим элемент
-
       var elem = document.createElement('div');
       elem.id = result.id;
       elem.classList.add('image-box');
@@ -493,11 +499,15 @@ function filesUpload() {
       elem.innerHTML = '<div class="img-count hide"></div><div class="img-select hide"></div>';
       elem.addEventListener('click', imageBoxOpenModalListener, false);
       gallery.insertBefore(elem, elementBefore);
-      document.querySelector('.super-modal').classList.add('hide');
+      timeRecalc();
     };
 
+    xhr.setRequestHeader('enctype', 'multipart/form-data');
+    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+    var formData = new FormData();
+    formData.append('image', this.files[i]);
     xhr.send(formData);
-  });
+  }
 }
 
 function turnInfo() {
@@ -573,7 +583,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

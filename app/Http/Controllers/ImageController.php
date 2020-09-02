@@ -37,51 +37,46 @@ class ImageController extends Controller
     }
 
     public function imageUpload (Request $request) {
-        // добавляет фотографии к сессии и возвращает массив загруженных фотографий
 
-        $id = Session::has('images') ? intval(array_key_last(Session::get('images'))) : 0; //последний ID из сессии, если она есть
+        // загружает одно изображение, ресайзит и прописывает в сессию
+        $id = Session::has('images') ? intval(array_key_last(Session::get('images'))) : 0; //найдем последний ID из сессии, если она есть
         $id++;
-        $folder = 'public/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token');
+
+        // определим папки для загрузки
+        $folder = 'public/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token'); 
+        $thumbnailFolder = 'storage/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token').'/Thumbnail/'; // кривое решение из за Image Intervention - он не может доступ получить к Storage
         
-        // кривое решение из за Image Intervention - он не может доступ получить к Storage
-        $thumbnailFolder = 'storage/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token').'/Thumbnail/';
+        // преобразуем русские название файлов и проверим нет ли копии
+        $original_name = Str::slug (explode('.', $request->file('image')->getClientOriginalName())[0]);
+        $original_ext = pathinfo($request->file('image')->getClientOriginalName())['extension'];
+        if (Storage::exists($folder.'/'.$original_name.'.'.$original_ext)) $original_name .= '_copy'.Str::random(5); // Вдруг одинаковые названия у файлов
+        $current_file_name = $original_name.'.'.$original_ext;
 
-            $file = $request->file('image');
-            // преобразуем русские название файлов
-            $original_name = Str::slug (pathinfo($file->getClientOriginalName())['basename']);
-            $original_ext = pathinfo($file->getClientOriginalName())['extension'];
-            
-            // Вдруг одинаковые названия у файлов
-            if (Storage::exists($folder.'/'.$original_name.'.'.$original_ext)) $original_name .= '_copy_'.Str::random(2);
-            $current_file_name = $original_name.'.'.$original_ext;
+        $path = $request->file('image')->storeAs($folder.'/HD', $current_file_name); //основная директория для hiRes фотографий
+        
+        $thumbnail = Image::make($request->file('image')->getRealPath());
+        $thumbnail->fit(300);
+        
+        if(!Storage::exists($folder.'/Thumbnail')) Storage::makeDirectory($folder.'/Thumbnail', 0775, true); //Сделаем директорию для preview
+        
+        
+        $thumbnail->save($thumbnailFolder.$current_file_name);
+        $pathThumbnail = $folder.'/Thumbnail/'.$current_file_name;
 
-            $path = $file->storeAs($folder.'/HD', $current_file_name);
-            
-            $thumbnail = Image::make($file->getRealPath());
-            $thumbnail->resize(300, 300 , function ($constraint) {
-                $constraint->aspectRatio();
-                // $constraint->upsize();
-            });
+        Session::put ('images.'.$id, [
+            'url' => Storage::url($path),
+            'count' => 1,
+            'thumbnail' => Storage::url($pathThumbnail),
+            'filename' => $current_file_name
+        ]);
 
-            if(!Storage::exists($folder.'/Thumbnail')) Storage::makeDirectory($folder.'/Thumbnail', 0775, true); //creates directory
-            
-            
-            $thumbnail->save($thumbnailFolder.$current_file_name);
-            $pathThumbnail = $folder.'/Thumbnail/'.$current_file_name;
-
-            Session::put ('images.'.$id, [
-                'url' => Storage::url($path),
-                'count' => 1,
-                'thumbnail' => Storage::url($pathThumbnail),
-                'filename' => $current_file_name
-            ]);
-
-            $result  = [       
-                'url' => Storage::url($path),
-                'id' => $id,
-                'thumbnail' => Storage::url($pathThumbnail),
-                'filename' => $current_file_name
-            ];
+        $result  = [       
+            'url' => Storage::url($path),
+            'id' => $id,
+            'thumbnail' => Storage::url($pathThumbnail),
+            'filename' => $current_file_name
+        ];
+        
         echo json_encode([ 'result'=> $result]);
     }
     
