@@ -94,3 +94,126 @@
   opacity: 0.5;
 }
 
+.modal-cssload-wrap {
+  width: 180px;
+  height: 150px !important;
+  display: flex;
+  display: -o-flex;
+  display: -ms-flex;
+  display: -moz-flex;
+  box-pack: center;
+  -o-box-pack: center;
+  -ms-box-pack: center;
+  justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  box-align: center;
+  -o-box-align: center;
+  -ms-box-align: center;
+  align-items: center;
+  -o-align-items: center;
+  -ms-align-items: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  perspective: 220px;
+  -o-perspective: 220px;
+  -ms-perspective: 220px;
+  -webkit-perspective: 220px;
+  -moz-perspective: 220px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.cssload-cssload-spinner {
+  position: relative;
+  transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  animation: cssload-wobble 6.38s ease-in-out infinite;
+  -o-animation: cssload-wobble 6.38s ease-in-out infinite;
+  -ms-animation: cssload-wobble 6.38s ease-in-out infinite;
+  -webkit-animation: cssload-wobble 6.38s ease-in-out infinite;
+  -moz-animation: cssload-wobble 6.38s ease-in-out infinite;
+}
+
+.cssload-cssload-spinner:before,
+.cssload-cssload-spinner:after {
+  display: block;
+  content: "";
+  width: 49px;
+  height: 49px;
+  border: 25px solid;
+  border-radius: 50%;
+  animation: cssload-spin 2.4s ease-in-out infinite both reverse;
+  -o-animation: cssload-spin 2.4s ease-in-out infinite both reverse;
+  -ms-animation: cssload-spin 2.4s ease-in-out infinite both reverse;
+  -webkit-animation: cssload-spin 2.4s ease-in-out infinite both reverse;
+  -moz-animation: cssload-spin 2.4s ease-in-out infinite both reverse;
+}
+
+.cssload-cssload-spinner:before {
+  border-color: #dddddd;
+  position: absolute;
+}
+
+.cssload-cssload-spinner:after {
+  border-color: black;
+  animation-delay: -1.2s;
+  -o-animation-delay: -1.2s;
+  -ms-animation-delay: -1.2s;
+  -webkit-animation-delay: -1.2s;
+  -moz-animation-delay: -1.2s;
+}
+
+@keyframes cssload-wobble {
+  0%, 100% {
+    transform: rotateX(8.75deg) rotateY(35deg);
+  }
+
+  50% {
+    transform: rotateX(35deg) rotateY(-35deg) rotate(180deg);
+  }
+}
+
+@-webkit-keyframes cssload-wobble {
+  0%, 100% {
+    -webkit-transform: rotateX(8.75deg) rotateY(35deg);
+  }
+
+  50% {
+    -webkit-transform: rotateX(35deg) rotateY(-35deg) rotate(180deg);
+  }
+}
+
+@keyframes cssload-spin {
+  0%, 100% {
+    transform: translateZ(27px) rotateX(14deg);
+  }
+
+  33% {
+    transform: translateZ(-27px) scale(0.4);
+  }
+
+  66% {
+    transform: translateZ(-27px);
+  }
+}
+
+@-webkit-keyframes cssload-spin {
+  0%, 100% {
+    -webkit-transform: translateZ(27px) rotateX(14deg);
+  }
+
+  33% {
+    -webkit-transform: translateZ(-27px) scale(0.4);
+  }
+
+  66% {
+    -webkit-transform: translateZ(-27px);
+  }
+}
+

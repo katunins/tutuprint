@@ -451,52 +451,53 @@ function clearAll() {
 }
 
 function filesUpload() {
-  var filesToRequest = new FormData();
+  // настроем моадальное окно
+  document.querySelector('.super-modal').classList.remove('hide');
+  document.querySelector('.modal-cssload-wrap').classList.remove('hide');
+  document.querySelector('.super-modal-message').classList.remove('hide');
+  document.getElementById('ok-modal-button').classList.add('hide');
+  document.getElementById('ok-modal-button').classList.add('hide');
+  document.querySelector('.close-modal-button').classList.add('hide');
+  document.querySelector('.modal-block').style = 'margin-top: -135px';
+  var totalProgress = 0;
+  var onePointProgress = 100 / this.files.length;
+  Array.prototype.forEach.call(this.files, function (file) {
+    var xhr = new XMLHttpRequest();
 
-  for (var x = 0; x < this.files.length; x++) {
-    if (!this.files[x].type.match('image.*')) {
-      continue;
-    }
+    xhr.upload.onprogress = function (event) {
+      // console.log (event)
+      document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Number(event.loaded / event.total * 100) + '%';
+    };
 
-    filesToRequest.append('image[]', this.files[x]);
-  }
+    xhr.open('POST', '/imageupload');
+    xhr.setRequestHeader('Cache-Control', 'no-cache');
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.setRequestHeader('enctype', 'multipart/form-data');
+    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+    var formData = new FormData();
+    formData.append('image', file);
 
-  var xhr = new XMLHttpRequest();
-  upload = xhr.upload; // Создаем прослушиватель события progress, который будет "двигать" прогресс-бар.
+    xhr.upload.onloadend = function () {
+      // Добавим полученные элементы в DOM
+      var gallery = document.querySelector('.gallery');
+      var elementBefore = gallery.querySelector('form');
+      console.log('result', xhr.response);
+      var result = JSON.parse(xhr.response); // создадим элемент
 
-  upload.addEventListener('progress', function (event) {
-    // if (event.lengthComputable) {
-    // var pbar = $('tr.' + trnum + ' td.size div.pbar');
-    console.log(event.loaded, event.total); // console.log (Math.round (event.loaded / event.total * 100));
-    // pbar.css('width', Math.round((event.loaded / event.total) * 100) + 'px');
-    // }
-  }, false);
-  xhr.open('POST', '/imageupload');
-  xhr.setRequestHeader('enctype', 'multipart/form-data');
-  xhr.setRequestHeader('Cache-Control', 'no-cache');
-  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-  xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content')); // Отправляем файл.
-
-  xhr.send(filesToRequest);
-
-  xhr.onload = function () {
-    // Добавим полученные элементы в DOM
-    var gallery = document.querySelector('.gallery');
-    var elementBefore = gallery.querySelector('form');
-    var result = JSON.parse(xhr.response).result;
-    result.forEach(function (image) {
-      // создадим элемент
       var elem = document.createElement('div');
-      elem.id = image.id;
+      elem.id = result.id;
       elem.classList.add('image-box');
       elem.setAttribute('count', 1);
-      elem.setAttribute('url', image.url);
-      elem.style = 'background-image: url(' + image.thumbnail + ')';
+      elem.setAttribute('url', result.url);
+      elem.style = 'background-image: url(' + result.thumbnail + ')';
       elem.innerHTML = '<div class="img-count hide"></div><div class="img-select hide"></div>';
       elem.addEventListener('click', imageBoxOpenModalListener, false);
       gallery.insertBefore(elem, elementBefore);
-    }); // 
-  };
+      document.querySelector('.super-modal').classList.add('hide');
+    };
+
+    xhr.send(formData);
+  });
 }
 
 function turnInfo() {
@@ -572,7 +573,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

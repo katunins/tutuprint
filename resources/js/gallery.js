@@ -190,7 +190,9 @@ const imageBoxOpenModalListener = function () {
   document.querySelector ('.super-modal').classList.remove ('hide');
   document.querySelector ('.modal-img-block').classList.remove ('hide');
   document.querySelector ('.count-block').classList.remove ('hide');
-  document.querySelector ('.modal-img-block').style.backgroundImage = this.style.backgroundImage //='background-image: url(' + imageUrl + ')';
+  document.querySelector (
+    '.modal-img-block'
+  ).style.backgroundImage = this.style.backgroundImage; //='background-image: url(' + imageUrl + ')';
   document.getElementById ('image-modal-count').innerHTML = this.getAttribute (
     'count'
   );
@@ -433,62 +435,62 @@ function clearAll () {
 }
 
 function filesUpload () {
+  // настроем моадальное окно
+  document.querySelector ('.super-modal').classList.remove ('hide');
+  document.querySelector ('.modal-cssload-wrap').classList.remove ('hide');
+  document.querySelector ('.super-modal-message').classList.remove ('hide');
+  document.getElementById ('ok-modal-button').classList.add ('hide');
+  document.getElementById ('ok-modal-button').classList.add ('hide');
+  document.querySelector ('.close-modal-button').classList.add ('hide');
+  document.querySelector ('.modal-block').style = 'margin-top: -135px';
 
-  let filesToRequest = new FormData ();
-  for (var x = 0; x < this.files.length; x++) {
-    if (!this.files[x].type.match ('image.*')) {
-      continue;
-    }
-    filesToRequest.append ('image[]', this.files[x]);
-  }
-  var xhr = new XMLHttpRequest ();
-  upload = xhr.upload;
+  let totalProgress = 0;
+  let onePointProgress = 100 / this.files.length;
 
-  // Создаем прослушиватель события progress, который будет "двигать" прогресс-бар.
-  upload.addEventListener (
-    'progress',
-    function (event) {
-      // if (event.lengthComputable) {
-        // var pbar = $('tr.' + trnum + ' td.size div.pbar');
-        console.log (event.loaded,event.total);
-        // console.log (Math.round (event.loaded / event.total * 100));
-        // pbar.css('width', Math.round((event.loaded / event.total) * 100) + 'px');
-      // }
-    },
-    false
-  );
-  xhr.open ('POST', '/imageupload');
-  xhr.setRequestHeader ('enctype', 'multipart/form-data');
-  xhr.setRequestHeader ('Cache-Control', 'no-cache');
-  xhr.setRequestHeader ('X-Requested-With', 'XMLHttpRequest');
-  xhr.setRequestHeader (
-    'X-CSRF-TOKEN',
-    document.querySelector ('meta[name="csrf-token"]').getAttribute ('content')
-  );
-  // Отправляем файл.
-  xhr.send (filesToRequest);
-  xhr.onload = function () {
+  Array.prototype.forEach.call (this.files, file => {
+    var xhr = new XMLHttpRequest ();
+
+    xhr.upload.onprogress = function (event) {
+        // console.log (event)
+        document.querySelector ('.super-modal-message').innerHTML =
+          'Загрузка ' + Number (event.loaded / event.total * 100 )+ '%';
+    };
+
+    xhr.open ('POST', '/imageupload');
+    xhr.setRequestHeader ('Cache-Control', 'no-cache');
+    xhr.setRequestHeader ('X-Requested-With', 'XMLHttpRequest');
+    xhr.setRequestHeader ('enctype', 'multipart/form-data');
+    xhr.setRequestHeader (
+      'X-CSRF-TOKEN',
+      document
+        .querySelector ('meta[name="csrf-token"]')
+        .getAttribute ('content')
+    );
+    var formData = new FormData ();
+    formData.append ('image', file);
     
-    // Добавим полученные элементы в DOM
-    let gallery = document.querySelector('.gallery')
-    let elementBefore = gallery.querySelector('form')
-    let result = JSON.parse (xhr.response).result
-    result.forEach(image=>{
+    xhr.upload.onloadend = function () {
+      // Добавим полученные элементы в DOM
+      let gallery = document.querySelector ('.gallery');
+      let elementBefore = gallery.querySelector ('form');
+      console.log ('result', xhr.response)
+      let result = JSON.parse (xhr.response);
       
       // создадим элемент
-      let elem = document.createElement('div')
-      elem.id = image.id
-      elem.classList.add('image-box')
-      elem.setAttribute('count', 1)
-      elem.setAttribute('url', image.url)
-      elem.style = 'background-image: url('+image.thumbnail+')'
-      elem.innerHTML = '<div class="img-count hide"></div><div class="img-select hide"></div>'
+      let elem = document.createElement ('div');
+      elem.id = result.id;
+      elem.classList.add ('image-box');
+      elem.setAttribute ('count', 1);
+      elem.setAttribute ('url', result.url);
+      elem.style = 'background-image: url(' + result.thumbnail + ')';
+      elem.innerHTML =
+        '<div class="img-count hide"></div><div class="img-select hide"></div>';
       elem.addEventListener ('click', imageBoxOpenModalListener, false);
-      gallery.insertBefore(elem, elementBefore)
-
-    })
-    // 
-  };
+      gallery.insertBefore (elem, elementBefore);
+      document.querySelector('.super-modal').classList.add('hide')
+    };
+    xhr.send (formData);
+  });
 }
 
 function turnInfo () {

@@ -7,6 +7,9 @@
             <button onclick="turnOFFSuperModal()">×</button>
         </div>
         <div class="modal-img-block hide"></div>
+        <div class="modal-cssload-wrap hide">
+            <div class="cssload-cssload-spinner"></div>
+        </div>
         <div class="count-block hide">
             <div class="image-change-count">
                 <button class="inc-modal-button" direction=1>+</button>
@@ -33,6 +36,7 @@
         document.querySelector ('.super-modal-message').classList.add('hide')
         document.getElementById('cancel-modal-button').classList.add('hide')
         document.querySelector('.modal-block').style=''
+        document.querySelector('.modal-cssload-wrap').classList.add ('hide');
         }
 
         document.addEventListener(

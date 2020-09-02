@@ -39,15 +39,14 @@ class ImageController extends Controller
     public function imageUpload (Request $request) {
         // добавляет фотографии к сессии и возвращает массив загруженных фотографий
 
-        $imageArr = [];
         $id = Session::has('images') ? intval(array_key_last(Session::get('images'))) : 0; //последний ID из сессии, если она есть
+        $id++;
         $folder = 'public/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token');
         
         // кривое решение из за Image Intervention - он не может доступ получить к Storage
         $thumbnailFolder = 'storage/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token').'/Thumbnail/';
 
-        foreach ($request->file('image') as $file) {
-            
+            $file = $request->file('image');
             // преобразуем русские название файлов
             $original_name = Str::slug (pathinfo($file->getClientOriginalName())['basename']);
             $original_ext = pathinfo($file->getClientOriginalName())['extension'];
@@ -61,7 +60,7 @@ class ImageController extends Controller
             $thumbnail = Image::make($file->getRealPath());
             $thumbnail->resize(300, 300 , function ($constraint) {
                 $constraint->aspectRatio();
-                $constraint->upsize();
+                // $constraint->upsize();
             });
 
             if(!Storage::exists($folder.'/Thumbnail')) Storage::makeDirectory($folder.'/Thumbnail', 0775, true); //creates directory
@@ -70,23 +69,20 @@ class ImageController extends Controller
             $thumbnail->save($thumbnailFolder.$current_file_name);
             $pathThumbnail = $folder.'/Thumbnail/'.$current_file_name;
 
-            $id++;
-            $imageArr [] = [
-                
-                'url' => Storage::url($path),
-                'id' => $id,
-                'thumbnail' => Storage::url($pathThumbnail),
-                'filename' => $current_file_name
-            ];
             Session::put ('images.'.$id, [
                 'url' => Storage::url($path),
                 'count' => 1,
                 'thumbnail' => Storage::url($pathThumbnail),
                 'filename' => $current_file_name
             ]);
-        }
 
-        echo json_encode([ 'result'=> $imageArr]);
+            $result  = [       
+                'url' => Storage::url($path),
+                'id' => $id,
+                'thumbnail' => Storage::url($pathThumbnail),
+                'filename' => $current_file_name
+            ];
+        echo json_encode([ 'result'=> $result]);
     }
     
 }
