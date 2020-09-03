@@ -49,17 +49,19 @@ class ImageController extends Controller
         // преобразуем русские название файлов и проверим нет ли копии
         $original_name = Str::slug (explode('.', $request->file('image')->getClientOriginalName())[0]);
         $original_ext = pathinfo($request->file('image')->getClientOriginalName())['extension'];
-        if (Storage::exists($folder.'/'.$original_name.'.'.$original_ext)) $original_name .= '_copy'.Str::random(5); // Вдруг одинаковые названия у файлов
+        
+        if (Storage::disk('local')->exists($folder.'/HD/'.$original_name.'.'.$original_ext)) $original_name .= '_copy'.Str::random(5); // Вдруг одинаковые названия у файлов
+        
         $current_file_name = $original_name.'.'.$original_ext;
 
         $path = $request->file('image')->storeAs($folder.'/HD', $current_file_name); //основная директория для hiRes фотографий
         
-        $thumbnail = Image::make($request->file('image')->getRealPath());
-        $thumbnail->fit(300);
+        if(!Storage::disk('local')->exists($folder.'/Thumbnail')) Storage::makeDirectory($folder.'/Thumbnail', 0775, true); //Сделаем директорию для preview
         
-        if(!Storage::exists($folder.'/Thumbnail')) Storage::makeDirectory($folder.'/Thumbnail', 0775, true); //Сделаем директорию для preview
-        
-        
+        $thumbnail = Image::make($request->file('image')->getRealPath())->orientate()->resize(600, 600, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        })->sharpen(5);
         $thumbnail->save($thumbnailFolder.$current_file_name);
         $pathThumbnail = $folder.'/Thumbnail/'.$current_file_name;
 

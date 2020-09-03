@@ -107,7 +107,7 @@
 
 .gallery-block .controls {
   width: 100%;
-  height: 200px;
+  height: 250px;
   background-color: #eeebeb;
 }
 
@@ -162,10 +162,14 @@
 .general-params-block .reset-all-button button,
 .general-additional-params-block .reset-all-button button {
   width: 209px;
+  height: 30px;
   border: 1px solid #80808063;
   background: transparent;
   padding: 4px 0;
   border-radius: 3px;
+  border: 1px solid #ffcc00;
+  font-weight: 300;
+  cursor: pointer;
 }
 
 .general-params-block .buttons,
@@ -190,6 +194,11 @@
 .general-additional-params-block .buttons button:active {
   opacity: 0.3;
   outline: none;
+}
+
+#general-additional-button-cancel > img {
+  width: 7px;
+  margin-right: 7px;
 }
 
 .general-count-block {
@@ -284,7 +293,6 @@
 }
 
 .text-for-box > textarea {
-  width: 100%;
   margin-top: 10px;
   padding: 5px;
   text-align: center;
@@ -295,7 +303,6 @@
 
 .to-order-block {
   text-align: center;
-  width: 160px;
 }
 
 .to-order-block .price-block,
@@ -481,6 +488,14 @@
   .to-order-block .prace-block * {
     font-size: 18px;
   }
+}
+
+.group-change-button {
+  margin-bottom: 25px;
+}
+
+.param-check-block {
+  margin-top: 20px;
 }
 
 @media screen and (max-height: 568px) {

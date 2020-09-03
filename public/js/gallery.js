@@ -278,6 +278,7 @@ var imageBoxOpenModalListener = function imageBoxOpenModalListener() {
       this.remove();
     }
 
+    updatePrice();
     turnOFFSuperModal(); // document.querySelector ('.super-modal').classList.add ('hide');
   }.bind(this), {
     once: true
@@ -322,6 +323,7 @@ var generalButtonsListnerSave = function generalButtonsListnerSave() {
   ajax('/updatecount', {
     data: arrList
   });
+  updatePrice();
   clearGeneralCount();
   turnSelectMode();
 };
@@ -398,7 +400,7 @@ function turnSelectMode() {
     document.getElementById('imgLoadPlusButton').classList.remove('hide');
     document.getElementById('clearAllImagesButton').classList.add('hide');
     document.querySelector('.to-order-block').classList.remove('half-opacity');
-    document.querySelector('.info').classList.remove('half-opacity');
+    document.querySelector('.info').classList.remove('half-opacity'); // document.getElementById('clearAllImagesButton').classList.remove ('half-opacity')
   } else {
     // режим выделения ВКЛЮЧЕН
     button.value = 'on';
@@ -415,7 +417,8 @@ function turnSelectMode() {
     document.getElementById('imgLoadPlusButton').classList.add('hide');
     document.getElementById('clearAllImagesButton').classList.remove('hide');
     document.querySelector('.to-order-block').classList.add('half-opacity');
-    document.querySelector('.info').classList.add('half-opacity');
+    document.querySelector('.info').classList.add('half-opacity'); // document.getElementById('clearAllImagesButton').classList.add ('half-opacity')
+
     document.getElementById('general-image-modal-count').innerHTML = 1;
   }
 }
@@ -430,6 +433,7 @@ function clearAll() {
       elem.parentNode.removeChild(elem);
     });
     ajax('/eraseall', {});
+    updatePrice();
     turnSelectMode();
     turnOFFSuperModal();
   }, {
@@ -455,7 +459,7 @@ function filesUpload() {
       timepoints.progressShift = 0;
       timepoints.lasttime = timepoints.time;
       timepoints.time = parseInt(new Date().getTime());
-      timepoints.onePointPerSecond = (timepoints.time - timepoints.lasttime) / onePointProgress; // расчетное время прохождения одного процента 
+      timepoints.onePointPerSecond = (timepoints.time - timepoints.lasttime) / onePointProgress; // расчетное время прохождения одного процента
     } // запустим фукнцию с интервалом, разным расчтеному времени 1 процента
 
 
@@ -470,7 +474,9 @@ function filesUpload() {
     }, timepoints.onePointPerSecond);
 
     if (Math.round(timepoints.totalProgress) == 100) {
+      document.getElementById('imgLoad').value = null;
       clearInterval(shiftProgress);
+      updatePrice();
       turnOFFSuperModal();
     }
   }
@@ -483,7 +489,7 @@ function filesUpload() {
 
   for (i = 0; i < this.files.length; i++) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", '/imageupload', true);
+    xhr.open('POST', '/imageupload', true);
 
     xhr.onload = function (event) {
       var result = JSON.parse(event.target.response).result; // Добавим загруженную миниатюру в элемент
@@ -512,10 +518,7 @@ function filesUpload() {
 
 function turnInfo() {
   // настроем моадальное окно
-  document.querySelector('.super-modal').classList.remove('hide');
-  document.querySelector('.super-modal-message').innerHTML = document.getElementById('info-page').innerHTML;
-  document.querySelector('.super-modal-message').classList.remove('hide'); // document.querySelector ('.modal-block').style = 'margin-top: -78px';
-  // повесим onclick на компку OK модального окна
+  turnONSuperModal('info'); // повесим onclick на компку OK модального окна
 
   document.getElementById('ok-modal-button').addEventListener('click', function () {
     turnOFFSuperModal();
@@ -583,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

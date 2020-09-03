@@ -3,7 +3,7 @@
 
 <div class="super-modal hide">
     <div class="modal-block">
-        <div class="close-modal-button">
+        <div class="close-modal-button hide">
             <button onclick="turnOFFSuperModal()">×</button>
         </div>
         <div class="modal-img-block hide"></div>
@@ -21,7 +21,7 @@
         </div>
         <div class="super-modal-message hide">Удалить все фотографии?</div>
         <div class="super-model-buttons">
-            <button id="ok-modal-button">ok</button>
+            <button class="hide" id="ok-modal-button">ok</button>
             <button class="hide" id="cancel-modal-button" onclick="turnOFFSuperModal()">Отменить</button>
         </div>
 
@@ -57,7 +57,7 @@
                 document.querySelector('.super-modal').classList.remove('hide');
                 document.querySelector('.modal-img-block').classList.remove('hide');
                 document.querySelector('.count-block').classList.remove('hide');
-                document.querySelector('.modal-block').style = 'margin-top: -205px';
+                document.querySelector('.modal-block').style = 'margin-top: -283px';
                 document.addEventListener(
                     'keyup',
                     key => {
@@ -77,6 +77,23 @@
                 document.querySelector('.super-modal-message').classList.remove('hide');
                 document.getElementById('cancel-modal-button').classList.remove('hide');
                 document.querySelector('.modal-block').style = 'margin-top: -78px';
+                document.addEventListener(
+                    'keyup',
+                    key => {
+                        if (key.key === 'Escape') turnOFFSuperModal();
+                    }, {
+                        once: true
+                    }
+                );
+                break
+
+            case 'info':
+                document.querySelector ('.super-modal').classList.remove ('hide');
+                document.querySelector ('.super-modal-message').innerHTML = document.getElementById ('info-page').innerHTML;
+                document.querySelector ('.super-modal-message').classList.remove ('hide');
+                document.getElementById('ok-modal-button').classList.remove('hide');
+                document.querySelector('.close-modal-button').classList.remove('hide');
+                // document.querySelector ('.modal-block').style = 'margin-top: -78px';
                 document.addEventListener(
                     'keyup',
                     key => {
