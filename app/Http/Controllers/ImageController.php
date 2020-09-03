@@ -43,6 +43,7 @@ class ImageController extends Controller
         $id++;
 
         // определим папки для загрузки
+        
         $folder = 'public/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token'); 
         $thumbnailFolder = 'storage/upload/'.Carbon::now()->format('d-m-Y').'/'.$request->session()->get('_token').'/Thumbnail/'; // кривое решение из за Image Intervention - он не может доступ получить к Storage
         
@@ -80,6 +81,19 @@ class ImageController extends Controller
         ];
         
         echo json_encode([ 'result'=> $result]);
+    }
+
+    public function RemoveOldUploads () {
+        $directories = Storage::directories('public/upload');
+        foreach ($directories as $directoryPath) {
+            // Возьмем имя директории из пути
+            $directoryPathArray = explode('/', $directoryPath);
+            $directoryTime = Carbon::parse(end($directoryPathArray));
+            // удалим все папки, которые старше одного дня
+            if (Carbon::today()->diffInDays($directoryTime) > 1) {
+                Storage::deleteDirectory( $directoryPath );
+            }            
+        }
     }
     
 }
