@@ -499,7 +499,7 @@ function filesUpload () {
         '<div class="img-count hide"></div><div class="img-select hide"></div>';
       elem.addEventListener ('click', imageBoxOpenModalListener, false);
       gallery.insertBefore (elem, elementBefore);
-
+    
       timeRecalc ();
     };
 
