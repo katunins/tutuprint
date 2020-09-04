@@ -208,7 +208,8 @@ function addEmptyElems() {
         }
       }
     } while (true);
-  }
+  } // fillEmptyElems()
+
 
   var imageBoxes = document.querySelectorAll('.image-box');
 
@@ -216,8 +217,9 @@ function addEmptyElems() {
     // галерея пустая - возможно нужно добавить emty блоки
     fillEmptyElems();
   } else {
-    // проерим последняя фотография в галерее справа или блок Controls еще не до конца в низу, значит есть пустые места
-    if (!isElemIsRight(imageBoxes[imageBoxes.length - 1]) || !isControlsBlockMaxBottom()) {
+    // проверим если кнопка + находится не в конце, то добавим пустых блоков
+    if (isElemIsRight(document.querySelector('.imgLoadPlusButton')) == false || !isControlsBlockMaxBottom()) {
+      console.log('f');
       fillEmptyElems();
     }
   }
@@ -563,8 +565,10 @@ function filesUpload() {
 
       var fakeEmptyBlock = document.querySelector('.fake-empty-block');
       if (fakeEmptyBlock) gallery.removeChild(fakeEmptyBlock);
-    };
+    }; // На всякий случай проверим и добавим лишние EMPTY блоки в строке
 
+
+    addEmptyElems();
     xhr.setRequestHeader('enctype', 'multipart/form-data');
     xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
     var formData = new FormData();
