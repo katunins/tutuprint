@@ -62,6 +62,13 @@
   margin: 1px;
 }
 
+.gallery-block .gallery .fake-empty-block {
+  background: url(/images/empty.jpg) center no-repeat;
+  padding-bottom: 100%;
+  height: 0;
+  margin: 1px;
+}
+
 .gallery-block .gallery form {
   width: 100%;
   height: 100%;
@@ -103,17 +110,6 @@
   background-image: url(/images/check.png);
   background-repeat: no-repeat;
   background-position: center;
-}
-
-.gallery-block .gallery::before {
-  width: 100%;
-  height: 100%;
-  background-color: green;
-  content: normal;
-}
-
-.gallery-block .fake-empty-block {
-  flex: 1 0 auto;
 }
 
 .gallery-block .controls {

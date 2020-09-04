@@ -173,6 +173,56 @@ function getPhotoCount() {
   return count;
 }
 
+function addEmptyElems() {
+  // функция проверяет заполнена ли гарелеия фотографиями или есть пустые места.
+  // добавляет в DOM пустые EMPTY элементы необходимого количества на всю возможную высоту window
+  // console.log ('ff')
+  function isElemIsRight(elem) {
+    // вспомогательная функция проверяет элемент находится в конце (справа) своего родителя (gallert)
+    var margin = 1;
+    var gallery = document.querySelector('.gallery');
+    var galleryRightSide = window.innerWidth - (gallery.offsetLeft + gallery.offsetWidth); //правый край блока родителя - gallery
+
+    var elemRightSide = window.innerWidth - (elem.offsetLeft + elem.offsetWidth + 2 * margin); //правый край эелемента
+
+    return galleryRightSide == elemRightSide;
+  }
+
+  function isControlsBlockMaxBottom() {
+    var lineHeight = document.querySelector('.imgLoadPlusButton').offsetHeight; // расстояние на которую смещается блок Controls, если добавляется ряд image-box, она равна высоте блока, к примеру Plus
+
+    var controlsBlock = document.querySelector('.controls');
+    var controlsBlockBottom = controlsBlock.offsetTop + controlsBlock.offsetHeight;
+    return lineHeight + controlsBlockBottom > window.innerHeight;
+  }
+
+  function fillEmptyElems() {
+    do {
+      var emptyElem = document.createElement('div');
+      emptyElem.classList.add('fake-empty-block');
+      document.querySelector('.gallery').insertBefore(emptyElem, document.getElementById('fake-end-elem')); // 'fake-end-elem полседний блок, перед которым вставляются элементы EMPTY
+
+      if (isElemIsRight(emptyElem)) {
+        if (isControlsBlockMaxBottom()) {
+          break;
+        }
+      }
+    } while (true);
+  }
+
+  var imageBoxes = document.querySelectorAll('.image-box');
+
+  if (imageBoxes.length == 0) {
+    // галерея пустая - возможно нужно добавить emty блоки
+    fillEmptyElems();
+  } else {
+    // проерим последняя фотография в галерее справа или блок Controls еще не до конца в низу, значит есть пустые места
+    if (!isElemIsRight(imageBoxes[imageBoxes.length - 1]) || !isControlsBlockMaxBottom()) {
+      fillEmptyElems();
+    }
+  }
+}
+
 function updatePrice() {
   var paramSelected = {
     product: document.querySelector('.param.active[name="product"]').attributes.value.value,
@@ -279,7 +329,9 @@ var imageBoxOpenModalListener = function imageBoxOpenModalListener() {
     }
 
     updatePrice();
-    turnOFFSuperModal(); // document.querySelector ('.super-modal').classList.add ('hide');
+    turnOFFSuperModal(); // добавим пустые эелементы
+
+    addEmptyElems();
   }.bind(this), {
     once: true
   });
@@ -325,7 +377,9 @@ var generalButtonsListnerSave = function generalButtonsListnerSave() {
   });
   updatePrice();
   clearGeneralCount();
-  turnSelectMode();
+  turnSelectMode(); // добавим пустые эелементы
+
+  addEmptyElems();
 };
 
 var generalButtonsListnerCancel = function generalButtonsListnerCancel() {
@@ -342,8 +396,7 @@ function clearGeneralCount() {
 }
 
 function turnAdditionalConfigButtons() {
-  var status = window.selectElemsArr.list.length !== 0; // let countBlock = document.querySelector('.general-count-block');
-  // let buttonsBlock = document.querySelector('.buttons');
+  var status = window.selectElemsArr.list.length !== 0;
 
   if (status) {
     document.querySelector('.general-count-block').classList.remove('half-opacity');
@@ -436,6 +489,7 @@ function clearAll() {
     updatePrice();
     turnSelectMode();
     turnOFFSuperModal();
+    addEmptyElems();
   }, {
     once: true
   });
@@ -505,7 +559,10 @@ function filesUpload() {
       elem.innerHTML = '<div class="img-count hide"></div><div class="img-select hide"></div>';
       elem.addEventListener('click', imageBoxOpenModalListener, false);
       gallery.insertBefore(elem, elementBefore);
-      timeRecalc();
+      timeRecalc(); // удалим пустые EMPTY блоки, если необходимо
+
+      var fakeEmptyBlock = document.querySelector('.fake-empty-block');
+      if (fakeEmptyBlock) gallery.removeChild(fakeEmptyBlock);
     };
 
     xhr.setRequestHeader('enctype', 'multipart/form-data');
@@ -530,7 +587,11 @@ function turnInfo() {
 document.addEventListener('DOMContentLoaded', function () {
   // обработчик нопки info
   document.querySelector('.info').onclick = turnInfo;
-  updatePrice(); // обработчик нажатия на кнопку группового изменения
+  updatePrice(); // добавим пустые эелементы
+
+  addEmptyElems(); // на всякий случай запустим пресчет количества пустых EMPTY элементов при изменении окна браузера
+  // window.onresize = addEmptyElems
+  // обработчик нажатия на кнопку группового изменения
 
   document.getElementById('changeGroupButton').onclick = turnSelectMode; // обработчик на кнопку удалить все
 

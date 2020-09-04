@@ -13,7 +13,6 @@ use App\Http\Controllers\ImageController; ?>
 
     <div class="gallery">
 
-
         @if (Session::has('images'))
         @foreach (Session::get('images') as $key => $item)
         @if ($item['count'] > 0)
@@ -34,10 +33,10 @@ use App\Http\Controllers\ImageController; ?>
         <label class="imgLoadPlusButton" for="imgLoad" id="imgLoadPlusButton"
             style="background-image: url({{ asset('images/plus.svg') }})">
         </label>
-
+        <div id="fake-end-elem"></div>
     </div>
 
-    <div class="fake-empty-block"></div>
+    
 
 
     <div class="controls">
