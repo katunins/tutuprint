@@ -183,7 +183,7 @@ function addEmptyElems() {
     var gallery = document.querySelector('.gallery');
     var galleryRightSide = window.innerWidth - (gallery.offsetLeft + gallery.offsetWidth); //правый край блока родителя - gallery
 
-    var elemRightSide = window.innerWidth - (elem.offsetLeft + elem.offsetWidth + 2 * margin); //правый край эелемента
+    var elemRightSide = window.innerWidth - (elem.offsetLeft + elem.offsetWidth + margin); //правый край эелемента
 
     return galleryRightSide == elemRightSide;
   }
@@ -589,9 +589,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('.info').onclick = turnInfo;
   updatePrice(); // добавим пустые эелементы
 
-  addEmptyElems(); // на всякий случай запустим пресчет количества пустых EMPTY элементов при изменении окна браузера
-  // window.onresize = addEmptyElems
-  // обработчик нажатия на кнопку группового изменения
+  addEmptyElems(); // обработчик нажатия на кнопку группового изменения
 
   document.getElementById('changeGroupButton').onclick = turnSelectMode; // обработчик на кнопку удалить все
 

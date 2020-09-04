@@ -99,7 +99,7 @@ function addEmptyElems() {
     let margin = 1
     let gallery = document.querySelector('.gallery')
     let galleryRightSide = window.innerWidth - (gallery.offsetLeft + gallery.offsetWidth) //правый край блока родителя - gallery
-    let elemRightSide = window.innerWidth - (elem.offsetLeft + elem.offsetWidth + 2 * margin)  //правый край эелемента
+    let elemRightSide = window.innerWidth - (elem.offsetLeft + elem.offsetWidth + margin)  //правый край эелемента
     return (galleryRightSide == elemRightSide)
   }
 
@@ -111,11 +111,11 @@ function addEmptyElems() {
   }
 
   function fillEmptyElems() {
-
     do {
       var emptyElem = document.createElement('div')
       emptyElem.classList.add('fake-empty-block')
       document.querySelector('.gallery').insertBefore(emptyElem, document.getElementById('fake-end-elem')) // 'fake-end-elem полседний блок, перед которым вставляются элементы EMPTY
+      
       if (isElemIsRight(emptyElem)) {
         if (isControlsBlockMaxBottom()) {
           break
@@ -124,6 +124,8 @@ function addEmptyElems() {
     } while (true)
 
   }
+
+ 
 
   let imageBoxes = document.querySelectorAll('.image-box')
   if (imageBoxes.length == 0) {
@@ -603,8 +605,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // добавим пустые эелементы
   addEmptyElems()
 
-  // на всякий случай запустим пресчет количества пустых EMPTY элементов при изменении окна браузера
-  // window.onresize = addEmptyElems
 
   // обработчик нажатия на кнопку группового изменения
   document.getElementById('changeGroupButton').onclick = turnSelectMode;
