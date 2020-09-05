@@ -118,7 +118,7 @@ function addEmptyElems () {
       window.innerWidth - (gallery.offsetLeft + gallery.offsetWidth); //правый край блока родителя - gallery
     let elemRightSide =
       window.innerWidth - (elem.offsetLeft + elem.offsetWidth + margin); //правый край эелемента
-    console.log ('Элемент справа?', galleryRightSide,elemRightSide, elem);
+    console.log ('Элемент справа?', galleryRightSide,elemRightSide, (elemRightSide-galleryRightSide) < elem.offsetWidth);
     return ((elemRightSide-galleryRightSide) < elem.offsetWidth)
     // return galleryRightSide == elemRightSide;
   }
