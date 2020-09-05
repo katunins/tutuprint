@@ -173,10 +173,25 @@ function getPhotoCount() {
   return count;
 }
 
+function switchClearAllButton(status) {
+  // сменим название и назначение кнопки Стереть все
+  var clearAllButton = document.getElementById('clearAllImagesButton');
+
+  if (status == 'all') {
+    clearAllButton.removeEventListener('click', clearSelected, false);
+    clearAllButton.addEventListener('click', clearAll, false);
+    clearAllButton.innerHTML = 'Удалить все';
+  } else {
+    clearAllButton.removeEventListener('click', clearAll, false);
+    clearAllButton.addEventListener('click', clearSelected, false);
+    clearAllButton.innerHTML = 'Удалить выбранные';
+  }
+}
+
 function addEmptyElems() {
-  // функция проверяет заполнена ли гарелеия фотографиями или есть пустые места.
+  // функция проверяет заполнена ли галерея фотографиями или есть пустые места.
   // добавляет в DOM пустые EMPTY элементы необходимого количества на всю возможную высоту window
-  // console.log ('ff')
+  // console.log ('Функция запущена');
   function isElemIsRight(elem) {
     // вспомогательная функция проверяет элемент находится в конце (справа) своего родителя (gallert)
     var margin = 1;
@@ -184,6 +199,7 @@ function addEmptyElems() {
     var galleryRightSide = window.innerWidth - (gallery.offsetLeft + gallery.offsetWidth); //правый край блока родителя - gallery
 
     var elemRightSide = window.innerWidth - (elem.offsetLeft + elem.offsetWidth + margin); //правый край эелемента
+    // console.log ('Элемент справа?', galleryRightSide == elemRightSide, elem);
 
     return galleryRightSide == elemRightSide;
   }
@@ -192,36 +208,41 @@ function addEmptyElems() {
     var lineHeight = document.querySelector('.imgLoadPlusButton').offsetHeight; // расстояние на которую смещается блок Controls, если добавляется ряд image-box, она равна высоте блока, к примеру Plus
 
     var controlsBlock = document.querySelector('.controls');
-    var controlsBlockBottom = controlsBlock.offsetTop + controlsBlock.offsetHeight;
+    var controlsBlockBottom = controlsBlock.offsetTop + controlsBlock.offsetHeight; // console.log (
+    //   'контроль внизу?',
+    //   lineHeight + controlsBlockBottom > window.innerHeight
+    // );
+
     return lineHeight + controlsBlockBottom > window.innerHeight;
   }
 
-  function fillEmptyElems() {
+  function fillEmptyElemsInLine() {
+    // let plusElem = document.getElementById ('imgLoadPlusButton');
+    // если кнопка пульс не в конце строки
     do {
+      // console.log ('empty elem to right')
       var emptyElem = document.createElement('div');
       emptyElem.classList.add('fake-empty-block');
-      document.querySelector('.gallery').insertBefore(emptyElem, document.getElementById('fake-end-elem')); // 'fake-end-elem полседний блок, перед которым вставляются элементы EMPTY
-
-      if (isElemIsRight(emptyElem)) {
-        if (isControlsBlockMaxBottom()) {
-          break;
-        }
-      }
-    } while (true);
-  } // fillEmptyElems()
+      document.querySelector('.gallery').insertBefore(emptyElem, document.getElementById('fake-end-elem')); // console.log ('Создадим объект');
+    } while (!isElemIsRight(emptyElem));
+  } // Завершим строку из EMPTY блоков, если есть пустые места, например при удалении
 
 
-  var imageBoxes = document.querySelectorAll('.image-box');
+  var emptyElements = document.querySelectorAll('.fake-empty-block');
 
-  if (imageBoxes.length == 0) {
-    // галерея пустая - возможно нужно добавить emty блоки
-    fillEmptyElems();
-  } else {
-    // проверим если кнопка + находится не в конце, то добавим пустых блоков
-    if (isElemIsRight(document.querySelector('.imgLoadPlusButton')) == false || !isControlsBlockMaxBottom()) {
-      console.log('f');
-      fillEmptyElems();
+  if (emptyElements.length > 0) {
+    if (!isElemIsRight(emptyElements[emptyElements.length - 1])) {
+      fillEmptyElemsInLine();
     }
+  } else {
+    if (!isControlsBlockMaxBottom) fillEmptyElemsInLine();
+    if (!isElemIsRight(document.getElementById('imgLoadPlusButton'))) fillEmptyElemsInLine();
+  } // Запустим функцию, пока есть возможность двигать вблок Controls вниз
+  // x = 0;
+
+
+  while (!isControlsBlockMaxBottom()) {
+    fillEmptyElemsInLine(); // console.log ('controrls down')
   }
 }
 
@@ -428,7 +449,13 @@ var imageSelectListener = function imageSelectListener() {
     });
   }
 
-  turnAdditionalConfigButtons();
+  turnAdditionalConfigButtons(); // Если есть выбранные элементы, то сменить назначение кнопки Стереть все на стереть выбранные и обратно
+
+  if (window.selectElemsArr.list.length > 0) {
+    switchClearAllButton('selected');
+  } else {
+    switchClearAllButton('all');
+  }
 };
 
 function turnSelectMode() {
@@ -497,6 +524,28 @@ function clearAll() {
   });
 }
 
+function clearSelected() {
+  var arrList = [];
+  window.selectElemsArr.list.forEach(function (data) {
+    arrList.push({
+      id: data,
+      count: 0
+    }); // изменим количество в DIV элементах
+
+    var elem = document.getElementById(data);
+    elem.parentNode.removeChild(elem);
+  }); // Передадим данные в контроллер для изменения данных сессии
+
+  ajax('/updatecount', {
+    data: arrList
+  });
+  updatePrice();
+  clearGeneralCount();
+  turnSelectMode(); // добавим пустые эелементы
+
+  addEmptyElems();
+}
+
 function filesUpload() {
   function timeRecalc() {
     var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
@@ -534,6 +583,7 @@ function filesUpload() {
       clearInterval(shiftProgress);
       updatePrice();
       turnOFFSuperModal();
+      addEmptyElems();
     }
   }
 
@@ -561,19 +611,20 @@ function filesUpload() {
       elem.innerHTML = '<div class="img-count hide"></div><div class="img-select hide"></div>';
       elem.addEventListener('click', imageBoxOpenModalListener, false);
       gallery.insertBefore(elem, elementBefore);
-      timeRecalc(); // удалим пустые EMPTY блоки, если необходимо
+      timeRecalc();
+    };
 
-      var fakeEmptyBlock = document.querySelector('.fake-empty-block');
-      if (fakeEmptyBlock) gallery.removeChild(fakeEmptyBlock);
-    }; // На всякий случай проверим и добавим лишние EMPTY блоки в строке
-
-
-    addEmptyElems();
     xhr.setRequestHeader('enctype', 'multipart/form-data');
     xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
     var formData = new FormData();
     formData.append('image', this.files[i]);
-    xhr.send(formData);
+    xhr.send(formData); // удалим пустые EMPTY блоки, если необходимо
+
+    var fakeEmptyBlock = document.querySelector('.fake-empty-block');
+
+    if (fakeEmptyBlock) {
+      document.querySelector('.gallery').removeChild(fakeEmptyBlock);
+    }
   }
 }
 
@@ -597,7 +648,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('changeGroupButton').onclick = turnSelectMode; // обработчик на кнопку удалить все
 
-  document.getElementById('clearAllImagesButton').onclick = clearAll; // обработчик переключателя
+  switchClearAllButton('all'); // обработчик переключателя
 
   document.querySelectorAll('.switcher').forEach(function (elem) {
     elem.addEventListener('click', function () {
@@ -649,7 +700,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })
