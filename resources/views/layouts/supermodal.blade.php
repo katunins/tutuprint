@@ -39,6 +39,7 @@
         document.querySelector('.modal-cssload-wrap').classList.add('hide');
         document.getElementById('ok-modal-button').classList.add('hide');
         document.querySelector('.close-modal-button').classList.add('hide');
+        document.getElementById ('modal-temporary-data').value = 1
     }
 
     function turnONSuperModal(status) {

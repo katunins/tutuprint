@@ -36,7 +36,7 @@ use App\Http\Controllers\ImageController; ?>
         <div id="fake-end-elem"></div>
     </div>
 
-    
+
 
 
     <div class="controls">
@@ -49,7 +49,7 @@ use App\Http\Controllers\ImageController; ?>
                     <img src="images/info.svg" alt="">
                 </div>
                 <div class="param-block group-change-button">
-                    <button type="button" id="changeGroupButton" value="off">Групповое изменение</button>
+                    <button type="button" id="changeGroupButton" value="off">Режим выделения</button>
 
                 </div>
 
