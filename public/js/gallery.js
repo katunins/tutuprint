@@ -199,9 +199,9 @@ function addEmptyElems() {
     var galleryRightSide = window.innerWidth - (gallery.offsetLeft + gallery.offsetWidth); //правый край блока родителя - gallery
 
     var elemRightSide = window.innerWidth - (elem.offsetLeft + elem.offsetWidth + margin); //правый край эелемента
-    // console.log ('Элемент справа?', galleryRightSide == elemRightSide, elem);
 
-    return galleryRightSide == elemRightSide;
+    console.log('Элемент справа?', galleryRightSide, elemRightSide, elem);
+    return elemRightSide - galleryRightSide < elem.offsetWidth; // return galleryRightSide == elemRightSide;
   }
 
   function isControlsBlockMaxBottom() {

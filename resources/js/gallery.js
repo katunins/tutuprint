@@ -111,14 +111,16 @@ function addEmptyElems () {
 
   function isElemIsRight (elem) {
     // вспомогательная функция проверяет элемент находится в конце (справа) своего родителя (gallert)
+    
     let margin = 1;
     let gallery = document.querySelector ('.gallery');
     let galleryRightSide =
       window.innerWidth - (gallery.offsetLeft + gallery.offsetWidth); //правый край блока родителя - gallery
     let elemRightSide =
       window.innerWidth - (elem.offsetLeft + elem.offsetWidth + margin); //правый край эелемента
-    // console.log ('Элемент справа?', galleryRightSide == elemRightSide, elem);
-    return galleryRightSide == elemRightSide;
+    console.log ('Элемент справа?', galleryRightSide,elemRightSide, elem);
+    return ((elemRightSide-galleryRightSide) < elem.offsetWidth)
+    // return galleryRightSide == elemRightSide;
   }
 
   function isControlsBlockMaxBottom () {
