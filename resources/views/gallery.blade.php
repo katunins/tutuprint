@@ -8,6 +8,7 @@ use App\Http\Controllers\ImageController; ?>
 @include('layouts.supermodal')
 <div class="gallery-block">
 
+    
 
 
 
@@ -33,11 +34,14 @@ use App\Http\Controllers\ImageController; ?>
         <label class="imgLoadPlusButton" for="imgLoad" id="imgLoadPlusButton"
             style="background-image: url({{ asset('images/plus.svg') }})">
         </label>
-        <div id="fake-end-elem"></div>
+        {{-- <div id="fake-end-elem"></div> --}}
     </div>
 
 
 
+    <div class="dropPlus hide">
+        <img src="images/drop.png" alt="">
+    </div>
 
     <div class="controls">
 
@@ -141,6 +145,7 @@ use App\Http\Controllers\ImageController; ?>
 
 </div>
 <div class="hide" id="info-page">
+    
     @include('layouts.info')
 </div>
 @endsection

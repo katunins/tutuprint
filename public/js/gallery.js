@@ -199,35 +199,28 @@ function addEmptyElems() {
     var galleryRightSide = window.innerWidth - (gallery.offsetLeft + gallery.offsetWidth); //правый край блока родителя - gallery
 
     var elemRightSide = window.innerWidth - (elem.offsetLeft + elem.offsetWidth + margin); //правый край эелемента
-    // console.log (elem);
 
-    return elemRightSide - galleryRightSide < elem.offsetWidth; // return galleryRightSide == elemRightSide;
+    return elemRightSide - galleryRightSide < elem.offsetWidth;
+    a;
   }
 
   function isControlsBlockMaxBottom() {
     var lineHeight = document.querySelector('.imgLoadPlusButton').offsetHeight; // расстояние на которую смещается блок Controls, если добавляется ряд image-box, она равна высоте блока, к примеру Plus
 
     var controlsBlock = document.querySelector('.controls');
-    var controlsBlockBottom = controlsBlock.offsetTop + controlsBlock.offsetHeight; // console.log (
-    //   'контроль внизу?',
-    //   lineHeight + controlsBlockBottom > window.innerHeight
-    // );
-
+    var controlsBlockBottom = controlsBlock.offsetTop + controlsBlock.offsetHeight;
     return lineHeight + controlsBlockBottom > window.innerHeight;
   }
 
   function fillEmptyElemsInLine() {
     // если элемент в конце строки
-    xx = 1;
     var gallery = document.querySelector('.gallery');
+    var fakeEndElem = document.getElementById('fake-end-elem');
 
     do {
       var emptyElem = document.createElement('div');
       emptyElem.classList.add('fake-empty-block');
-      gallery.insertBefore(emptyElem, document.getElementById('fake-end-elem'));
-      xx++;
-      console.log('d');
-      if (xx > 2) break;
+      gallery.appendChild(emptyElem);
     } while (!isElemIsRight(emptyElem));
   } // Завершим строку из EMPTY блоков, если есть пустые места, например при удалении
 
@@ -244,13 +237,8 @@ function addEmptyElems() {
   } // Запустим функцию, пока есть возможность двигать вблок Controls вниз
 
 
-  x = 0;
-
   while (!isControlsBlockMaxBottom()) {
-    // console.log ('control down');
-    x++;
     fillEmptyElemsInLine();
-    if (x > 1) break;
   }
 }
 
@@ -618,7 +606,14 @@ function filesUpload() {
       elem.style = 'background-image: url(' + result.thumbnail + ')';
       elem.innerHTML = '<div class="img-count hide"></div><div class="img-select hide"></div>';
       elem.addEventListener('click', imageBoxOpenModalListener, false);
-      gallery.insertBefore(elem, elementBefore);
+      gallery.insertBefore(elem, elementBefore); // удалим пустые EMPTY блоки, если необходимо
+
+      var fakeEmptyBlock = document.querySelector('.fake-empty-block');
+
+      if (fakeEmptyBlock) {
+        document.querySelector('.gallery').removeChild(fakeEmptyBlock);
+      }
+
       timeRecalc();
     };
 
@@ -626,13 +621,7 @@ function filesUpload() {
     xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
     var formData = new FormData();
     formData.append('image', this.files[i]);
-    xhr.send(formData); // удалим пустые EMPTY блоки, если необходимо
-
-    var fakeEmptyBlock = document.querySelector('.fake-empty-block');
-
-    if (fakeEmptyBlock) {
-      document.querySelector('.gallery').removeChild(fakeEmptyBlock);
-    }
+    xhr.send(formData);
   }
 }
 
@@ -696,7 +685,17 @@ document.addEventListener('DOMContentLoaded', function () {
     elem.addEventListener('click', generalChangeCountListner, false);
   }); // обработчик загрузки фотографий
 
-  document.getElementById('imgLoad').onchange = filesUpload;
+  document.getElementById('imgLoad').onchange = filesUpload; // обработчик события перетаскивания фотографий в gallery
+
+  var dropArea = document.querySelector('.gallery');
+  dropArea.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    document.querySelector('.dropPlus').classList.remove('hide');
+  }, false);
+  dropArea.addEventListener('dragleave', function (e) {
+    e.preventDefault();
+    document.querySelector('.dropPlus').classList.add('hide');
+  }, false);
 });
 
 /***/ }),
@@ -708,7 +707,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })
