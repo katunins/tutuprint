@@ -687,15 +687,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('imgLoad').onchange = filesUpload; // обработчик события перетаскивания фотографий в gallery
 
-  var dropArea = document.querySelector('.gallery');
-  dropArea.addEventListener('dragover', function (e) {
-    e.preventDefault();
-    document.querySelector('.dropPlus').classList.remove('hide');
-  }, false);
+  var dropArea = document.querySelector('body');
+  var gallery = document.querySelector('.gallery');
+  var dropPlus = document.querySelector('.dropPlus');
   dropArea.addEventListener('dragleave', function (e) {
     e.preventDefault();
-    document.querySelector('.dropPlus').classList.add('hide');
-  }, false);
+    e.stopPropagation(); // if (e.path.indexOf(dropArea) == 1) {
+    //   dropPlus.classList.remove('hide')
+    // } else {
+    //   dropPlus.classList.add('hide')
+    // }
+
+    e.path.forEach(function (tag) {
+      console.log(tag == dropArea);
+    }); // console.log('enter', e.path)
+  }, false); // dropArea.addEventListener('dragleave', function (e) {
+  //   e.preventDefault();
+  //   e.stopPropagation()
+  //   console.log('дуфму', e.target)
+  //   // if (e.path.indexOf(dropArea) != 1) document.querySelector('.dropPlus').classList.add('hide');
+  // }, false);
 });
 
 /***/ }),

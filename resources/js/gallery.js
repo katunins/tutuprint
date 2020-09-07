@@ -703,18 +703,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
   // обработчик события перетаскивания фотографий в gallery
-  let dropArea = document.querySelector('.gallery')
-  dropArea.addEventListener('dragover', function(e) {
+  let dropArea = document.querySelector('body')
+  let gallery = document.querySelector('.gallery')
+  let dropPlus = document.querySelector('.dropPlus')
+  dropArea.addEventListener('dragleave', function (e) {
     e.preventDefault();
-    document.querySelector('.dropPlus').classList.remove('hide');
+    e.stopPropagation()
+    // if (e.path.indexOf(dropArea) == 1) {
+    //   dropPlus.classList.remove('hide')
+    // } else {
+    //   dropPlus.classList.add('hide')
+    // }
+    e.path.forEach(tag=>{
+      console.log (tag==dropArea)
+    })
+    // console.log('enter', e.path)
   }, false);
 
-  dropArea.addEventListener('dragleave', function(e) {
-    e.preventDefault();
-    document.querySelector('.dropPlus').classList.add('hide');
-  }, false);
-
+  // dropArea.addEventListener('dragleave', function (e) {
+  //   e.preventDefault();
+  //   e.stopPropagation()
+  //   console.log('дуфму', e.target)
+  //   // if (e.path.indexOf(dropArea) != 1) document.querySelector('.dropPlus').classList.add('hide');
+  // }, false);
 
 });
