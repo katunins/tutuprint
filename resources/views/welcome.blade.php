@@ -7,7 +7,7 @@
 
 
 <div class="promo-video-block">
-    <video autoplay muted loop src="{{asset ('video/promo.mp4')}}"></video>
+    <video autoplay playsinline muted loop src="{{asset ('video/promo.mp4')}}"></video>
 </div>
 
 <div class="button-block">

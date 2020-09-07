@@ -199,8 +199,8 @@ function addEmptyElems() {
     var galleryRightSide = window.innerWidth - (gallery.offsetLeft + gallery.offsetWidth); //правый край блока родителя - gallery
 
     var elemRightSide = window.innerWidth - (elem.offsetLeft + elem.offsetWidth + margin); //правый край эелемента
+    // console.log (elem);
 
-    console.log('Элемент справа?', galleryRightSide, elemRightSide, elemRightSide - galleryRightSide < elem.offsetWidth);
     return elemRightSide - galleryRightSide < elem.offsetWidth; // return galleryRightSide == elemRightSide;
   }
 
@@ -217,13 +217,17 @@ function addEmptyElems() {
   }
 
   function fillEmptyElemsInLine() {
-    // let plusElem = document.getElementById ('imgLoadPlusButton');
-    // если кнопка пульс не в конце строки
+    // если элемент в конце строки
+    xx = 1;
+    var gallery = document.querySelector('.gallery');
+
     do {
-      // console.log ('empty elem to right')
       var emptyElem = document.createElement('div');
       emptyElem.classList.add('fake-empty-block');
-      document.querySelector('.gallery').insertBefore(emptyElem, document.getElementById('fake-end-elem')); // console.log ('Создадим объект');
+      gallery.insertBefore(emptyElem, document.getElementById('fake-end-elem'));
+      xx++;
+      console.log('d');
+      if (xx > 2) break;
     } while (!isElemIsRight(emptyElem));
   } // Завершим строку из EMPTY блоков, если есть пустые места, например при удалении
 
@@ -238,11 +242,15 @@ function addEmptyElems() {
     if (!isControlsBlockMaxBottom) fillEmptyElemsInLine();
     if (!isElemIsRight(document.getElementById('imgLoadPlusButton'))) fillEmptyElemsInLine();
   } // Запустим функцию, пока есть возможность двигать вблок Controls вниз
-  // x = 0;
 
+
+  x = 0;
 
   while (!isControlsBlockMaxBottom()) {
-    fillEmptyElemsInLine(); // console.log ('controrls down')
+    // console.log ('control down');
+    x++;
+    fillEmptyElemsInLine();
+    if (x > 1) break;
   }
 }
 

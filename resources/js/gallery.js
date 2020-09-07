@@ -111,15 +111,16 @@ function addEmptyElems () {
 
   function isElemIsRight (elem) {
     // вспомогательная функция проверяет элемент находится в конце (справа) своего родителя (gallert)
-    
+
     let margin = 1;
     let gallery = document.querySelector ('.gallery');
     let galleryRightSide =
       window.innerWidth - (gallery.offsetLeft + gallery.offsetWidth); //правый край блока родителя - gallery
+
     let elemRightSide =
       window.innerWidth - (elem.offsetLeft + elem.offsetWidth + margin); //правый край эелемента
-    console.log ('Элемент справа?', galleryRightSide,elemRightSide, (elemRightSide-galleryRightSide) < elem.offsetWidth);
-    return ((elemRightSide-galleryRightSide) < elem.offsetWidth)
+    // console.log (elem);
+    return elemRightSide - galleryRightSide < elem.offsetWidth;
     // return galleryRightSide == elemRightSide;
   }
 
@@ -136,16 +137,18 @@ function addEmptyElems () {
   }
 
   function fillEmptyElemsInLine () {
-    // let plusElem = document.getElementById ('imgLoadPlusButton');
-    // если кнопка пульс не в конце строки
+    // если элемент в конце строки
+    
+    xx = 1;
+    let gallery = document.querySelector ('.gallery')
     do {
-      // console.log ('empty elem to right')
       var emptyElem = document.createElement ('div');
       emptyElem.classList.add ('fake-empty-block');
-      document
-        .querySelector ('.gallery')
-        .insertBefore (emptyElem, document.getElementById ('fake-end-elem'));
-      // console.log ('Создадим объект');
+      gallery.insertBefore (emptyElem, document.getElementById('fake-end-elem'));
+      xx++;
+      console.log ('d')  
+      if (xx > 2) break;
+      
     } while (!isElemIsRight (emptyElem));
   }
 
@@ -157,14 +160,18 @@ function addEmptyElems () {
     }
   } else {
     if (!isControlsBlockMaxBottom) fillEmptyElemsInLine ();
-    if (!isElemIsRight(document.getElementById ('imgLoadPlusButton'))) fillEmptyElemsInLine();
-  } 
+    if (!isElemIsRight (document.getElementById ('imgLoadPlusButton')))
+      fillEmptyElemsInLine ();
+  }
 
   // Запустим функцию, пока есть возможность двигать вблок Controls вниз
-  // x = 0;
+  x = 0;
   while (!isControlsBlockMaxBottom ()) {
+    // console.log ('control down');
+    x++;
+
     fillEmptyElemsInLine ();
-    // console.log ('controrls down')
+    if (x > 1) break;
   }
 }
 
