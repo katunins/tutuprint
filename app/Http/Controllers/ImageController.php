@@ -66,21 +66,22 @@ class ImageController extends Controller
         $thumbnail->save($thumbnailFolder.$current_file_name);
         $pathThumbnail = $folder.'/Thumbnail/'.$current_file_name;
 
-        Session::put ('images.'.$id, [
-            'url' => Storage::url($path),
-            'count' => 1,
-            'thumbnail' => Storage::url($pathThumbnail),
-            'filename' => $current_file_name
-        ]);
+        $sessionArr = [
+        'url' => Storage::url($path),
+        'count' => 1,
+        'thumbnail' => Storage::url($pathThumbnail),
+        'filename' => $current_file_name
+    ];
+
+        Session::put ('images.'.$id, $sessionArr);
 
         $result  = [       
             'url' => Storage::url($path),
             'id' => $id,
             'thumbnail' => Storage::url($pathThumbnail),
-            'filename' => $current_file_name, 
-            'test' => Session::get ('images')
+            'filename' => $current_file_name,
         ];
-        sleep(1);
+
         echo json_encode([ 'result'=> $result]);
     }
 
