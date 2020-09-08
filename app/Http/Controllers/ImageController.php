@@ -73,7 +73,8 @@ class ImageController extends Controller
         'filename' => $current_file_name
     ];
 
-        Session::put ('images.'.$id, $sessionArr);
+        // Session::put ('images.'.$id, $sessionArr);
+        $request->session()->put('images.'.$id, $sessionArr);
 
         $result  = [       
             'url' => Storage::url($path),
