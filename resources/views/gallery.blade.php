@@ -12,9 +12,7 @@ use App\Http\Controllers\ImageController; ?>
 
 
 
-    {{-- <div class="dropPlus" style="opacity: 1">
-        <img drop="true" src="images/drop.png" alt="">
-    </div> --}}
+
 
     <div class="gallery">
 
@@ -41,6 +39,9 @@ use App\Http\Controllers\ImageController; ?>
         {{-- <div id="fake-end-elem"></div> --}}
 
 
+    </div>
+    <div class="dropPlus drop-no-visibility">
+        <img drop="true" src="images/drop.png" alt="">
     </div>
 
     <div class="controls">

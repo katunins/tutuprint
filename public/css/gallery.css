@@ -439,3 +439,28 @@
   left: 15px;
 }
 
+.dropPlus {
+  width: 100%;
+  position: absolute;
+  background: #ffffffed;
+  pointer-events: none;
+}
+
+.dropPlus img {
+  margin-left: 50%;
+  transform: translate(-32px, -25px);
+  width: 50px;
+  opacity: 0.7;
+  transition: 1s linear all;
+}
+
+.drop-no-visibility {
+  opacity: 0;
+  transition: 0.3s linear all;
+}
+
+.drop-visibility {
+  opacity: 1;
+  transition: 0.5s linear all;
+}
+

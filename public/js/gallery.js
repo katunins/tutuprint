@@ -239,16 +239,17 @@ function addEmptyElems() {
 
   while (!isControlsBlockMaxBottom()) {
     fillEmptyElemsInLine();
-  } // resizeDropArea ();
+  }
 
-} // function resizeDropArea () {
-//   // пересчитаем расположение иконки Drop для перетягивания фотки
-//   let dropPlus = document.querySelector ('.dropPlus');
-//   let gallery = document.querySelector ('.gallery');
-//   dropPlus.style.height = gallery.offsetHeight;
-//   dropPlus.querySelector ('img').style.marginTop = gallery.offsetHeight / 2;
-// }
+  resizeDropArea();
+}
 
+function resizeDropArea() {
+  var dropArea = document.querySelector('.dropPlus');
+  var gallery = document.querySelector('.gallery');
+  dropArea.style.height = gallery.offsetHeight;
+  dropArea.querySelector('img').style.marginTop = gallery.offsetHeight / 2;
+}
 
 function updatePrice() {
   var paramSelected = {
@@ -548,6 +549,7 @@ function clearSelected() {
   turnSelectMode(); // добавим пустые эелементы
 
   addEmptyElems();
+  switchClearAllButton('all');
 }
 
 function filesUpload() {
@@ -561,14 +563,14 @@ function filesUpload() {
         progressShift: 0,
         time: parseInt(new Date().getTime()),
         lasttime: 0,
-        onePointPerSecond: 1
+        onePointPerSecond: 50
       };
     } else {
       timepoints.totalProgress += onePointProgress;
       timepoints.progressShift = 0;
       timepoints.lasttime = timepoints.time;
       timepoints.time = parseInt(new Date().getTime());
-      timepoints.onePointPerSecond = (timepoints.time - timepoints.lasttime) / onePointProgress; // расчетное время прохождения одного процента
+      timepoints.onePointPerSecond = (timepoints.time - timepoints.lasttime) / onePointProgress * 1.5; // расчетное время прохождения одного процента
     } // запустим фукнцию с интервалом, разным расчтеному времени 1 процента
 
 
@@ -644,6 +646,41 @@ function turnInfo() {
   });
 }
 
+function createDropListener() {
+  // обработчик события перетаскивания фотографий в gallery
+  var droptarget = document.querySelector('.gallery'); // уберем собития стандартного открытия файла в соседнем окне
+
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function (eventName) {
+    droptarget.addEventListener(eventName, function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }, false);
+  });
+  var dropPlus = document.querySelector('.dropPlus');
+  ['dragenter', 'dragover'].forEach(function (eventName) {
+    droptarget.addEventListener(eventName, function (event) {
+      dropPlus.classList.add('drop-visibility');
+      dropPlus.classList.remove('drop-no-visibility');
+    }, false);
+  });
+  droptarget.addEventListener('dragleave', function (event) {
+    dropPlus.classList.remove('drop-visibility');
+    dropPlus.classList.add('drop-no-visibility');
+  }, false);
+  droptarget.addEventListener('drop', function (event) {
+    dropPlus.classList.remove('drop-visibility');
+    dropPlus.classList.add('drop-no-visibility');
+    var files = event.dataTransfer.files;
+    var dropFilesUpload = filesUpload.bind(event.dataTransfer);
+    dropFilesUpload(); // for (var i = 0; i < files.length; i++) {
+    //   var file = files[i];
+    //   console.log ('file: ' + file.name);
+    // }
+
+    return false;
+  }, false);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   // обработчик нопки info
   document.querySelector('.info').onclick = turnInfo;
@@ -693,37 +730,9 @@ document.addEventListener('DOMContentLoaded', function () {
     elem.addEventListener('click', generalChangeCountListner, false);
   }); // обработчик загрузки фотографий
 
-  document.getElementById('imgLoad').onchange = filesUpload; // обработчик события перетаскивания фотографий в gallery
+  document.getElementById('imgLoad').onchange = filesUpload; // запустим обработчик события перетаскивания фотографий в gallery
 
-  var droptarget = document.querySelector('.gallery'); // уберем собития стандартного открытия файла в соседнем окне
-
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function (eventName) {
-    droptarget.addEventListener(eventName, function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }, false);
-  });
-  droptarget.addEventListener('dragenter', function (event) {
-    droptarget.style.outline = '2px dashed red';
-    droptarget.style.outlineOffset = '-5px';
-  }, false);
-  droptarget.addEventListener('dragleave', function (event) {
-    droptarget.style.outline = 'none';
-    droptarget.style.outlineOffset = '0';
-  }, false);
-  droptarget.addEventListener('drop', function (event) {
-    droptarget.style.outline = 'none';
-    droptarget.style.outlineOffset = '0';
-    var files = event.dataTransfer.files; // console.log (event.dataTransfer.files)
-
-    var dropFilesUpload = filesUpload.bind(event.dataTransfer);
-    dropFilesUpload(); // for (var i = 0; i < files.length; i++) {
-    //   var file = files[i];
-    //   console.log ('file: ' + file.name);
-    // }
-
-    return false;
-  }, false);
+  createDropListener();
 });
 
 /***/ }),
