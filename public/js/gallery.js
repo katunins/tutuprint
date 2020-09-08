@@ -214,16 +214,16 @@ function addEmptyElems() {
 
   function fillEmptyElemsInLine() {
     // если элемент в конце строки
-    var gallery = document.querySelector('.gallery');
-    var fakeEndElem = document.getElementById('fake-end-elem');
-
+    // var fakeEndElem = document.getElementById ('fake-end-elem');
     do {
       var emptyElem = document.createElement('div');
       emptyElem.classList.add('fake-empty-block');
+      emptyElem.setAttribute('drop', true);
       gallery.appendChild(emptyElem);
     } while (!isElemIsRight(emptyElem));
-  } // Завершим строку из EMPTY блоков, если есть пустые места, например при удалении
+  }
 
+  var gallery = document.querySelector('.gallery'); // Завершим строку из EMPTY блоков, если есть пустые места, например при удалении
 
   var emptyElements = document.querySelectorAll('.fake-empty-block');
 
@@ -239,8 +239,16 @@ function addEmptyElems() {
 
   while (!isControlsBlockMaxBottom()) {
     fillEmptyElemsInLine();
-  }
-}
+  } // resizeDropArea ();
+
+} // function resizeDropArea () {
+//   // пересчитаем расположение иконки Drop для перетягивания фотки
+//   let dropPlus = document.querySelector ('.dropPlus');
+//   let gallery = document.querySelector ('.gallery');
+//   dropPlus.style.height = gallery.offsetHeight;
+//   dropPlus.querySelector ('img').style.marginTop = gallery.offsetHeight / 2;
+// }
+
 
 function updatePrice() {
   var paramSelected = {
@@ -687,26 +695,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('imgLoad').onchange = filesUpload; // обработчик события перетаскивания фотографий в gallery
 
-  var dropArea = document.querySelector('body');
-  var gallery = document.querySelector('.gallery');
-  var dropPlus = document.querySelector('.dropPlus');
-  dropArea.addEventListener('dragleave', function (e) {
-    e.preventDefault();
-    e.stopPropagation(); // if (e.path.indexOf(dropArea) == 1) {
-    //   dropPlus.classList.remove('hide')
-    // } else {
-    //   dropPlus.classList.add('hide')
+  var droptarget = document.querySelector('.gallery'); // уберем собития стандартного открытия файла в соседнем окне
+
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function (eventName) {
+    droptarget.addEventListener(eventName, function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }, false);
+  });
+  droptarget.addEventListener('dragenter', function (event) {
+    droptarget.style.outline = '2px dashed red';
+    droptarget.style.outlineOffset = '-5px';
+  }, false);
+  droptarget.addEventListener('dragleave', function (event) {
+    droptarget.style.outline = 'none';
+    droptarget.style.outlineOffset = '0';
+  }, false);
+  droptarget.addEventListener('drop', function (event) {
+    droptarget.style.outline = 'none';
+    droptarget.style.outlineOffset = '0';
+    var files = event.dataTransfer.files; // console.log (event.dataTransfer.files)
+
+    var dropFilesUpload = filesUpload.bind(event.dataTransfer);
+    dropFilesUpload(); // for (var i = 0; i < files.length; i++) {
+    //   var file = files[i];
+    //   console.log ('file: ' + file.name);
     // }
 
-    e.path.forEach(function (tag) {
-      console.log(tag == dropArea);
-    }); // console.log('enter', e.path)
-  }, false); // dropArea.addEventListener('dragleave', function (e) {
-  //   e.preventDefault();
-  //   e.stopPropagation()
-  //   console.log('дуфму', e.target)
-  //   // if (e.path.indexOf(dropArea) != 1) document.querySelector('.dropPlus').classList.add('hide');
-  // }, false);
+    return false;
+  }, false);
 });
 
 /***/ }),
@@ -718,7 +735,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })
