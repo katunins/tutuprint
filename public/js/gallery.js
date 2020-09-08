@@ -563,14 +563,14 @@ function filesUpload() {
         progressShift: 0,
         time: parseInt(new Date().getTime()),
         lasttime: 0,
-        onePointPerSecond: 50
+        onePointPerSecond: 100
       };
     } else {
       timepoints.totalProgress += onePointProgress;
       timepoints.progressShift = 0;
       timepoints.lasttime = timepoints.time;
       timepoints.time = parseInt(new Date().getTime());
-      timepoints.onePointPerSecond = (timepoints.time - timepoints.lasttime) / onePointProgress * 3; // расчетное время прохождения одного процента
+      timepoints.onePointPerSecond = (timepoints.time - timepoints.lasttime) / onePointProgress; // расчетное время прохождения одного процента
     } // запустим фукнцию с интервалом, разным расчтеному времени 1 процента
 
 
