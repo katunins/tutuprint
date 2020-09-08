@@ -549,7 +549,7 @@ function filesUpload () {
         progressShift: 0,
         time: parseInt (new Date ().getTime ()),
         lasttime: 0,
-        onePointPerSecond: 100,
+        onePointPerSecond: 200,
       };
     } else {
       timepoints.totalProgress += onePointProgress;
@@ -634,7 +634,7 @@ function filesUpload () {
     formData.append ('image', this.files[i]);
     setTimeout(() => {
       xhr.send (formData);
-    }, 200);
+    }, 300);
   }
 }
 
