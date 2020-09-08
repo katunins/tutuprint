@@ -16,7 +16,7 @@ use App\Http\Controllers\ImageController; ?>
     <div class="gallery">
 
         @if (Session::has('images'))
-        {{-- {{dd (Session::get('images'))}} --}}
+        {{dd (Session::get('images'))}}
         @foreach (Session::get('images') as $key => $item)
         @if ($item['count'] > 0)
 
