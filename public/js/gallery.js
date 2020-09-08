@@ -604,8 +604,9 @@ function filesUpload() {
     xhr.open('POST', '/imageupload', true);
 
     xhr.onload = function (event) {
-      var result = JSON.parse(event.target.response).result;
-      console.log(result); // Добавим загруженную миниатюру в элемент
+      // console.log (JSON.parse(event.target.response))
+      // let result = JSON.parse (event.target.response).result;
+      var result = JSON.parse(event.target.response); // Добавим загруженную миниатюру в элемент
 
       var gallery = document.querySelector('.gallery');
       var elementBefore = gallery.querySelector('form');

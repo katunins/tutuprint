@@ -596,8 +596,9 @@ function filesUpload () {
     xhr.open ('POST', '/imageupload', true);
 
     xhr.onload = event => {
-      let result = JSON.parse (event.target.response).result;
-      console.log (result)
+      // console.log (JSON.parse(event.target.response))
+      // let result = JSON.parse (event.target.response).result;
+      let result = JSON.parse(event.target.response);
 
       // Добавим загруженную миниатюру в элемент
       let gallery = document.querySelector ('.gallery');

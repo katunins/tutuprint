@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
@@ -83,8 +84,8 @@ class ImageController extends Controller
             'filename' => $current_file_name,
         ];
 
-        echo json_encode([ 'result'=> $result]);
-        return true; 
+        // echo json_encode([ 'result'=> $result]);
+        return Response::json($result);
     }
 
     public function RemoveOldUploads () {
