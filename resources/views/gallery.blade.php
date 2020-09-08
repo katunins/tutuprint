@@ -12,7 +12,7 @@ use App\Http\Controllers\ImageController; ?>
 
 
 
-
+{{ dd(Session::('images'))}}
 
     <div class="gallery">
 
@@ -20,6 +20,7 @@ use App\Http\Controllers\ImageController; ?>
         @foreach (Session::get('images') as $key => $item)
         @if ($item['count'] > 0)
 
+        
         <div class="image-box" id={{ $key }} url={{ $item['url'] }}
             style="background-image: url( {{ asset($item['thumbnail']) }})" count={{ $item['count'] }}>
             <div class="img-count hide"></div>
