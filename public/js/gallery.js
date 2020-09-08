@@ -553,8 +553,6 @@ function clearSelected() {
 }
 
 function filesUpload() {
-  var _this2 = this;
-
   function timeRecalc() {
     var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
@@ -601,7 +599,7 @@ function filesUpload() {
 
   timeRecalc(true); // пройдемся по всему циклу выбранных файлов
 
-  var _loop = function _loop() {
+  for (i = 0; i < this.files.length; i++) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/imageupload', true);
 
@@ -633,17 +631,9 @@ function filesUpload() {
 
     xhr.setRequestHeader('enctype', 'multipart/form-data');
     xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-    formData = new FormData();
-    formData.append('image', _this2.files[i]);
-    setTimeout(function () {
-      xhr.send(formData);
-    }, 300);
-  };
-
-  for (i = 0; i < this.files.length; i++) {
-    var formData;
-
-    _loop();
+    var formData = new FormData();
+    formData.append('image', this.files[i]);
+    xhr.send(formData);
   }
 }
 

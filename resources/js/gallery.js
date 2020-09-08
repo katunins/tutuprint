@@ -632,9 +632,7 @@ function filesUpload () {
     );
     var formData = new FormData ();
     formData.append ('image', this.files[i]);
-    setTimeout(() => {
       xhr.send (formData);
-    }, 300);
   }
 }
 

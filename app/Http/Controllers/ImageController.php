@@ -40,8 +40,9 @@ class ImageController extends Controller
     public function imageUpload (Request $request) {
 
         // загружает одно изображение, ресайзит и прописывает в сессию
-        $id = Session::has('images') ? intval(array_key_last(Session::get('images'))) : 0; //найдем последний ID из сессии, если она есть
-        $id++;
+        // $id = Session::has('images') ? intval(array_key_last(Session::get('images'))) : 0; //найдем последний ID из сессии, если она есть
+        // $id++;
+        $id = Str::random(10);
 
         // определим папки для загрузки
         
