@@ -66,10 +66,13 @@ class ImageController extends Controller
         $thumbnail->save($thumbnailFolder.$current_file_name);
         $pathThumbnail = $folder.'/Thumbnail/'.$current_file_name;
 
+        $urlHD = Storage::url($path);
+        $urlThumbnail = Storage::url($pathThumbnail);
+
         Session::put ('images.'.$id, [
-            'url' => Storage::url($path),
+            'url' => $urlHD,
             'count' => 1,
-            'thumbnail' => Storage::url($pathThumbnail),
+            'thumbnail' => $urlThumbnail,
             'filename' => $current_file_name
         ]);
 
