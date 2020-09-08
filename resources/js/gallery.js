@@ -557,7 +557,7 @@ function filesUpload () {
       timepoints.lasttime = timepoints.time;
       timepoints.time = parseInt (new Date ().getTime ());
       timepoints.onePointPerSecond =
-        (timepoints.time - timepoints.lasttime) / onePointProgress * 1.5; // расчетное время прохождения одного процента
+        (timepoints.time - timepoints.lasttime) / onePointProgress * 3; // расчетное время прохождения одного процента
     }
 
     // запустим фукнцию с интервалом, разным расчтеному времени 1 процента
