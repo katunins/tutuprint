@@ -12,7 +12,7 @@ use App\Http\Controllers\ImageController; ?>
 
 
 
-{{ dd(Session::('images'))}}
+{{ dd(Session::get('images'))}}
 
     <div class="gallery">
 
