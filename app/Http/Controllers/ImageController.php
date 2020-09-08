@@ -77,7 +77,8 @@ class ImageController extends Controller
             'url' => Storage::url($path),
             'id' => $id,
             'thumbnail' => Storage::url($pathThumbnail),
-            'filename' => $current_file_name
+            'filename' => $current_file_name, 
+            'test' => Session::get ('images')
         ];
         sleep(1);
         echo json_encode([ 'result'=> $result]);
