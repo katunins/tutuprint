@@ -12,11 +12,11 @@ use App\Http\Controllers\ImageController; ?>
 
 
 
-{{ dd(Session::get('images'))}}
 
     <div class="gallery">
 
         @if (Session::has('images'))
+        {{dd (Session::get('images'))}}
         @foreach (Session::get('images') as $key => $item)
         @if ($item['count'] > 0)
 
