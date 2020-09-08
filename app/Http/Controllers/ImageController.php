@@ -84,6 +84,7 @@ class ImageController extends Controller
         ];
 
         echo json_encode([ 'result'=> $result]);
+        return Response::json($response); 
     }
 
     public function RemoveOldUploads () {
