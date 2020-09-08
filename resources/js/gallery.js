@@ -572,6 +572,7 @@ function filesUpload () {
       }
       timepoints.progressShift++;
     }, timepoints.onePointPerSecond);
+
     if (Math.round (timepoints.totalProgress) == 100) {
       document.getElementById ('imgLoad').value = null;
       clearInterval (shiftProgress);
@@ -596,6 +597,7 @@ function filesUpload () {
 
     xhr.onload = event => {
       let result = JSON.parse (event.target.response).result;
+      console.log (result)
 
       // Добавим загруженную миниатюру в элемент
       let gallery = document.querySelector ('.gallery');

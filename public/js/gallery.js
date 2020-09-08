@@ -604,7 +604,8 @@ function filesUpload() {
     xhr.open('POST', '/imageupload', true);
 
     xhr.onload = function (event) {
-      var result = JSON.parse(event.target.response).result; // Добавим загруженную миниатюру в элемент
+      var result = JSON.parse(event.target.response).result;
+      console.log(result); // Добавим загруженную миниатюру в элемент
 
       var gallery = document.querySelector('.gallery');
       var elementBefore = gallery.querySelector('form');
@@ -744,7 +745,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })
