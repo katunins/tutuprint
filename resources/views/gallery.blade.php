@@ -5,6 +5,7 @@ use App\Http\Controllers\ImageController; ?>
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
 
 @section('content')
+{{-- {{dd (Session::get('images'))}} --}}
 @include('layouts.supermodal')
 <div class="gallery-block">
 
@@ -16,12 +17,12 @@ use App\Http\Controllers\ImageController; ?>
     <div class="gallery">
 
         @if (Session::has('images'))
-        {{-- {{dd (Session::get('images'))}} --}}
-        @foreach (Session::get('images') as $key => $item)
+
+        @foreach (Session::get('images') as $item)
         @if ($item['count'] > 0)
 
-        
-        <div class="image-box" id={{ $key }} url={{ $item['url'] }}
+
+        <div class="image-box" id={{ $item['id'] }} url={{ $item['url'] }}
             style="background-image: url( {{ asset($item['thumbnail']) }})" count={{ $item['count'] }}>
             <div class="img-count hide"></div>
             <div class="img-select hide">

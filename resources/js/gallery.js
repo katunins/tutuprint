@@ -598,7 +598,7 @@ function filesUpload () {
     xhr.onload = event => {
       // console.log (JSON.parse(event.target.response))
       // let result = JSON.parse (event.target.response).result;
-      let result = JSON.parse(event.target.response);
+      let result = JSON.parse (event.target.response);
 
       // Добавим загруженную миниатюру в элемент
       let gallery = document.querySelector ('.gallery');
@@ -632,7 +632,7 @@ function filesUpload () {
     );
     var formData = new FormData ();
     formData.append ('image', this.files[i]);
-      xhr.send (formData);
+    xhr.send (formData);
   }
 }
 
