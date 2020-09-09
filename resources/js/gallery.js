@@ -606,13 +606,13 @@ function filesUpload () {
 
   function getResize () {
     fetch ('/progress').then (response => response.json ()).then (data => {
-      if (data > 0 && data != lastProgressResize*2) {
+      // if (data) {
         lastProgressResize = progressResize;
         progressResize = data / 2;
         lastTimeResize = nowTimeResize;
         nowTimeResize = new Date ().getTime ();
         progressUpdate ();
-      }
+      // }
     });
   }
 

@@ -602,13 +602,12 @@ function filesUpload() {
     fetch('/progress').then(function (response) {
       return response.json();
     }).then(function (data) {
-      if (data > 0 && data != lastProgressResize * 2) {
-        lastProgressResize = progressResize;
-        progressResize = data / 2;
-        lastTimeResize = nowTimeResize;
-        nowTimeResize = new Date().getTime();
-        progressUpdate();
-      }
+      // if (data) {
+      lastProgressResize = progressResize;
+      progressResize = data / 2;
+      lastTimeResize = nowTimeResize;
+      nowTimeResize = new Date().getTime();
+      progressUpdate(); // }
     });
   }
 
