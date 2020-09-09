@@ -14,10 +14,11 @@ use Image;
 class ImageController extends Controller
 {
 
-    function progressToFile(Request $request) {
+    function progressToFile(Request $request)
+    {
 
         $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
-        Storage::put($folder.'/temp.dat', $fileContents);
+        Storage::put($folder . '/temp.dat', $fileContents);
     }
 
     public function updateSessionImageCount(Request $request)
@@ -77,7 +78,7 @@ class ImageController extends Controller
         // Session::put('progress', 0);
         // $GLOBALS['progress'] = 0;
         // self::$progress = 0;
-        Storage::put($folder.'/temp.dat', 0);
+        Storage::put($folder . '/temp.dat', 0);
 
         for ($i = 0; $i < count($files); $i++) {
 
@@ -104,7 +105,7 @@ class ImageController extends Controller
             // $progress = ($i+1)*100/count($files);
             // Session::put('progress', ($i+1)*100/count($files));
             // $GLOBALS['progress'] = ($i+1)*100/count($files);
-            Storage::put($folder.'/temp.dat', ($i+1)*100/count($files));
+            Storage::put($folder . '/temp.dat', ($i + 1) * 100 / count($files));
             // Progress::set($i);
             // self::$progress = 4;
 
@@ -146,7 +147,9 @@ class ImageController extends Controller
 
         // return Response::json(Progress::get());
         $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
-        return Response::json(Storage::get($folder.'/temp.dat'));
+        if (Storage::exists($folder . '/temp.dat')) return Response::json(Storage::get($folder . '/temp.dat'));
+        else
+            return Response::json(null);
         // return json_encode(['progress'=>Session::get('progress')]);
         // return Response::json(Session::get('progress'));
     }
