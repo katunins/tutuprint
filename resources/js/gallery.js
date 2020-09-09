@@ -546,13 +546,27 @@ function filesUpload () {
     .getAttribute ('content');
 
   let progress = {
-
-    all: 0,
-    now: 0,
-    last: 0,
-    speed: 100,
-    lastTime: new Date ().getTime (),
-
+    upload: {
+      status: false,
+      now: 0,
+      last: 0,
+      speed: 100,
+      lastTime: new Date ().getTime (),
+      recalcSpeed: () => {
+        this.speed = (new Date ().getTime () - this.lastTime) / (this.now - this.last)
+      },
+    },
+    resize: {
+      status: false,
+      now: 0,
+      last: 0,
+      speed: 100,
+      lastTime: new Date ().getTime (),
+      recalcSpeed: () => {
+        this.speed = (new Date ().getTime () - this.lastTime) / (this.now - this.last)
+      },
+    },
+    
   };
 
   function progressUpdate () {
@@ -560,14 +574,13 @@ function filesUpload () {
     let nowTime = new Date ().getTime ();
     progress.speed =
       (nowTime - progress.lastTime) / (progress.now - progress.last);
-    progress.all += (progress.now - progress.last);
+    progress.all += progress.now - progress.last;
 
     // console.log (progress)
     document.querySelector ('.super-modal-message').innerHTML =
-    'Загрузка ' + Math.round (progress.all) + '%';
+      'Загрузка ' + Math.round (progress.all) + '%';
 
     // let autoInc = setInterval()
-
   }
 
   turnONSuperModal ('uploadProgress');
@@ -575,13 +588,16 @@ function filesUpload () {
   let progressListener = setInterval (function () {
     fetch ('/progress').then (response => response.json ()).then (data => {
       if (data > 0) {
+
         progress.last = progress.resize.now;
         progress.now = data / 2; //на два делим, так как это половина процесса
+        progress.resize.recalcSpeed()
+
       } else {
         // если данных нет, то сдвинем показатель с неообходимой скоростью
       }
-      console.log ('inteval', progress)
-      progressUpdate ();
+      console.log ('inteval', progress);
+      // progressUpdate ();
     });
   }, 250); // каждый период опрашиваются данные прогресса в АПИ
 
@@ -590,11 +606,19 @@ function filesUpload () {
 
   xhr.upload.onprogress = function (event) {
     if (event.lengthComputable) {
-      progress.last = progress.now;
-      progress.now = event.loaded / event.total * 100 / 2; //на два делим, так как это половина процесса
-      console.log ('onprogress', progress)
-      progressUpdate ();
-    } //console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
+      let uploadProgress = event.loaded / event.total * 100;
+
+      if (uploadProgress == 100) {
+        progress.upload.status = false;
+        progress.upload.speed = 0;
+      }
+
+      progress.upload.last = progress.upload.now;
+      progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
+      progress.upload.recalcSpeed()
+      console.log ('onprogress', progress);
+      // progressUpdate ();
+    }
   };
 
   xhr.onload = event => {

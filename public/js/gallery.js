@@ -553,13 +553,30 @@ function clearSelected() {
 }
 
 function filesUpload() {
+  var _this2 = this;
+
   var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   var progress = {
-    all: 0,
-    now: 0,
-    last: 0,
-    speed: 100,
-    lastTime: new Date().getTime()
+    upload: {
+      status: false,
+      now: 0,
+      last: 0,
+      speed: 100,
+      lastTime: new Date().getTime(),
+      recalcSpeed: function recalcSpeed() {
+        _this2.speed = (new Date().getTime() - _this2.lastTime) / (_this2.now - _this2.last);
+      }
+    },
+    resize: {
+      status: false,
+      now: 0,
+      last: 0,
+      speed: 100,
+      lastTime: new Date().getTime(),
+      recalcSpeed: function recalcSpeed() {
+        _this2.speed = (new Date().getTime() - _this2.lastTime) / (_this2.now - _this2.last);
+      }
+    }
   };
 
   function progressUpdate() {
@@ -579,11 +596,12 @@ function filesUpload() {
       if (data > 0) {
         progress.last = progress.resize.now;
         progress.now = data / 2; //на два делим, так как это половина процесса
-      } else {// если данных нет, то сдвинем показатель с неообходимой скоростью
-        }
 
-      console.log('inteval', progress);
-      progressUpdate();
+        progress.resize.recalcSpeed();
+      } else {// если данных нет, то сдвинем показатель с неообходимой скоростью
+      }
+
+      console.log('inteval', progress); // progressUpdate ();
     });
   }, 250); // каждый период опрашиваются данные прогресса в АПИ
 
@@ -592,13 +610,19 @@ function filesUpload() {
 
   xhr.upload.onprogress = function (event) {
     if (event.lengthComputable) {
-      progress.last = progress.now;
-      progress.now = event.loaded / event.total * 100 / 2; //на два делим, так как это половина процесса
+      var uploadProgress = event.loaded / event.total * 100;
 
-      console.log('onprogress', progress);
-      progressUpdate();
-    } //console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
+      if (uploadProgress == 100) {
+        progress.upload.status = false;
+        progress.upload.speed = 0;
+      }
 
+      progress.upload.last = progress.upload.now;
+      progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
+
+      progress.upload.recalcSpeed();
+      console.log('onprogress', progress); // progressUpdate ();
+    }
   };
 
   xhr.onload = function (event) {
