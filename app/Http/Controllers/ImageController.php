@@ -94,7 +94,7 @@ class ImageController extends Controller
             $pathThumbnail = $folder . '/Thumbnail/' . $current_file_name;
 
             $progress = ($i+1)*100/count($files);
-            // Session::put('progress', $progress);
+            Session::put('progress', $progress);
             
             Session::push('images', [
                 'id' => $id+$i,
