@@ -561,46 +561,54 @@ function filesUpload () {
       );
     }
   }
-  let progress = {
-    upload: {
-      now: 0,
-      last: 0,
-      speed: 100,
-      lastTime: now,
-    },
-    resize: {
-      now: 0,
-      last: 0,
-      speed: 100,
-      lastTime: now,
-    },
-  };
 
-  function progressUpdate () {
+  let lastProgressUpload = 0;
+  let lastProgressResize = 0;
+  let progressUpload = 0
+  let progressResize = 0
+
+  // let progress = {
+  //   upload: {
+  //     now: 0,
+  //     last: 0,
+  //     speed: 100,
+  //     lastTime: now,
+  //   },
+  //   resize: {
+  //     now: 0,
+  //     last: 0,
+  //     speed: 100,
+  //     lastTime: now,
+  //   },
+  // };
+
+  function progressUpdate (progressUpload, progressResize) {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
     let nowTime = new Date ().getTime ();
     // progress.speed =
     //   (nowTime - progress.lastTime) / (progress.now - progress.last);
-    progressAll = progress.upload.now + progress.resize.now;
+    // progressAll = progress.upload.now + progress.resize.now;
 
     // console.log (progress)
     document.querySelector ('.super-modal-message').innerHTML =
-      'Загрузка ' + Math.round (progressAll) + '%';
+      'Загрузка ' + Math.round (progressUpload + progressResize) + '%';
 
     // let autoInc = setInterval()
   }
 
   function getResize () {
-    if (progress.upload.now < 50) return false;
+    // if (progress.upload.now < 50) return false;
 
     fetch ('/progress').then (response => response.json ()).then (data => {
-      if (data > 0 && data != progress.resize.last) {
-        progress.resize.last = progress.resize.now;
-        progress.resize.now = data / 2; //на два делим, так как это половина процесса
-        
+      if (data > 0 && data != lastProgressResize) {
+        lastProgressResize = progressResize
+        progressResize = data/2
+        // progress.resize.last = progress.resize.now;
+        // progress.resize.now = data / 2; //на два делим, так как это половина процесса
+
         // recalcSpeed ('resize');
-        progressUpdate()
-        console.log ('inteval', progress);
+        // progressUpdate ();
+        console.log ('inteval', progressResize);
       }
 
       // progressUpdate ();
@@ -615,17 +623,19 @@ function filesUpload () {
 
   xhr.upload.onprogress = function (event) {
     if (event.lengthComputable) {
-      let uploadProgress = event.loaded / event.total * 100;
+      // let uploadProgress = event.loaded / event.total * 100;
+      lastProgressUpload = progressUpload
+      progressUpload = event.loaded / event.total * 100 / 2
       // console.log ('uploadProgress', uploadProgress)
-      progress.upload.last = progress.upload.now;
-      progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
+      // progress.upload.last = progress.upload.now;
+      // progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
       // recalcSpeed ('upload');
-      console.log ('onprogress', progress);
-      progressUpdate ();
+      console.log ('onprogress', progressUpload);
+      // progressUpdate ();
 
-      if (uploadProgress == 100) {
-        progress.upload.speed = 0;
-      }
+      // if (uploadProgress == 100) {
+      //   progress.upload.speed = 0;
+      // }
     }
   };
 

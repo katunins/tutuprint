@@ -568,43 +568,47 @@ function filesUpload() {
     }
   }
 
-  var progress = {
-    upload: {
-      now: 0,
-      last: 0,
-      speed: 100,
-      lastTime: now
-    },
-    resize: {
-      now: 0,
-      last: 0,
-      speed: 100,
-      lastTime: now
-    }
-  };
+  var lastProgressUpload = 0;
+  var lastProgressResize = 0;
+  var progressUpload = 0;
+  var progressResize = 0; // let progress = {
+  //   upload: {
+  //     now: 0,
+  //     last: 0,
+  //     speed: 100,
+  //     lastTime: now,
+  //   },
+  //   resize: {
+  //     now: 0,
+  //     last: 0,
+  //     speed: 100,
+  //     lastTime: now,
+  //   },
+  // };
 
-  function progressUpdate() {
+  function progressUpdate(progressUpload, progressResize) {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
     var nowTime = new Date().getTime(); // progress.speed =
     //   (nowTime - progress.lastTime) / (progress.now - progress.last);
+    // progressAll = progress.upload.now + progress.resize.now;
+    // console.log (progress)
 
-    progressAll = progress.upload.now + progress.resize.now; // console.log (progress)
-
-    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progressAll) + '%'; // let autoInc = setInterval()
+    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progressUpload + progressResize) + '%'; // let autoInc = setInterval()
   }
 
   function getResize() {
-    if (progress.upload.now < 50) return false;
+    // if (progress.upload.now < 50) return false;
     fetch('/progress').then(function (response) {
       return response.json();
     }).then(function (data) {
-      if (data > 0 && data != progress.resize.last) {
-        progress.resize.last = progress.resize.now;
-        progress.resize.now = data / 2; //на два делим, так как это половина процесса
+      if (data > 0 && data != lastProgressResize) {
+        lastProgressResize = progressResize;
+        progressResize = data / 2; // progress.resize.last = progress.resize.now;
+        // progress.resize.now = data / 2; //на два делим, так как это половина процесса
         // recalcSpeed ('resize');
+        // progressUpdate ();
 
-        progressUpdate();
-        console.log('inteval', progress);
+        console.log('inteval', progressResize);
       } // progressUpdate ();
 
     });
@@ -618,18 +622,17 @@ function filesUpload() {
 
   xhr.upload.onprogress = function (event) {
     if (event.lengthComputable) {
-      var uploadProgress = event.loaded / event.total * 100; // console.log ('uploadProgress', uploadProgress)
-
-      progress.upload.last = progress.upload.now;
-      progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
+      // let uploadProgress = event.loaded / event.total * 100;
+      lastProgressUpload = progressUpload;
+      progressUpload = event.loaded / event.total * 100 / 2; // console.log ('uploadProgress', uploadProgress)
+      // progress.upload.last = progress.upload.now;
+      // progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
       // recalcSpeed ('upload');
 
-      console.log('onprogress', progress);
-      progressUpdate();
-
-      if (uploadProgress == 100) {
-        progress.upload.speed = 0;
-      }
+      console.log('onprogress', progressUpload); // progressUpdate ();
+      // if (uploadProgress == 100) {
+      //   progress.upload.speed = 0;
+      // }
     }
   };
 
