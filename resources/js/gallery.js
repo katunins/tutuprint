@@ -604,7 +604,7 @@ const xhr = new XMLHttpRequest();
 xhr.open('POST', '/imageupload', true);
 
 xhr.upload.onprogress = function (event) {
-  if (lengthComputable) console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
+  if (event.lengthComputable) console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
 }
 
 // xhr.onreadystatechange = function (event) {
