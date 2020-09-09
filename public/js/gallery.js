@@ -586,7 +586,7 @@ function filesUpload() {
   //   },
   // };
 
-  function progressUpdate(progressUpload, progressResize) {
+  function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
     var nowTime = new Date().getTime(); // progress.speed =
     //   (nowTime - progress.lastTime) / (progress.now - progress.last);
