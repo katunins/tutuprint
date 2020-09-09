@@ -74,7 +74,7 @@ class ImageController extends Controller
         $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
         $thumbnailFolder = 'storage/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token') . '/Thumbnail/'; // кривое решение из за Image Intervention - он не может доступ получить к Storage
         $files = $request->file('images');
-        Storage::put($folder . '/temp.dat', 0);
+        // Storage::put($folder . '/temp.dat', 0);
         
         for ($i = 0; $i < count($files); $i++) {
 
@@ -114,7 +114,7 @@ class ImageController extends Controller
                 'filename' => $current_file_name,
             ];
         }
-        Storage::put($folder . '/temp.dat', 0);
+        // Storage::put($folder . '/temp.dat', 0);
         return Response::json($result);
     }
 
@@ -137,7 +137,11 @@ class ImageController extends Controller
     {
 
         $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
-        if (Storage::exists($folder . '/temp.dat')) return Response::json(Storage::get($folder . '/temp.dat'));
+        if (Storage::exists($folder . '/temp.dat')) {
+            $progress = Storage::get($folder . '/temp.dat');
+            Storage::put($folder . '/temp.dat', 0);
+            return Response::json($progress);
+        }
         else return Response::json(null);
     }
 }
