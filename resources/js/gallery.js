@@ -546,114 +546,132 @@ function filesUpload() {
     .querySelector('meta[name="csrf-token"]')
     .getAttribute('content')
 
-  function timeRecalc(start = false) {
-    // Вспомогательная функция для плавного пересчета процента загрузки в промежутке между ответами сервера.
-    if (start) {
-      timepoints = {
-        totalProgress: 0,
-        progressShift: 0,
-        time: parseInt(new Date().getTime()),
-        lasttime: 0,
-        onePointPerSecond: 200,
-      };
-    } else {
-      timepoints.totalProgress += onePointProgress;
-      timepoints.progressShift = 0;
-      timepoints.lasttime = timepoints.time;
-      timepoints.time = parseInt(new Date().getTime());
-      timepoints.onePointPerSecond =
-        (timepoints.time - timepoints.lasttime) / onePointProgress; // расчетное время прохождения одного процента
-    }
+  // function timeRecalc(start = false) {
+  //   // Вспомогательная функция для плавного пересчета процента загрузки в промежутке между ответами сервера.
+  //   if (start) {
+  //     timepoints = {
+  //       totalProgress: 0,
+  //       progressShift: 0,
+  //       time: parseInt(new Date().getTime()),
+  //       lasttime: 0,
+  //       onePointPerSecond: 200,
+  //     };
+  //   } else {
+  //     timepoints.totalProgress += onePointProgress;
+  //     timepoints.progressShift = 0;
+  //     timepoints.lasttime = timepoints.time;
+  //     timepoints.time = parseInt(new Date().getTime());
+  //     timepoints.onePointPerSecond =
+  //       (timepoints.time - timepoints.lasttime) / onePointProgress; // расчетное время прохождения одного процента
+  //   }
 
-    // запустим фукнцию с интервалом, разным расчтеному времени 1 процента
-    let shiftProgress = setInterval(function () {
-      if (timepoints.progressShift < onePointProgress) {
-        document.querySelector('.super-modal-message').innerHTML =
-          'Загрузка ' +
-          Math.round(timepoints.totalProgress + timepoints.progressShift) +
-          '%';
-      } else {
-        clearInterval(shiftProgress);
-      }
-      timepoints.progressShift++;
-    }, timepoints.onePointPerSecond);
+  //   // запустим фукнцию с интервалом, разным расчтеному времени 1 процента
+  //   let shiftProgress = setInterval(function () {
+  //     if (timepoints.progressShift < onePointProgress) {
+  //       document.querySelector('.super-modal-message').innerHTML =
+  //         'Загрузка ' +
+  //         Math.round(timepoints.totalProgress + timepoints.progressShift) +
+  //         '%';
+  //     } else {
+  //       clearInterval(shiftProgress);
+  //     }
+  //     timepoints.progressShift++;
+  //   }, timepoints.onePointPerSecond);
 
-    if (Math.round(timepoints.totalProgress) == 100) {
-      document.getElementById('imgLoad').value = null;
-      clearInterval(shiftProgress);
-      updatePrice();
-      turnOFFSuperModal();
-      addEmptyElems();
-    }
+  //   if (Math.round(timepoints.totalProgress) == 100) {
+  //     document.getElementById('imgLoad').value = null;
+  //     clearInterval(shiftProgress);
+  //     updatePrice();
+  //     turnOFFSuperModal();
+  //     addEmptyElems();
+  //   }
+  // }
+
+  // максимум каждый - 50%
+  let progress = {
+    upload: 0,
+    resize: 0
+  }
+
+  function progressUpdate() {
+    // расчитывает общий процент загрузки и ресайза + обновляет текст
+
+    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progress.upload + progress.resize) + '%'
   }
 
   turnONSuperModal('uploadProgress');
 
   let progressListener = setInterval(function () {
-
     fetch('/progress')
       .then(response => response.json())
-      .then(data => console.log(data))
+      .then(data => {
+        if (data > 0) {
+          progress.resize = data / 2 //на два делим, так как это половина процесса
+          progressUpdate()
+        }
+        // console.log(data)
+      })
+  }, 500) // каждый период опрашиваются данные прогресса в АПИ
 
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/imageupload', true);
 
-  // console.log('progress')
+  xhr.upload.onprogress = function (event) {
 
-}, 500) // каждый период опрашиваются данные прогресса в АПИ
+    if (event.lengthComputable) {
+      progress.upload = event.loaded / event.total * 100 / 2 //на два делим, так как это половина процесса
+      progressUpdate()
+    } //console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
 
-const xhr = new XMLHttpRequest();
-xhr.open('POST', '/imageupload', true);
+  }
 
-xhr.upload.onprogress = function (event) {
-  if (event.lengthComputable) console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
-}
+  // xhr.onreadystatechange = function (event) {
+  //   console.log (event)
+  // }
 
-// xhr.onreadystatechange = function (event) {
-//   console.log (event)
-// }
+  xhr.onload = event => {
 
-xhr.onload = event => {
+    console.log('onload', new Date().getTime())
+    let gallery = document.querySelector('.gallery');
+    let elementBefore = gallery.querySelector('form');
 
-  console.log('onload', new Date().getTime())
-  let gallery = document.querySelector('.gallery');
-  let elementBefore = gallery.querySelector('form');
+    JSON.parse(event.target.response).forEach(result => {
+      // Добавим загруженную миниатюру в элемент
 
-  JSON.parse(event.target.response).forEach(result => {
-    // Добавим загруженную миниатюру в элемент
+      let elem = document.createElement('div');
+      elem.id = result.id;
+      elem.classList.add('image-box');
+      elem.setAttribute('count', 1);
+      elem.setAttribute('url', result.url);
+      elem.style = 'background-image: url(' + result.thumbnail + ')';
+      elem.innerHTML =
+        '<div class="img-count hide"></div><div class="img-select hide"></div>';
+      elem.addEventListener('click', imageBoxOpenModalListener, false);
+      gallery.insertBefore(elem, elementBefore);
 
-    let elem = document.createElement('div');
-    elem.id = result.id;
-    elem.classList.add('image-box');
-    elem.setAttribute('count', 1);
-    elem.setAttribute('url', result.url);
-    elem.style = 'background-image: url(' + result.thumbnail + ')';
-    elem.innerHTML =
-      '<div class="img-count hide"></div><div class="img-select hide"></div>';
-    elem.addEventListener('click', imageBoxOpenModalListener, false);
-    gallery.insertBefore(elem, elementBefore);
+      // удалим пустые EMPTY блоки, если необходимо
+      let fakeEmptyBlock = document.querySelector('.fake-empty-block');
+      if (fakeEmptyBlock) {
+        document.querySelector('.gallery').removeChild(fakeEmptyBlock);
+      }
+    })
 
-    // удалим пустые EMPTY блоки, если необходимо
-    let fakeEmptyBlock = document.querySelector('.fake-empty-block');
-    if (fakeEmptyBlock) {
-      document.querySelector('.gallery').removeChild(fakeEmptyBlock);
-    }
-  })
+    clearInterval(progressListener)
+    turnOFFSuperModal()
+    updatePrice();
+    addEmptyElems();
 
-  clearInterval(progressListener)
-  turnOFFSuperModal()
-  updatePrice();
-  addEmptyElems();
+    // timeRecalc();
+  };
 
-  // timeRecalc();
-};
+  xhr.setRequestHeader('enctype', 'multipart/form-data');
+  xhr.setRequestHeader('X-CSRF-TOKEN', token);
 
-xhr.setRequestHeader('enctype', 'multipart/form-data');
-xhr.setRequestHeader('X-CSRF-TOKEN', token);
-
-var formData = new FormData();
-for (i = 0; i < this.files.length; i++) {
-  formData.append('images[]', this.files[i]);
-}
-xhr.send(formData);
+  var formData = new FormData();
+  for (i = 0; i < this.files.length; i++) {
+    formData.append('images[]', this.files[i]);
+  }
+  xhr.send(formData);
 
 }
 

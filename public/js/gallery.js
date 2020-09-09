@@ -553,46 +553,54 @@ function clearSelected() {
 }
 
 function filesUpload() {
-  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // function timeRecalc(start = false) {
+  //   // Вспомогательная функция для плавного пересчета процента загрузки в промежутке между ответами сервера.
+  //   if (start) {
+  //     timepoints = {
+  //       totalProgress: 0,
+  //       progressShift: 0,
+  //       time: parseInt(new Date().getTime()),
+  //       lasttime: 0,
+  //       onePointPerSecond: 200,
+  //     };
+  //   } else {
+  //     timepoints.totalProgress += onePointProgress;
+  //     timepoints.progressShift = 0;
+  //     timepoints.lasttime = timepoints.time;
+  //     timepoints.time = parseInt(new Date().getTime());
+  //     timepoints.onePointPerSecond =
+  //       (timepoints.time - timepoints.lasttime) / onePointProgress; // расчетное время прохождения одного процента
+  //   }
+  //   // запустим фукнцию с интервалом, разным расчтеному времени 1 процента
+  //   let shiftProgress = setInterval(function () {
+  //     if (timepoints.progressShift < onePointProgress) {
+  //       document.querySelector('.super-modal-message').innerHTML =
+  //         'Загрузка ' +
+  //         Math.round(timepoints.totalProgress + timepoints.progressShift) +
+  //         '%';
+  //     } else {
+  //       clearInterval(shiftProgress);
+  //     }
+  //     timepoints.progressShift++;
+  //   }, timepoints.onePointPerSecond);
+  //   if (Math.round(timepoints.totalProgress) == 100) {
+  //     document.getElementById('imgLoad').value = null;
+  //     clearInterval(shiftProgress);
+  //     updatePrice();
+  //     turnOFFSuperModal();
+  //     addEmptyElems();
+  //   }
+  // }
+  // максимум каждый - 50%
 
-  function timeRecalc() {
-    var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  var progress = {
+    upload: 0,
+    resize: 0
+  };
 
-    // Вспомогательная функция для плавного пересчета процента загрузки в промежутке между ответами сервера.
-    if (start) {
-      timepoints = {
-        totalProgress: 0,
-        progressShift: 0,
-        time: parseInt(new Date().getTime()),
-        lasttime: 0,
-        onePointPerSecond: 200
-      };
-    } else {
-      timepoints.totalProgress += onePointProgress;
-      timepoints.progressShift = 0;
-      timepoints.lasttime = timepoints.time;
-      timepoints.time = parseInt(new Date().getTime());
-      timepoints.onePointPerSecond = (timepoints.time - timepoints.lasttime) / onePointProgress; // расчетное время прохождения одного процента
-    } // запустим фукнцию с интервалом, разным расчтеному времени 1 процента
-
-
-    var shiftProgress = setInterval(function () {
-      if (timepoints.progressShift < onePointProgress) {
-        document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(timepoints.totalProgress + timepoints.progressShift) + '%';
-      } else {
-        clearInterval(shiftProgress);
-      }
-
-      timepoints.progressShift++;
-    }, timepoints.onePointPerSecond);
-
-    if (Math.round(timepoints.totalProgress) == 100) {
-      document.getElementById('imgLoad').value = null;
-      clearInterval(shiftProgress);
-      updatePrice();
-      turnOFFSuperModal();
-      addEmptyElems();
-    }
+  function progressUpdate() {
+    // расчитывает общий процент загрузки и ресайза + обновляет текст
+    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progress.upload + progress.resize) + '%';
   }
 
   turnONSuperModal('uploadProgress');
@@ -600,15 +608,25 @@ function filesUpload() {
     fetch('/progress').then(function (response) {
       return response.json();
     }).then(function (data) {
-      return console.log(data);
-    }); // console.log('progress')
+      if (data > 0) {
+        progress.resize = data / 2; //на два делим, так как это половина процесса
+
+        progressUpdate();
+      } // console.log(data)
+
+    });
   }, 500); // каждый период опрашиваются данные прогресса в АПИ
 
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/imageupload', true);
 
   xhr.upload.onprogress = function (event) {
-    if (event.lengthComputable) console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
+    if (event.lengthComputable) {
+      progress.upload = event.loaded / event.total * 100 / 2; //на два делим, так как это половина процесса
+
+      progressUpdate();
+    } //console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
+
   }; // xhr.onreadystatechange = function (event) {
   //   console.log (event)
   // }
