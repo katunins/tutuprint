@@ -630,9 +630,9 @@ function filesUpload () {
       progressUpdate ();
     }
   };
-
+  let progressListener = setInterval (getResize, 250); // каждый период опрашиваются данные прогресса в АПИ
   xhr.onload = event => {
-    let progressListener = setInterval (getResize, 250); // каждый период опрашиваются данные прогресса в АПИ
+    
 
     let gallery = document.querySelector ('.gallery');
     let elementBefore = gallery.querySelector ('form');
