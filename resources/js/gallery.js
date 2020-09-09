@@ -617,7 +617,7 @@ function filesUpload () {
   }
 
   turnONSuperModal ('uploadProgress');
-  let progressListener = setInterval (getResize, 250); // каждый период опрашиваются данные прогресса в АПИ
+  
 
   const xhr = new XMLHttpRequest ();
   xhr.open ('POST', '/imageupload', true);
@@ -633,6 +633,9 @@ function filesUpload () {
   };
 
   xhr.onload = event => {
+
+    let progressListener = setInterval (getResize, 250); // каждый период опрашиваются данные прогресса в АПИ
+    
     let gallery = document.querySelector ('.gallery');
     let elementBefore = gallery.querySelector ('form');
 
