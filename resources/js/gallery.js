@@ -589,13 +589,18 @@ function filesUpload() {
 
   // максимум каждый - 50%
   let progress = {
-    upload: 0,
-    resize: 0
+
+    upload: { now: 0, last: 0, speed: 100 },
+    resize: { now: 0, last: 0, speed: 100 },
+    lastTime: new Date().getTime()
+
   }
 
   function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
-
+    let nowTime = new Date().getTime()
+    progress.upload.speed = (nowTime - progress.lastTime) / (progress.upload.now - progress.upload.last)
+    progress.resize.speed = (nowTime - progress.lastTime) / (progress.upload.now - progress.upload.last)
     document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progress.upload + progress.resize) + '%'
   }
 
@@ -606,12 +611,17 @@ function filesUpload() {
       .then(response => response.json())
       .then(data => {
         if (data > 0) {
-          progress.resize = data / 2 //на два делим, так как это половина процесса
-          progressUpdate()
+
+          progress.resize.last = progress.resize.now
+          progress.resize.now = data / 2 //на два делим, так как это половина процесса
+
+        } else {
+          // если данных нет, то сдвинем показатель с неообходимой скоростью
         }
-        // console.log(data)
+        progressUpdate()
+
       })
-  }, 500) // каждый период опрашиваются данные прогресса в АПИ
+  }, 250) // каждый период опрашиваются данные прогресса в АПИ
 
   const xhr = new XMLHttpRequest();
   xhr.open('POST', '/imageupload', true);
@@ -619,8 +629,11 @@ function filesUpload() {
   xhr.upload.onprogress = function (event) {
 
     if (event.lengthComputable) {
-      progress.upload = event.loaded / event.total * 100 / 2 //на два делим, так как это половина процесса
+
+      progress.upload.last = progress.upload.now
+      progress.upload.now = event.loaded / event.total * 100 / 2 //на два делим, так как это половина процесса
       progressUpdate()
+
     } //console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
 
   }
