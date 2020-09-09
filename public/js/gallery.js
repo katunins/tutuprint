@@ -585,13 +585,8 @@ function filesUpload() {
     // console.log ('progressUpdate - nowTime', nowTime-lastTimeResize)
     document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progressUpload + progressResize) + '%';
     var speedUpdate = (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
-    var speedResize = (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize); // console.log (
-    //   nowTimeUpload,
-    //   lastTimeUpload,
-    //   progressUpload,
-    //   lastProgressUpload
-    // );
-
+    var speedResize = (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
+    console.log(nowTimeUpload, lastTimeUpload, progressUpload, lastProgressUpload);
     console.log(nowTimeResize, lastTimeResize, progressResize, lastProgressResize); // console.log ('speed', speedUpdate, speedResize)
     // let  speed =
     // let shiftProgress = setTimeout (function () {}, speed);
@@ -602,12 +597,13 @@ function filesUpload() {
     fetch('/progress').then(function (response) {
       return response.json();
     }).then(function (data) {
-      // if (data) {
-      lastProgressResize = progressResize;
-      progressResize = data / 2;
-      lastTimeResize = nowTimeResize;
-      nowTimeResize = new Date().getTime();
-      progressUpdate(); // }
+      if (data != Math.round(lastTimeResize * 2)) {
+        lastProgressResize = progressResize;
+        progressResize = data / 2;
+        lastTimeResize = nowTimeResize;
+        nowTimeResize = new Date().getTime();
+        progressUpdate();
+      }
     });
   }
 

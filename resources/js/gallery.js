@@ -585,12 +585,12 @@ function filesUpload () {
       (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
     let speedResize =
       (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
-    // console.log (
-    //   nowTimeUpload,
-    //   lastTimeUpload,
-    //   progressUpload,
-    //   lastProgressUpload
-    // );
+    console.log (
+      nowTimeUpload,
+      lastTimeUpload,
+      progressUpload,
+      lastProgressUpload
+    );
     console.log (
       nowTimeResize,
       lastTimeResize,
@@ -606,18 +606,17 @@ function filesUpload () {
 
   function getResize () {
     fetch ('/progress').then (response => response.json ()).then (data => {
-      // if (data) {
+      if (data != Math.round (lastTimeResize * 2)) {
         lastProgressResize = progressResize;
         progressResize = data / 2;
         lastTimeResize = nowTimeResize;
         nowTimeResize = new Date ().getTime ();
         progressUpdate ();
-      // }
+      }
     });
   }
 
   turnONSuperModal ('uploadProgress');
-  
 
   const xhr = new XMLHttpRequest ();
   xhr.open ('POST', '/imageupload', true);
@@ -633,9 +632,8 @@ function filesUpload () {
   };
 
   xhr.onload = event => {
-
     let progressListener = setInterval (getResize, 250); // каждый период опрашиваются данные прогресса в АПИ
-    
+
     let gallery = document.querySelector ('.gallery');
     let elementBefore = gallery.querySelector ('form');
 
