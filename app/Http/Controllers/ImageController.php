@@ -140,7 +140,7 @@ class ImageController extends Controller
         if (Storage::exists($folder . '/temp.dat')) {
             $progress = Storage::get($folder . '/temp.dat');
             Storage::put($folder . '/temp.dat', 0);
-            return Response::json($progress);
+            return Response::json($folder . '/temp.dat');
         }
         else return Response::json(null);
     }
