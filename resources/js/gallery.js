@@ -607,8 +607,8 @@ function filesUpload () {
         // progress.resize.now = data / 2; //на два делим, так как это половина процесса
 
         // recalcSpeed ('resize');
-        // progressUpdate ();
-        console.log ('inteval', progressResize);
+        progressUpdate ();
+        // console.log ('inteval', progressResize);
       }
 
       // progressUpdate ();
@@ -630,8 +630,8 @@ function filesUpload () {
       // progress.upload.last = progress.upload.now;
       // progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
       // recalcSpeed ('upload');
-      console.log ('onprogress', progressUpload);
-      // progressUpdate ();
+      // console.log ('onprogress', progressUpload);
+      progressUpdate ();
 
       // if (uploadProgress == 100) {
       //   progress.upload.speed = 0;
