@@ -583,9 +583,9 @@ function filesUpload () {
     // let autoInc = setInterval()
   }
 
-  turnONSuperModal ('uploadProgress');
-
-  let progressListener = setInterval (function () {
+  function getResize () {
+    if (progress.upload.now < 50) return false
+    
     fetch ('/progress').then (response => response.json ()).then (data => {
       if (data > 0) {
 
@@ -600,7 +600,10 @@ function filesUpload () {
       
       // progressUpdate ();
     });
-  }, 50); // каждый период опрашиваются данные прогресса в АПИ
+  }
+
+  turnONSuperModal ('uploadProgress');
+  let progressListener = setInterval (getResize, 50); // каждый период опрашиваются данные прогресса в АПИ
 
   const xhr = new XMLHttpRequest ();
   xhr.open ('POST', '/imageupload', true);
@@ -609,16 +612,16 @@ function filesUpload () {
     if (event.lengthComputable) {
       let uploadProgress = event.loaded / event.total * 100;
 
-      if (uploadProgress == 100) {
-        progress.upload.status = false;
-        progress.upload.speed = 0;
-      }
-
       progress.upload.last = progress.upload.now;
       progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
       progress.upload.recalcSpeed()
       console.log ('onprogress', progress);
       // progressUpdate ();
+
+      if (uploadProgress == 100) {
+        progress.upload.status = false;
+        progress.upload.speed = 0;
+      }
     }
   };
 

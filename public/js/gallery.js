@@ -588,8 +588,8 @@ function filesUpload() {
     document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progress.all) + '%'; // let autoInc = setInterval()
   }
 
-  turnONSuperModal('uploadProgress');
-  var progressListener = setInterval(function () {
+  function getResize() {
+    if (progress.upload.now < 50) return false;
     fetch('/progress').then(function (response) {
       return response.json();
     }).then(function (data) {
@@ -603,7 +603,10 @@ function filesUpload() {
       } // progressUpdate ();
 
     });
-  }, 50); // каждый период опрашиваются данные прогресса в АПИ
+  }
+
+  turnONSuperModal('uploadProgress');
+  var progressListener = setInterval(getResize, 50); // каждый период опрашиваются данные прогресса в АПИ
 
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/imageupload', true);
@@ -611,17 +614,16 @@ function filesUpload() {
   xhr.upload.onprogress = function (event) {
     if (event.lengthComputable) {
       var uploadProgress = event.loaded / event.total * 100;
-
-      if (uploadProgress == 100) {
-        progress.upload.status = false;
-        progress.upload.speed = 0;
-      }
-
       progress.upload.last = progress.upload.now;
       progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
 
       progress.upload.recalcSpeed();
       console.log('onprogress', progress); // progressUpdate ();
+
+      if (uploadProgress == 100) {
+        progress.upload.status = false;
+        progress.upload.speed = 0;
+      }
     }
   };
 
