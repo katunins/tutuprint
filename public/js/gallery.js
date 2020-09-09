@@ -597,13 +597,12 @@ function filesUpload() {
     fetch('/progress').then(function (response) {
       return response.json();
     }).then(function (data) {
-      if (data != Math.round(lastProgressResize * 2)) {
-        lastProgressResize = progressResize;
-        progressResize = data / 2;
-        lastTimeResize = nowTimeResize;
-        nowTimeResize = new Date().getTime();
-        progressUpdate();
-      }
+      // if (data != Math.round (lastProgressResize * 2)) {
+      lastProgressResize = progressResize;
+      progressResize = data / 2;
+      lastTimeResize = nowTimeResize;
+      nowTimeResize = new Date().getTime();
+      progressUpdate(); // }
     });
   }
 
