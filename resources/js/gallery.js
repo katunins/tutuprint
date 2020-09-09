@@ -598,7 +598,7 @@ function filesUpload() {
     // xhr.setRequestHeader('X-CSRF-TOKEN',token);
     // xhr.send();
     fetch('/progress')
-      // .then(response => response.json())
+      .then(response => response.json())
       .then(data => console.log(data))
 
 
@@ -619,7 +619,7 @@ xhr.open('POST', '/imageupload', true);
 
 xhr.onload = event => {
 
-  console.log('onload')
+  console.log('onload', new Date().getTime())
   let gallery = document.querySelector('.gallery');
   let elementBefore = gallery.querySelector('form');
 

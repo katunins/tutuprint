@@ -44,5 +44,5 @@ Route::post('imageupload', 'ImageController@imageUpload');
 Route::get('removeolduploads', 'ImageController@removeOldUploads');
 
 Route::get ('progress', function (){
-    return 'ss';
+    return json_encode(['progress'=>round(microtime(true) * 1000)]);
 });

@@ -603,8 +603,9 @@ function filesUpload() {
     // xhr.onload = event => console.log (event)
     // xhr.setRequestHeader('X-CSRF-TOKEN',token);
     // xhr.send();
-    fetch('/progress') // .then(response => response.json())
-    .then(function (data) {
+    fetch('/progress').then(function (response) {
+      return response.json();
+    }).then(function (data) {
       return console.log(data);
     }); // console.log('progress')
   }, 100); // каждый период опрашиваются данные прогресса в АПИ
@@ -618,7 +619,7 @@ function filesUpload() {
   // }
 
   xhr.onload = function (event) {
-    console.log('onload');
+    console.log('onload', new Date().getTime());
     var gallery = document.querySelector('.gallery');
     var elementBefore = gallery.querySelector('form');
     JSON.parse(event.target.response).forEach(function (result) {
