@@ -129,4 +129,9 @@ class ImageController extends Controller
         }
     }
 
+    public function getProgressUpload (){
+        return Response::json(Session::get('progress'));
+        // return json_encode(['progress'=>Session::get('progress')]);
+    }
+
 }

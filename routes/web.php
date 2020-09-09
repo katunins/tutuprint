@@ -12,8 +12,8 @@
 */
 
 // use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Session;
 
-use Illuminate\Contracts\Session\Session;
 
 Route::get('/', function () {
     return view('welcome');
@@ -45,6 +45,4 @@ Route::post('eraseall', 'ImageController@eraseAllImages');
 Route::post('imageupload', 'ImageController@imageUpload');
 Route::get('removeolduploads', 'ImageController@removeOldUploads');
 
-Route::get ('progress', function (){
-    return json_encode(['progress'=>Session::get('progress')]);
-});
+Route::get ('progress', 'ImageController@getProgressUpload');
