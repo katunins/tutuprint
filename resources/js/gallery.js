@@ -637,7 +637,7 @@ function filesUpload () {
     var formData = new FormData ();
     formData.append ('image', this);
     xhr.send (formData);
-    }.bind(this.files[i]), i*100);
+    }.bind(this.files[i]), i*150);
   }
 }
 
