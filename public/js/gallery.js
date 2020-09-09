@@ -553,66 +553,27 @@ function clearSelected() {
 }
 
 function filesUpload() {
-  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // function timeRecalc(start = false) {
-  //   // Вспомогательная функция для плавного пересчета процента загрузки в промежутке между ответами сервера.
-  //   if (start) {
-  //     timepoints = {
-  //       totalProgress: 0,
-  //       progressShift: 0,
-  //       time: parseInt(new Date().getTime()),
-  //       lasttime: 0,
-  //       onePointPerSecond: 200,
-  //     };
-  //   } else {
-  //     timepoints.totalProgress += onePointProgress;
-  //     timepoints.progressShift = 0;
-  //     timepoints.lasttime = timepoints.time;
-  //     timepoints.time = parseInt(new Date().getTime());
-  //     timepoints.onePointPerSecond =
-  //       (timepoints.time - timepoints.lasttime) / onePointProgress; // расчетное время прохождения одного процента
-  //   }
-  //   // запустим фукнцию с интервалом, разным расчтеному времени 1 процента
-  //   let shiftProgress = setInterval(function () {
-  //     if (timepoints.progressShift < onePointProgress) {
-  //       document.querySelector('.super-modal-message').innerHTML =
-  //         'Загрузка ' +
-  //         Math.round(timepoints.totalProgress + timepoints.progressShift) +
-  //         '%';
-  //     } else {
-  //       clearInterval(shiftProgress);
-  //     }
-  //     timepoints.progressShift++;
-  //   }, timepoints.onePointPerSecond);
-  //   if (Math.round(timepoints.totalProgress) == 100) {
-  //     document.getElementById('imgLoad').value = null;
-  //     clearInterval(shiftProgress);
-  //     updatePrice();
-  //     turnOFFSuperModal();
-  //     addEmptyElems();
-  //   }
+  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // максимум каждый - 50%
+  // let progress = {
+  //   upload: { now: 0, last: 0, speed: 100 },
+  //   resize: { now: 0, last: 0, speed: 100 },
+  //   lastTime: new Date().getTime()
   // }
-  // максимум каждый - 50%
 
   var progress = {
-    upload: {
-      now: 0,
-      last: 0,
-      speed: 100
-    },
-    resize: {
-      now: 0,
-      last: 0,
-      speed: 100
-    },
+    all: 0,
+    now: 0,
+    last: 0,
+    speed: 100,
     lastTime: new Date().getTime()
   };
 
   function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
     var nowTime = new Date().getTime();
-    progress.upload.speed = (nowTime - progress.lastTime) / (progress.upload.now - progress.upload.last);
-    progress.resize.speed = (nowTime - progress.lastTime) / (progress.upload.now - progress.upload.last);
-    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progress.upload + progress.resize) + '%';
+    progress.speed = (nowTime - progress.lastTime) / (progress.now - progress.last);
+    progress.all += progress.now - progress.last;
+    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progress.all) + '%'; // let autoInc = setInterval()
   }
 
   turnONSuperModal('uploadProgress');
@@ -621,8 +582,8 @@ function filesUpload() {
       return response.json();
     }).then(function (data) {
       if (data > 0) {
-        progress.resize.last = progress.resize.now;
-        progress.resize.now = data / 2; //на два делим, так как это половина процесса
+        progress.last = progress.resize.now;
+        progress.now = data / 2; //на два делим, так как это половина процесса
       } else {// если данных нет, то сдвинем показатель с неообходимой скоростью
         }
 
@@ -635,19 +596,15 @@ function filesUpload() {
 
   xhr.upload.onprogress = function (event) {
     if (event.lengthComputable) {
-      progress.upload.last = progress.upload.now;
-      progress.upload.now = event.loaded / event.total * 100 / 2; //на два делим, так как это половина процесса
+      progress.last = progress.now;
+      progress.now = event.loaded / event.total * 100 / 2; //на два делим, так как это половина процесса
 
       progressUpdate();
     } //console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
 
-  }; // xhr.onreadystatechange = function (event) {
-  //   console.log (event)
-  // }
-
+  };
 
   xhr.onload = function (event) {
-    console.log('onload', new Date().getTime());
     var gallery = document.querySelector('.gallery');
     var elementBefore = gallery.querySelector('form');
     JSON.parse(event.target.response).forEach(function (result) {
@@ -795,7 +752,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })
