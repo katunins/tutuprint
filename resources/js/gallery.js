@@ -552,9 +552,9 @@ function filesUpload () {
       last: 0,
       speed: 100,
       lastTime: new Date ().getTime (),
-      recalcSpeed: () => {
-        this.speed = (new Date ().getTime () - this.lastTime) / (this.now - this.last)
-      },
+      // recalcSpeed: () => {
+      //   this.speed = (new Date ().getTime () - this.lastTime) / (this.now - this.last)
+      // },
     },
     resize: {
       status: false,
@@ -562,9 +562,9 @@ function filesUpload () {
       last: 0,
       speed: 100,
       lastTime: new Date ().getTime (),
-      recalcSpeed: () => {
-        this.speed = (new Date ().getTime () - this.lastTime) / (this.now - this.last)
-      },
+      // recalcSpeed: () => {
+      //   this.speed = (new Date ().getTime () - this.lastTime) / (this.now - this.last)
+      // },
     },
     
   };
@@ -585,13 +585,13 @@ function filesUpload () {
 
   function getResize () {
     if (progress.upload.now < 50) return false
-    
+
     fetch ('/progress').then (response => response.json ()).then (data => {
       if (data > 0) {
 
-        progress.last = progress.resize.now;
-        progress.now = data / 2; //на два делим, так как это половина процесса
-        progress.resize.recalcSpeed()
+        progress.resize.last = progress.resize.now;
+        progress.resize.now = data / 2; //на два делим, так как это половина процесса
+        // progress.resize.recalcSpeed()
         console.log ('inteval', progress);
 
       } else {
@@ -614,7 +614,7 @@ function filesUpload () {
 
       progress.upload.last = progress.upload.now;
       progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
-      progress.upload.recalcSpeed()
+      // progress.upload.recalcSpeed()
       console.log ('onprogress', progress);
       // progressUpdate ();
 

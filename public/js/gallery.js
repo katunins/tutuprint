@@ -553,8 +553,6 @@ function clearSelected() {
 }
 
 function filesUpload() {
-  var _this2 = this;
-
   var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   var progress = {
     upload: {
@@ -562,20 +560,20 @@ function filesUpload() {
       now: 0,
       last: 0,
       speed: 100,
-      lastTime: new Date().getTime(),
-      recalcSpeed: function recalcSpeed() {
-        _this2.speed = (new Date().getTime() - _this2.lastTime) / (_this2.now - _this2.last);
-      }
+      lastTime: new Date().getTime() // recalcSpeed: () => {
+      //   this.speed = (new Date ().getTime () - this.lastTime) / (this.now - this.last)
+      // },
+
     },
     resize: {
       status: false,
       now: 0,
       last: 0,
       speed: 100,
-      lastTime: new Date().getTime(),
-      recalcSpeed: function recalcSpeed() {
-        _this2.speed = (new Date().getTime() - _this2.lastTime) / (_this2.now - _this2.last);
-      }
+      lastTime: new Date().getTime() // recalcSpeed: () => {
+      //   this.speed = (new Date ().getTime () - this.lastTime) / (this.now - this.last)
+      // },
+
     }
   };
 
@@ -594,10 +592,10 @@ function filesUpload() {
       return response.json();
     }).then(function (data) {
       if (data > 0) {
-        progress.last = progress.resize.now;
-        progress.now = data / 2; //на два делим, так как это половина процесса
+        progress.resize.last = progress.resize.now;
+        progress.resize.now = data / 2; //на два делим, так как это половина процесса
+        // progress.resize.recalcSpeed()
 
-        progress.resize.recalcSpeed();
         console.log('inteval', progress);
       } else {// если данных нет, то сдвинем показатель с неообходимой скоростью
       } // progressUpdate ();
@@ -616,8 +614,8 @@ function filesUpload() {
       var uploadProgress = event.loaded / event.total * 100;
       progress.upload.last = progress.upload.now;
       progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
+      // progress.upload.recalcSpeed()
 
-      progress.upload.recalcSpeed();
       console.log('onprogress', progress); // progressUpdate ();
 
       if (uploadProgress == 100) {
