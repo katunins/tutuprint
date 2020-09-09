@@ -640,7 +640,7 @@ function filesUpload() {
       var formData = new FormData();
       formData.append('image', this);
       xhr.send(formData);
-    }.bind(_this2.files[i]), i * 10);
+    }.bind(_this2.files[i]), i * 100);
   };
 
   for (i = 0; i < this.files.length; i++) {
