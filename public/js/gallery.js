@@ -595,11 +595,11 @@ function filesUpload() {
   }
 
   function getResize() {
-    if (progress.upload.now < 50 || progress.resize.now == progress.resize.last) return false;
+    if (progress.upload.now < 50) return false;
     fetch('/progress').then(function (response) {
       return response.json();
     }).then(function (data) {
-      if (data > 0) {
+      if (data > 0 && data != progress.resize.last) {
         progress.resize.last = progress.resize.now;
         progress.resize.now = data / 2; //на два делим, так как это половина процесса
 
