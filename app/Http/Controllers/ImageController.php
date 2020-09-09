@@ -68,8 +68,8 @@ class ImageController extends Controller
         $thumbnailFolder = 'storage/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token') . '/Thumbnail/'; // кривое решение из за Image Intervention - он не может доступ получить к Storage
         $files = $request->file('images');
 
-        Session::put('progress', 0);
-        // $GLOBALS['progress'] = 0;
+        // Session::put('progress', 0);
+        $GLOBALS['progress'] = 0;
         // self::$progress = 0;
 
         for ($i = 0; $i < count($files); $i++) {
@@ -95,8 +95,8 @@ class ImageController extends Controller
             $pathThumbnail = $folder . '/Thumbnail/' . $current_file_name;
 
             // $progress = ($i+1)*100/count($files);
-            Session::put('progress', ($i+1)*100/count($files));
-            // $GLOBALS['progress'] = ($i+1)*100/count($files);
+            // Session::put('progress', ($i+1)*100/count($files));
+            $GLOBALS['progress'] = ($i+1)*100/count($files);
             // Progress::set($i);
             // self::$progress = 4;
 
@@ -136,8 +136,8 @@ class ImageController extends Controller
     public function getProgressUpload()
     {
         // return Response::json(Progress::get());
-        // return Response::json(isset($GLOBALS['progress']) ? $GLOBALS['progress'] : null);
+        return Response::json(isset($GLOBALS['progress']) ? $GLOBALS['progress'] : null);
         // return json_encode(['progress'=>Session::get('progress')]);
-        return Response::json(Session::get('progress'));
+        // return Response::json(Session::get('progress'));
     }
 }
