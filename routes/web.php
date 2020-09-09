@@ -42,3 +42,7 @@ Route::post('updatecount', 'ImageController@updateSessionImageCount');
 Route::post('eraseall', 'ImageController@eraseAllImages');
 Route::post('imageupload', 'ImageController@imageUpload');
 Route::get('removeolduploads', 'ImageController@removeOldUploads');
+
+Route::get ('progress', function (){
+    return 'ss';
+});

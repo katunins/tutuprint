@@ -1,2 +1,4 @@
 {
+    "search.collapseResults": "auto",
+    "blade.format.enable": true
 }

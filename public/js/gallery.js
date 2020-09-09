@@ -553,7 +553,7 @@ function clearSelected() {
 }
 
 function filesUpload() {
-  var _this2 = this;
+  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
   function timeRecalc() {
     var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
@@ -595,23 +595,34 @@ function filesUpload() {
     }
   }
 
-  turnONSuperModal('uploadProgress'); // одна фотография - это onePointProgress процентов загрузки
+  turnONSuperModal('uploadProgress');
+  var progressListener = setInterval(function () {
+    // console.log (sessionStorage['progress'])
+    // const xhr = new XMLHttpRequest();
+    // xhr.open('GET', '/progress', false);
+    // xhr.onload = event => console.log (event)
+    // xhr.setRequestHeader('X-CSRF-TOKEN',token);
+    // xhr.send();
+    fetch('/progress') // .then(response => response.json())
+    .then(function (data) {
+      return console.log(data);
+    }); // console.log('progress')
+  }, 100); // каждый период опрашиваются данные прогресса в АПИ
 
-  var onePointProgress = 100 / this.files.length; // Запустим функцию плавного пересчета progress бара, пока нет ответа от сервера
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/imageupload', true); // xhr.upload.onprogress = function (event) {
+  //   console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
+  // }
+  // xhr.onreadystatechange = function (event) {
+  //   console.log (event)
+  // }
 
-  timeRecalc(true); // пройдемся по всему циклу выбранных файлов
-
-  var _loop = function _loop() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/imageupload', true);
-
-    xhr.onload = function (event) {
-      // console.log (JSON.parse(event.target.response))
-      // let result = JSON.parse (event.target.response).result;
-      var result = JSON.parse(event.target.response); // Добавим загруженную миниатюру в элемент
-
-      var gallery = document.querySelector('.gallery');
-      var elementBefore = gallery.querySelector('form');
+  xhr.onload = function (event) {
+    console.log('onload');
+    var gallery = document.querySelector('.gallery');
+    var elementBefore = gallery.querySelector('form');
+    JSON.parse(event.target.response).forEach(function (result) {
+      // Добавим загруженную миниатюру в элемент
       var elem = document.createElement('div');
       elem.id = result.id;
       elem.classList.add('image-box');
@@ -627,25 +638,22 @@ function filesUpload() {
       if (fakeEmptyBlock) {
         document.querySelector('.gallery').removeChild(fakeEmptyBlock);
       }
-
-      timeRecalc();
-    };
-
-    xhr.setRequestHeader('enctype', 'multipart/form-data');
-    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content')); // console.log (i, formData.get('image'))
-    // let files = this.files[i]
-
-    setTimeout(function () {
-      // console.log (this)
-      var formData = new FormData();
-      formData.append('image', this);
-      xhr.send(formData);
-    }.bind(_this2.files[i]), i * 150);
+    });
+    clearInterval(progressListener);
+    turnOFFSuperModal();
+    updatePrice();
+    addEmptyElems(); // timeRecalc();
   };
 
+  xhr.setRequestHeader('enctype', 'multipart/form-data');
+  xhr.setRequestHeader('X-CSRF-TOKEN', token);
+  var formData = new FormData();
+
   for (i = 0; i < this.files.length; i++) {
-    _loop();
+    formData.append('images[]', this.files[i]);
   }
+
+  xhr.send(formData);
 }
 
 function turnInfo() {
@@ -697,6 +705,7 @@ function createDropListener() {
 document.addEventListener('DOMContentLoaded', function () {
   // обработчик нопки info
   document.querySelector('.info').onclick = turnInfo;
+  turnOFFSuperModal();
   updatePrice(); // добавим пустые эелементы
 
   addEmptyElems(); // обработчик нажатия на кнопку группового изменения
