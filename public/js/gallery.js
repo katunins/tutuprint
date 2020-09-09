@@ -602,7 +602,7 @@ function filesUpload() {
     fetch('/progress').then(function (response) {
       return response.json();
     }).then(function (data) {
-      if (data > 0 && Math.round(data) != Math.round(lastProgressResize)) {
+      if (Math.round(data) > 0 && Math.round(data) != Math.round(lastProgressResize)) {
         lastProgressResize = progressResize;
         progressResize = data / 2;
         lastTimeResize = nowTimeResize;
