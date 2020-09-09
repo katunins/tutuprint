@@ -577,9 +577,11 @@ function filesUpload() {
 
   function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
+    nowTime = new Date().getTime();
     document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progressUpload + progressResize) + '%';
-    console.log('lastTimeUpdate', lastTimeUpload);
-    console.log('lastTimeResize', lastTimeResize); // let  speed = 
+    var speedUpdate = (nowTime - lastTimeUpload) / (progressUpload - lastProgressUpload);
+    var speedResize = (nowTime - lastTimeResize) / (progressResize - lastProgressResize);
+    console.log('speed', speedUpdate, speedResize); // let  speed =
     // let shiftProgress = setTimeout (function () {}, speed);
     // let autoInc = setInterval()
   }

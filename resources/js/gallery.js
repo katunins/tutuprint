@@ -566,18 +566,22 @@ function filesUpload () {
   let lastProgressResize = 0;
   let progressUpload = 0;
   let progressResize = 0;
-  let lastTimeUpload = nowTime
-  let lastTimeResize = nowTime
+  let lastTimeUpload = nowTime;
+  let lastTimeResize = nowTime;
 
   function progressUpdate () {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
-    
+    nowTime = new Date ().getTime ();
     document.querySelector ('.super-modal-message').innerHTML =
       'Загрузка ' + Math.round (progressUpload + progressResize) + '%';
 
-      console.log ('lastTimeUpdate', lastTimeUpload)
-      console.log ('lastTimeResize', lastTimeResize)
-      // let  speed = 
+    let speedUpdate =
+      (nowTime - lastTimeUpload) / (progressUpload - lastProgressUpload);
+    let speedResize =
+      (nowTime - lastTimeResize) / (progressResize - lastProgressResize);
+
+      console.log ('speed', speedUpdate, speedResize)
+    // let  speed =
     // let shiftProgress = setTimeout (function () {}, speed);
 
     // let autoInc = setInterval()
