@@ -592,11 +592,12 @@ function filesUpload () {
         progress.last = progress.resize.now;
         progress.now = data / 2; //на два делим, так как это половина процесса
         progress.resize.recalcSpeed()
+        console.log ('inteval', progress);
 
       } else {
         // если данных нет, то сдвинем показатель с неообходимой скоростью
       }
-      console.log ('inteval', progress);
+      
       // progressUpdate ();
     });
   }, 250); // каждый период опрашиваются данные прогресса в АПИ
