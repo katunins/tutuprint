@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Image;
 
-use function PHPSTORM_META\map;
 
 class ImageController extends Controller
 {
+
     public function updateSessionImageCount(Request $request)
     {
 
@@ -69,8 +69,10 @@ class ImageController extends Controller
         $files = $request->file('images');
 
         Session::put('progress', 0);
+        // $GLOBALS['progress'] = 0;
+        // self::$progress = 0;
 
-        for ($i=0; $i < count($files); $i++) { 
+        for ($i = 0; $i < count($files); $i++) {
 
             // $id++;
 
@@ -93,10 +95,13 @@ class ImageController extends Controller
             $pathThumbnail = $folder . '/Thumbnail/' . $current_file_name;
 
             // $progress = ($i+1)*100/count($files);
-            Session::put('progress', $i);
-            
+            Session::put('progress', ($i+1)*100/count($files));
+            // $GLOBALS['progress'] = ($i+1)*100/count($files);
+            // Progress::set($i);
+            // self::$progress = 4;
+
             Session::push('images', [
-                'id' => $id+$i,
+                'id' => $id + $i,
                 'url' => Storage::url($path),
                 'count' => 1,
                 'thumbnail' => Storage::url($pathThumbnail),
@@ -105,7 +110,7 @@ class ImageController extends Controller
 
             $result[] = [
                 'url' => Storage::url($path),
-                'id' => $id+$i,
+                'id' => $id + $i,
                 'thumbnail' => Storage::url($pathThumbnail),
                 'filename' => $current_file_name,
             ];
@@ -128,9 +133,11 @@ class ImageController extends Controller
         }
     }
 
-    public function getProgressUpload (){
-        return Response::json(Session::get('progress'));
+    public function getProgressUpload()
+    {
+        // return Response::json(Progress::get());
+        // return Response::json(isset($GLOBALS['progress']) ? $GLOBALS['progress'] : null);
         // return json_encode(['progress'=>Session::get('progress')]);
+        return Response::json(Session::get('progress'));
     }
-
 }
