@@ -568,17 +568,24 @@ function filesUpload () {
   let progressResize = 0;
   let lastTimeUpload = nowTime;
   let lastTimeResize = nowTime;
+  let nowTimeUpload = nowTime;
+  let nowTimeResize = nowTime;
+  
+
+  console.log ('lastTimeUpload', lastTimeUpload)
+  console.log('lastTimeResize', lastTimeResize)
 
   function progressUpdate () {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
-    nowTime = new Date ().getTime ();
+    // nowTime = new Date ().getTime ();
+    // console.log ('progressUpdate - nowTime', nowTime-lastTimeResize)
     document.querySelector ('.super-modal-message').innerHTML =
       'Загрузка ' + Math.round (progressUpload + progressResize) + '%';
 
     let speedUpdate =
-      (nowTime - lastTimeUpload) / (progressUpload - lastProgressUpload);
+      (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
     let speedResize =
-      (nowTime - lastTimeResize) / (progressResize - lastProgressResize);
+      (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
 
       console.log ('speed', speedUpdate, speedResize)
     // let  speed =
@@ -592,7 +599,8 @@ function filesUpload () {
       if (data > 0 && data != lastProgressResize) {
         lastProgressResize = progressResize;
         progressResize = data / 2;
-        lastTimeResize = new Date ().getTime ();
+        lastProgressResize = nowTimeResize
+        nowTimeResize = new Date ().getTime ();
         progressUpdate ();
       }
     });
@@ -608,7 +616,8 @@ function filesUpload () {
     if (event.lengthComputable) {
       lastProgressUpload = progressUpload;
       progressUpload = event.loaded / event.total * 100 / 2;
-      lastTimeUpload = new Date ().getTime ();
+      lastTimeUpload = nowTimeUpload
+      nowTimeUpload = new Date ().getTime ();
       progressUpdate ();
     }
   };
