@@ -544,7 +544,7 @@ function filesUpload () {
   let token = document
     .querySelector ('meta[name="csrf-token"]')
     .getAttribute ('content');
-  let now = new Date ().getTime ();
+  // let now = new Date ().getTime ();
 
   function recalcSpeed (obj) {
     let nowTime = new Date ().getTime ();
@@ -561,57 +561,36 @@ function filesUpload () {
       );
     }
   }
-
+  let nowTime = new Date ().getTime ();
   let lastProgressUpload = 0;
   let lastProgressResize = 0;
-  let progressUpload = 0
-  let progressResize = 0
-
-  // let progress = {
-  //   upload: {
-  //     now: 0,
-  //     last: 0,
-  //     speed: 100,
-  //     lastTime: now,
-  //   },
-  //   resize: {
-  //     now: 0,
-  //     last: 0,
-  //     speed: 100,
-  //     lastTime: now,
-  //   },
-  // };
+  let progressUpload = 0;
+  let progressResize = 0;
+  let lastTimeUpload = nowTime
+  let lastTimeResize = nowTime
 
   function progressUpdate () {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
-    let nowTime = new Date ().getTime ();
-    // progress.speed =
-    //   (nowTime - progress.lastTime) / (progress.now - progress.last);
-    // progressAll = progress.upload.now + progress.resize.now;
-
-    // console.log (progress)
+    
     document.querySelector ('.super-modal-message').innerHTML =
       'Загрузка ' + Math.round (progressUpload + progressResize) + '%';
+
+      console.log ('lastTimeUpdate', lastTimeUpload)
+      console.log ('lastTimeResize', lastTimeResize)
+      // let  speed = 
+    // let shiftProgress = setTimeout (function () {}, speed);
 
     // let autoInc = setInterval()
   }
 
   function getResize () {
-    // if (progress.upload.now < 50) return false;
-
     fetch ('/progress').then (response => response.json ()).then (data => {
       if (data > 0 && data != lastProgressResize) {
-        lastProgressResize = progressResize
-        progressResize = data/2
-        // progress.resize.last = progress.resize.now;
-        // progress.resize.now = data / 2; //на два делим, так как это половина процесса
-
-        // recalcSpeed ('resize');
+        lastProgressResize = progressResize;
+        progressResize = data / 2;
+        lastTimeResize = new Date ().getTime ();
         progressUpdate ();
-        // console.log ('inteval', progressResize);
       }
-
-      // progressUpdate ();
     });
   }
 
@@ -623,19 +602,10 @@ function filesUpload () {
 
   xhr.upload.onprogress = function (event) {
     if (event.lengthComputable) {
-      // let uploadProgress = event.loaded / event.total * 100;
-      lastProgressUpload = progressUpload
-      progressUpload = event.loaded / event.total * 100 / 2
-      // console.log ('uploadProgress', uploadProgress)
-      // progress.upload.last = progress.upload.now;
-      // progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
-      // recalcSpeed ('upload');
-      // console.log ('onprogress', progressUpload);
+      lastProgressUpload = progressUpload;
+      progressUpload = event.loaded / event.total * 100 / 2;
+      lastTimeUpload = new Date ().getTime ();
       progressUpdate ();
-
-      // if (uploadProgress == 100) {
-      //   progress.upload.speed = 0;
-      // }
     }
   };
 
