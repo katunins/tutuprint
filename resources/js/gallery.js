@@ -545,21 +545,14 @@ function filesUpload () {
     .querySelector ('meta[name="csrf-token"]')
     .getAttribute ('content');
 
-  // максимум каждый - 50%
-  // let progress = {
-
-  //   upload: { now: 0, last: 0, speed: 100 },
-  //   resize: { now: 0, last: 0, speed: 100 },
-  //   lastTime: new Date().getTime()
-
-  // }
-
   let progress = {
+
     all: 0,
     now: 0,
     last: 0,
     speed: 100,
     lastTime: new Date ().getTime (),
+
   };
 
   function progressUpdate () {
@@ -569,6 +562,7 @@ function filesUpload () {
       (nowTime - progress.lastTime) / (progress.now - progress.last);
     progress.all += progress.now - progress.last;
 
+    console.log (progress)
     document.querySelector ('.super-modal-message').innerHTML =
     'Загрузка ' + Math.round (progress.all) + '%';
 
