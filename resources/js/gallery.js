@@ -606,7 +606,7 @@ function filesUpload () {
 
   function getResize () {
     fetch ('/progress').then (response => response.json ()).then (data => {
-      if (data != Math.round (lastProgressResize * 2)) {
+      if (data > 0 && data != Math.round (lastProgressResize * 2)) {
         lastProgressResize = progressResize;
         progressResize = data / 2;
         lastTimeResize = nowTimeResize;
@@ -632,8 +632,6 @@ function filesUpload () {
   };
   let progressListener = setInterval (getResize, 250); // каждый период опрашиваются данные прогресса в АПИ
   xhr.onload = event => {
-    
-
     let gallery = document.querySelector ('.gallery');
     let elementBefore = gallery.querySelector ('form');
 
