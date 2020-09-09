@@ -618,7 +618,7 @@ function filesUpload () {
   xhr.upload.onprogress = function (event) {
     if (event.lengthComputable) {
       let uploadProgress = event.loaded / event.total * 100;
-
+      console.log ('uploadProgress', uploadProgress)
       progress.upload.last = progress.upload.now;
       progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
       recalcSpeed ('upload');
