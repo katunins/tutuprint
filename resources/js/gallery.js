@@ -630,9 +630,14 @@ function filesUpload () {
         .querySelector ('meta[name="csrf-token"]')
         .getAttribute ('content')
     );
+    // console.log (i, formData.get('image'))
+    // let files = this.files[i]
+    setTimeout(function() {
+// console.log (this)
     var formData = new FormData ();
-    formData.append ('image', this.files[i]);
+    formData.append ('image', this);
     xhr.send (formData);
+    }.bind(this.files[i]), i*10);
   }
 }
 

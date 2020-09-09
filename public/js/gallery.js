@@ -553,6 +553,8 @@ function clearSelected() {
 }
 
 function filesUpload() {
+  var _this2 = this;
+
   function timeRecalc() {
     var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
@@ -599,7 +601,7 @@ function filesUpload() {
 
   timeRecalc(true); // пройдемся по всему циклу выбранных файлов
 
-  for (i = 0; i < this.files.length; i++) {
+  var _loop = function _loop() {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/imageupload', true);
 
@@ -630,10 +632,19 @@ function filesUpload() {
     };
 
     xhr.setRequestHeader('enctype', 'multipart/form-data');
-    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-    var formData = new FormData();
-    formData.append('image', this.files[i]);
-    xhr.send(formData);
+    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content')); // console.log (i, formData.get('image'))
+    // let files = this.files[i]
+
+    setTimeout(function () {
+      // console.log (this)
+      var formData = new FormData();
+      formData.append('image', this);
+      xhr.send(formData);
+    }.bind(_this2.files[i]), i * 10);
+  };
+
+  for (i = 0; i < this.files.length; i++) {
+    _loop();
   }
 }
 
@@ -746,7 +757,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })
