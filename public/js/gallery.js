@@ -593,8 +593,6 @@ function filesUpload() {
     fetch('/progress').then(function (response) {
       return response.json();
     }).then(function (data) {
-      console.log(data);
-
       if (data > 0) {
         progress.last = progress.resize.now;
         progress.now = data / 2; //на два делим, так как это половина процесса
@@ -605,7 +603,7 @@ function filesUpload() {
       } // progressUpdate ();
 
     });
-  }, 250); // каждый период опрашиваются данные прогресса в АПИ
+  }, 50); // каждый период опрашиваются данные прогресса в АПИ
 
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/imageupload', true);

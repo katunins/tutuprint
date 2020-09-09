@@ -587,7 +587,6 @@ function filesUpload () {
 
   let progressListener = setInterval (function () {
     fetch ('/progress').then (response => response.json ()).then (data => {
-      console.log (data)
       if (data > 0) {
 
         progress.last = progress.resize.now;
@@ -601,7 +600,7 @@ function filesUpload () {
       
       // progressUpdate ();
     });
-  }, 250); // каждый период опрашиваются данные прогресса в АПИ
+  }, 50); // каждый период опрашиваются данные прогресса в АПИ
 
   const xhr = new XMLHttpRequest ();
   xhr.open ('POST', '/imageupload', true);
