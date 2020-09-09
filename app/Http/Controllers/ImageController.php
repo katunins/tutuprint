@@ -114,7 +114,7 @@ class ImageController extends Controller
                 'filename' => $current_file_name,
             ];
         }
-        
+        Storage::put($folder . '/temp.dat', 0);
         return Response::json($result);
     }
 
