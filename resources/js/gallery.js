@@ -599,7 +599,7 @@ function filesUpload () {
       if (data > 0 && data != lastProgressResize) {
         lastProgressResize = progressResize;
         progressResize = data / 2;
-        lastProgressResize = nowTimeResize
+        lastTimeResize = nowTimeResize
         nowTimeResize = new Date ().getTime ();
         progressUpdate ();
       }
