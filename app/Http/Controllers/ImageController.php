@@ -68,8 +68,7 @@ class ImageController extends Controller
         $thumbnailFolder = 'storage/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token') . '/Thumbnail/'; // кривое решение из за Image Intervention - он не может доступ получить к Storage
         $files = $request->file('images');
 
-        $progress = 0;
-        Session::put('progress', $progress);
+        Session::put('progress', 0);
 
         for ($i=0; $i < count($files); $i++) { 
 
@@ -93,8 +92,8 @@ class ImageController extends Controller
             $thumbnail->save($thumbnailFolder . $current_file_name);
             $pathThumbnail = $folder . '/Thumbnail/' . $current_file_name;
 
-            $progress = ($i+1)*100/count($files);
-            Session::put('progress', $progress);
+            // $progress = ($i+1)*100/count($files);
+            Session::put('progress', $i);
             
             Session::push('images', [
                 'id' => $id+$i,
