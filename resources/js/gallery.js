@@ -561,16 +561,14 @@ function filesUpload () {
       );
     }
   }
-  var progress = {
+  let progress = {
     upload: {
-      status: false,
       now: 0,
       last: 0,
       speed: 100,
       lastTime: now,
     },
     resize: {
-      status: false,
       now: 0,
       last: 0,
       speed: 100,
@@ -599,7 +597,7 @@ function filesUpload () {
       if (data > 0 && data != progress.resize.last) {
         progress.resize.last = progress.resize.now;
         progress.resize.now = data / 2; //на два делим, так как это половина процесса
-        recalcSpeed ('resize');
+        // recalcSpeed ('resize');
         console.log ('inteval', progress);
       } else {
         // если данных нет, то сдвинем показатель с неообходимой скоростью
@@ -618,15 +616,14 @@ function filesUpload () {
   xhr.upload.onprogress = function (event) {
     if (event.lengthComputable) {
       let uploadProgress = event.loaded / event.total * 100;
-      console.log ('uploadProgress', uploadProgress)
+      // console.log ('uploadProgress', uploadProgress)
       progress.upload.last = progress.upload.now;
       progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
-      recalcSpeed ('upload');
+      // recalcSpeed ('upload');
       console.log ('onprogress', progress);
       // progressUpdate ();
 
       if (uploadProgress == 100) {
-        progress.upload.status = false;
         progress.upload.speed = 0;
       }
     }
