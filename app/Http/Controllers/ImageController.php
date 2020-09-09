@@ -78,7 +78,7 @@ class ImageController extends Controller
         // Session::put('progress', 0);
         // $GLOBALS['progress'] = 0;
         // self::$progress = 0;
-        Storage::put($folder . '/temp.dat', 0);
+        // Storage::put($folder . '/temp.dat', 0);
 
         for ($i = 0; $i < count($files); $i++) {
 
@@ -124,6 +124,7 @@ class ImageController extends Controller
                 'filename' => $current_file_name,
             ];
         }
+        Storage::put($folder . '/temp.dat', 0);
         return Response::json($result);
     }
 
