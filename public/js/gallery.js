@@ -566,8 +566,8 @@ function filesUpload() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
     var nowTime = new Date().getTime();
     progress.speed = (nowTime - progress.lastTime) / (progress.now - progress.last);
-    progress.all += progress.now - progress.last;
-    console.log(progress);
+    progress.all += progress.now - progress.last; // console.log (progress)
+
     document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progress.all) + '%'; // let autoInc = setInterval()
   }
 
@@ -582,7 +582,7 @@ function filesUpload() {
       } else {// если данных нет, то сдвинем показатель с неообходимой скоростью
         }
 
-      console.log(progress);
+      console.log('inteval', progress);
       progressUpdate();
     });
   }, 250); // каждый период опрашиваются данные прогресса в АПИ
@@ -595,6 +595,7 @@ function filesUpload() {
       progress.last = progress.now;
       progress.now = event.loaded / event.total * 100 / 2; //на два делим, так как это половина процесса
 
+      console.log('onprogress', progress);
       progressUpdate();
     } //console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
 
