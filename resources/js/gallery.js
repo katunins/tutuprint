@@ -587,6 +587,7 @@ function filesUpload () {
 
   let progressListener = setInterval (function () {
     fetch ('/progress').then (response => response.json ()).then (data => {
+      console.log (data)
       if (data > 0) {
 
         progress.last = progress.resize.now;

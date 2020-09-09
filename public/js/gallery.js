@@ -593,6 +593,8 @@ function filesUpload() {
     fetch('/progress').then(function (response) {
       return response.json();
     }).then(function (data) {
+      console.log(data);
+
       if (data > 0) {
         progress.last = progress.resize.now;
         progress.now = data / 2; //на два делим, так как это половина процесса
