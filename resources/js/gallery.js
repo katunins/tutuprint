@@ -544,29 +544,38 @@ function filesUpload () {
   let token = document
     .querySelector ('meta[name="csrf-token"]')
     .getAttribute ('content');
+  let now = new Date ().getTime ();
 
-  let progress = {
+  function recalcSpeed (obj) {
+    let nowTime = new Date ().getTime ();
+    if (obj == 'upload') {
+      progress.upload.speed = Math.round (
+        (nowTime - progress.upload.lastTime) /
+          (progress.upload.now - progress.upload.last)
+      );
+    }
+    if (obj == 'resize') {
+      progress.resize.speed = Math.round (
+        (nowTime - progress.upload.lastTime) /
+          (progress.upload.now - progress.upload.last)
+      );
+    }
+  }
+  var progress = {
     upload: {
       status: false,
       now: 0,
       last: 0,
       speed: 100,
-      lastTime: new Date ().getTime (),
-      // recalcSpeed: () => {
-      //   this.speed = (new Date ().getTime () - this.lastTime) / (this.now - this.last)
-      // },
+      lastTime: now,
     },
     resize: {
       status: false,
       now: 0,
       last: 0,
       speed: 100,
-      lastTime: new Date ().getTime (),
-      // recalcSpeed: () => {
-      //   this.speed = (new Date ().getTime () - this.lastTime) / (this.now - this.last)
-      // },
+      lastTime: now,
     },
-    
   };
 
   function progressUpdate () {
@@ -584,26 +593,24 @@ function filesUpload () {
   }
 
   function getResize () {
-    if (progress.upload.now < 50) return false
+    if (progress.upload.now < 50 || progress.resize.now == progress.resize.last) return false;
 
     fetch ('/progress').then (response => response.json ()).then (data => {
       if (data > 0) {
-
         progress.resize.last = progress.resize.now;
         progress.resize.now = data / 2; //на два делим, так как это половина процесса
-        // progress.resize.recalcSpeed()
+        recalcSpeed ('resize');
         console.log ('inteval', progress);
-
       } else {
         // если данных нет, то сдвинем показатель с неообходимой скоростью
       }
-      
+
       // progressUpdate ();
     });
   }
 
   turnONSuperModal ('uploadProgress');
-  let progressListener = setInterval (getResize, 50); // каждый период опрашиваются данные прогресса в АПИ
+  let progressListener = setInterval (getResize, 250); // каждый период опрашиваются данные прогресса в АПИ
 
   const xhr = new XMLHttpRequest ();
   xhr.open ('POST', '/imageupload', true);
@@ -614,7 +621,7 @@ function filesUpload () {
 
       progress.upload.last = progress.upload.now;
       progress.upload.now = uploadProgress / 2; //на два делим, так как это половина общего процесса
-      // progress.upload.recalcSpeed()
+      recalcSpeed ('upload');
       console.log ('onprogress', progress);
       // progressUpdate ();
 
