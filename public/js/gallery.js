@@ -597,26 +597,22 @@ function filesUpload() {
 
   turnONSuperModal('uploadProgress');
   var progressListener = setInterval(function () {
-    // console.log (sessionStorage['progress'])
-    // const xhr = new XMLHttpRequest();
-    // xhr.open('GET', '/progress', false);
-    // xhr.onload = event => console.log (event)
-    // xhr.setRequestHeader('X-CSRF-TOKEN',token);
-    // xhr.send();
     fetch('/progress').then(function (response) {
       return response.json();
     }).then(function (data) {
       return console.log(data);
     }); // console.log('progress')
-  }, 100); // каждый период опрашиваются данные прогресса в АПИ
+  }, 500); // каждый период опрашиваются данные прогресса в АПИ
 
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/imageupload', true); // xhr.upload.onprogress = function (event) {
-  //   console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
-  // }
-  // xhr.onreadystatechange = function (event) {
+  xhr.open('POST', '/imageupload', true);
+
+  xhr.upload.onprogress = function (event) {
+    if (lengthComputable) console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
+  }; // xhr.onreadystatechange = function (event) {
   //   console.log (event)
   // }
+
 
   xhr.onload = function (event) {
     console.log('onload', new Date().getTime());

@@ -591,12 +591,6 @@ function filesUpload() {
 
   let progressListener = setInterval(function () {
 
-    // console.log (sessionStorage['progress'])
-    // const xhr = new XMLHttpRequest();
-    // xhr.open('GET', '/progress', false);
-    // xhr.onload = event => console.log (event)
-    // xhr.setRequestHeader('X-CSRF-TOKEN',token);
-    // xhr.send();
     fetch('/progress')
       .then(response => response.json())
       .then(data => console.log(data))
@@ -604,14 +598,14 @@ function filesUpload() {
 
   // console.log('progress')
 
-}, 100) // каждый период опрашиваются данные прогресса в АПИ
+}, 500) // каждый период опрашиваются данные прогресса в АПИ
 
 const xhr = new XMLHttpRequest();
 xhr.open('POST', '/imageupload', true);
 
-// xhr.upload.onprogress = function (event) {
-//   console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
-// }
+xhr.upload.onprogress = function (event) {
+  if (lengthComputable) console.log('Загружено на сервер ' + event.loaded + ' байт из ' + event.total);
+}
 
 // xhr.onreadystatechange = function (event) {
 //   console.log (event)

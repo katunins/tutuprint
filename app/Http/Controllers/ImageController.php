@@ -75,14 +75,8 @@ class ImageController extends Controller
         $thumbnailFolder = 'storage/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token') . '/Thumbnail/'; // кривое решение из за Image Intervention - он не может доступ получить к Storage
         $files = $request->file('images');
 
-        // Session::put('progress', 0);
-        // $GLOBALS['progress'] = 0;
-        // self::$progress = 0;
-        // Storage::put($folder . '/temp.dat', 0);
-
         for ($i = 0; $i < count($files); $i++) {
 
-            // $id++;
 
             $original_name = Str::slug(explode('.', $files[$i]->getClientOriginalName())[0]);
             $original_ext = pathinfo($files[$i]->getClientOriginalName())['extension'];
@@ -102,12 +96,7 @@ class ImageController extends Controller
             $thumbnail->save($thumbnailFolder . $current_file_name);
             $pathThumbnail = $folder . '/Thumbnail/' . $current_file_name;
 
-            // $progress = ($i+1)*100/count($files);
-            // Session::put('progress', ($i+1)*100/count($files));
-            // $GLOBALS['progress'] = ($i+1)*100/count($files);
             Storage::put($folder . '/temp.dat', ($i + 1) * 100 / count($files));
-            // Progress::set($i);
-            // self::$progress = 4;
 
             Session::push('images', [
                 'id' => $id + $i,
@@ -146,12 +135,8 @@ class ImageController extends Controller
     public function getProgressUpload(Request $request)
     {
 
-        // return Response::json(Progress::get());
         $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
         if (Storage::exists($folder . '/temp.dat')) return Response::json(Storage::get($folder . '/temp.dat'));
-        else
-            return Response::json(null);
-        // return json_encode(['progress'=>Session::get('progress')]);
-        // return Response::json(Session::get('progress'));
+        else return Response::json(null);
     }
 }
