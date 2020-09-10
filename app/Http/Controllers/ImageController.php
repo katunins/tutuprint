@@ -70,7 +70,7 @@ class ImageController extends Controller
         $files = $request->file('images');
         // Storage::put($folder . '/temp.dat', 0);
         // Cache::put ('progress', 0);
-        
+
         for ($i = 0; $i < count($files); $i++) {
 
 
@@ -85,14 +85,18 @@ class ImageController extends Controller
 
             if (!Storage::disk('local')->exists($folder . '/Thumbnail')) Storage::makeDirectory($folder . '/Thumbnail', 0775, true); //Сделаем директорию для preview
 
-            $thumbnail = Image::make($files[$i]->getRealPath())->orientate()->resize(600, 600, function ($constraint) {
+            $image = Image::make($files[$i]->getRealPath())->orientate();
+
+            $width = $image->width();
+            $heigh = $image->height();
+            $size = $image->filesize();
+
+            $image->resize(600, 600, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
-            })->sharpen(5);
-            $thumbnail->save($thumbnailFolder . $current_file_name);
+            })->sharpen(5)->save($thumbnailFolder . $current_file_name);
             $pathThumbnail = $folder . '/Thumbnail/' . $current_file_name;
 
-            // Storage::put($folder . '/temp.dat', ($i + 1) * 100 / count($files));
             Cache::put('progress', ($i + 1) * 100 / count($files));
 
             Session::push('images', [
@@ -100,7 +104,10 @@ class ImageController extends Controller
                 'url' => Storage::url($path),
                 'count' => 1,
                 'thumbnail' => Storage::url($pathThumbnail),
-                'filename' => $current_file_name
+                'filename' => $current_file_name,
+                'width' => $width,
+                'heigh' => $heigh,
+                'size' => $size,
             ]);
 
             $result[] = [
@@ -108,6 +115,9 @@ class ImageController extends Controller
                 'id' => $id + $i,
                 'thumbnail' => Storage::url($pathThumbnail),
                 'filename' => $current_file_name,
+                'width' => $width,
+                'heigh' => $heigh,
+                'size' => $size,
             ];
         }
         // Storage::put($folder . '/temp.dat', 0);

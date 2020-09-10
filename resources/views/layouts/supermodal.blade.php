@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="{{ asset('css/supermodal.css') }}">
-<input type="hidden" id="modal-temporary-data">
+<input type="hidden" id="modal-temporary-data" value="">
 
 <div class="super-modal hide">
     <div class="modal-block">
@@ -39,7 +39,7 @@
         document.querySelector('.modal-cssload-wrap').classList.add('hide');
         document.getElementById('ok-modal-button').classList.add('hide');
         document.querySelector('.close-modal-button').classList.add('hide');
-        document.getElementById ('modal-temporary-data').value = 1
+        document.getElementById ('modal-temporary-data').value = ''
     }
 
     function turnONSuperModal(status) {
@@ -106,6 +106,24 @@
                     }
                 );
                 break
+
+                case 'lowQuality':
+                document.getElementById('ok-modal-button').classList.remove('hide');
+                document.querySelector('.close-modal-button').classList.remove('hide');
+                document.querySelector('.super-modal').classList.remove('hide');
+                document.querySelector('.super-modal-message').classList.remove('hide');
+                document.getElementById('cancel-modal-button').classList.remove('hide');
+                document.querySelector('.modal-block').style = 'margin-top: -78px';
+                document.addEventListener(
+                    'keyup',
+                    key => {
+                        if (key.key === 'Escape') turnOFFSuperModal();
+                    }, {
+                        once: true
+                    }
+                );
+                break
+
         }
     }
 

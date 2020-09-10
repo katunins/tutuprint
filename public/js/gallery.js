@@ -295,10 +295,17 @@ function switchRefresh(element) {
 }
 
 function changeModalCount() {
-  var currentImage = document.getElementById(this.id);
   var modalTempData = document.getElementById('modal-temporary-data'); //буфер модального окна
 
-  var currentCount = modalTempData.value ? modalTempData.value : currentImage.getAttribute('count');
+  var currentImage = document.getElementById(this.id);
+
+  if (modalTempData.value == '') {
+    currentCount = currentImage.getAttribute('count');
+    modalTempData.value = currentCount;
+  } else {
+    currentCount = modalTempData.value;
+  }
+
   currentCount = Number(currentCount) + Number(this.increase);
   if (currentCount < 0) currentCount = 0;
   document.getElementById('image-modal-count').innerHTML = currentCount;
@@ -552,6 +559,34 @@ function clearSelected() {
   switchClearAllButton('all');
 }
 
+function checkLowQuality() {
+  // уведомляет клиента о низком разрешении
+  var lowQulity = 0;
+  document.querySelectorAll('.image-box').forEach(function (image) {
+    var currentWidth = image.getAttribute('width');
+    var currentHeigh = image.getAttribute('heigh');
+
+    if (currentHeigh > currentWidth) {
+      var temp = currentHeigh;
+      currentHeigh = urrentWidth;
+      urrentWidth = temp;
+    }
+
+    var minHeigh = document.querySelector('.active[name="size"]').getAttribute('minWidth');
+    var minWidth = document.querySelector('.active[name="size"]').getAttribute('minHeigh');
+
+    if (currentWidth < minWidth || currentHeigh < minHeigh) {
+      image.setAttribute('lowQuality', true);
+      image.querySelector('.img-alert').classList.remove('hide');
+      lowQulity++;
+    }
+  });
+
+  if (lowQulity > 0) {
+    turnONSuperModal('lowQuality');
+  }
+}
+
 function filesUpload() {
   if (!this.files) return; //вдруг нажемт ESC при выборе файлов и this будет без файлов
 
@@ -661,6 +696,9 @@ function filesUpload() {
       elem.classList.add('image-box');
       elem.setAttribute('count', 1);
       elem.setAttribute('url', result.url);
+      elem.setAttribute('width', result.width);
+      elem.setAttribute('heigh', result.heigh);
+      elem.setAttribute('size', result.size);
       elem.style = 'background-image: url(' + result.thumbnail + ')';
       elem.innerHTML = '<div class="img-count hide"></div><div class="img-select hide"></div>';
       elem.addEventListener('click', imageBoxOpenModalListener, false);
@@ -678,6 +716,8 @@ function filesUpload() {
     turnOFFSuperModal();
     updatePrice();
     addEmptyElems();
+    document.getElementById('imgLoad').value = null;
+    checkLowQuality();
   };
 
   xhr.setRequestHeader('enctype', 'multipart/form-data');
@@ -789,7 +829,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('imgLoad').onchange = filesUpload; // запустим обработчик события перетаскивания фотографий в gallery
 
-  createDropListener();
+  createDropListener(); // проверим на плохое качество
+
+  checkLowQuality();
 });
 
 /***/ }),

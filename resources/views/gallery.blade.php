@@ -22,11 +22,12 @@ use App\Http\Controllers\ImageController; ?>
         @if ($item['count'] > 0)
 
 
-        <div class="image-box" id={{ $item['id'] }} url={{ $item['url'] }}
+        <div class="image-box" id={{ $item['id'] }} url={{ $item['url'] }} width={{$item['width']}}
+            heigh={{$item['heigh']}} size={{$item['size']}}
             style="background-image: url( {{ asset($item['thumbnail']) }})" count={{ $item['count'] }}>
             <div class="img-count hide"></div>
-            <div class="img-select hide">
-            </div>
+            <div class="img-select hide"></div>
+            <div class="img-alert hide"></div>
         </div>
         @endif
         @endforeach
@@ -102,13 +103,15 @@ use App\Http\Controllers\ImageController; ?>
                     </div>
 
                     <div class="param-block">
-                        <div class="param active" switchdata='false' name='size' value='10x15'>10 x 15 cm</div>
+                        <div class="param active" switchdata='false' name='size' value='10x15' minWidth=1795
+                            minHeigh=1205>10 x 15 cm</div>
                         <div class="button">
                             <input type="checkbox" class="checkbox switcher">
                             <div class="knobs"></div>
                             <div class="layer"></div>
                         </div>
-                        <div class="param inactive" switchdata='true' name='size' value='15x21'>15 x 21 cm</div>
+                        <div class="param inactive" switchdata='true' name='size' value='15x21' minWidth=2551
+                            minHeigh=1795>15 x 21 cm</div>
                     </div>
 
                     <div class="param-check-block">

@@ -115,6 +115,15 @@
   background-position: center;
 }
 
+.gallery-block .gallery .img-alert {
+  cursor: pointer;
+  padding-bottom: 100%;
+  height: 0;
+  background-image: url(/images/alert.png);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .gallery-block .controls {
   width: 100%;
   height: 250px;
