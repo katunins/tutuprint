@@ -601,9 +601,11 @@ function filesUpload() {
 
   function getResize() {
     fetch('/progress').then(function (response) {
-      return response.json();
+      return response.text();
     }).then(function (data) {
-      if (data > 0 && data != Math.round(lastProgressResize * 2)) {
+      // console.log(typeof (data), data, !data);
+      // return false
+      if (data && data != Math.round(lastProgressResize * 2)) {
         lastProgressResize = progressResize;
         progressResize = data / 2;
         lastTimeResize = nowTimeResize;
