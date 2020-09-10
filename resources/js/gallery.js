@@ -600,8 +600,9 @@ function filesUpload() {
     if (allSpeed > 0) {
       let shiftPeriod = 0
       var shiftProgress = setInterval(function () {
-        if (shiftPeriod > lastAllPeriods) { clearInterval(shiftProgress) }
-        changeProgress(progressAll + shiftPeriod)
+        shiftPeriod ++
+        if (shiftPeriod > lastAllPeriods) { clearInterval(shiftProgress) } else { changeProgress(progressAll + shiftPeriod) }
+
       }, allSpeed);
     }
   }

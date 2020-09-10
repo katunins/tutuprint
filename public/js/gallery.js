@@ -605,11 +605,13 @@ function filesUpload() {
     if (allSpeed > 0) {
       var shiftPeriod = 0;
       var shiftProgress = setInterval(function () {
+        shiftPeriod++;
+
         if (shiftPeriod > lastAllPeriods) {
           clearInterval(shiftProgress);
+        } else {
+          changeProgress(progressAll + shiftPeriod);
         }
-
-        changeProgress(progressAll + shiftPeriod);
       }, allSpeed);
     }
   }
