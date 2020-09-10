@@ -558,10 +558,15 @@ function filesUpload() {
   let nowTimeResize = nowTime;
 
   function changeProgress(progressAll) {
-    let lastAllProgress = document.querySelector('.super-modal-message').querySelector('span')
-    console.log (lastAllProgress)
-    document.querySelector('.super-modal-message').innerHTML =
-      'Загрузка ' + '<span>' + progressAll + '</span>' + '%';
+    let spanAllProgress = document.querySelector('.super-modal-message').querySelector('span')
+    // console.log (lastAllProgress)
+    if (spanAllProgress) {
+      if (progressAll < spanAllProgress.innerHTML) {
+        document.querySelector('.super-modal-message').innerHTML =
+          'Загрузка ' + '<span>' + progressAll + '</span>' + '%';
+      }
+    }
+
   }
 
   function progressUpdate() {

@@ -566,9 +566,13 @@ function filesUpload() {
   var nowTimeResize = nowTime;
 
   function changeProgress(progressAll) {
-    var lastAllProgress = document.querySelector('.super-modal-message').querySelector('span');
-    console.log(lastAllProgress);
-    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + '<span>' + progressAll + '</span>' + '%';
+    var spanAllProgress = document.querySelector('.super-modal-message').querySelector('span'); // console.log (lastAllProgress)
+
+    if (spanAllProgress) {
+      if (progressAll < spanAllProgress.innerHTML) {
+        document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + '<span>' + progressAll + '</span>' + '%';
+      }
+    }
   }
 
   function progressUpdate() {
