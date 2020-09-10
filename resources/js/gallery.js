@@ -545,7 +545,6 @@ function filesUpload() {
   let token = document
     .querySelector('meta[name="csrf-token"]')
     .getAttribute('content');
-  // let now = new Date ().getTime ();
 
   function recalcSpeed(obj) {
     let nowTime = new Date().getTime();
@@ -574,14 +573,29 @@ function filesUpload() {
 
   function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
-    let progressAll = Math.round(progressUpload + progressResize)
     document.querySelector('.super-modal-message').innerHTML =
-      'Загрузка ' + progressAll + '%';
+      'Загрузка ' + Math.round(progressUpload + progressResize) + '%';
 
     // let speedUpdate =
     //   (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
     // let speedResize =
     //   (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
+    
+    if (progressResize > 0 && progressResize < 50) {
+      speedResize = (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
+    } else {
+      speedResize = 0
+    }
+
+    if (progressUpload > 0 && progressUpload < 50) {
+       speedUpdate = (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
+    } else {
+      speedUpdate = 0
+    }
+
+    let allSpeed = speedUpdate + speedResize
+    if (allSpeed > 0) console.log ('speed', allSpeed)
+
     if (progressUpload > 0) {
       console.log('Upload',
         // nowTimeUpload,
@@ -609,8 +623,6 @@ function filesUpload() {
 
   function getResize() {
     fetch('/progress').then(response => response.text()).then(data => {
-      // console.log(typeof (data), data, !data);
-      // return false
       if (data && data != Math.round(lastProgressResize * 2)) {
         lastProgressResize = progressResize;
         progressResize = data / 2;

@@ -554,7 +554,7 @@ function clearSelected() {
 
 function filesUpload() {
   if (!this.files) return;
-  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // let now = new Date ().getTime ();
+  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
   function recalcSpeed(obj) {
     var nowTime = new Date().getTime();
@@ -580,11 +580,25 @@ function filesUpload() {
 
   function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
-    var progressAll = Math.round(progressUpload + progressResize);
-    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + progressAll + '%'; // let speedUpdate =
+    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progressUpload + progressResize) + '%'; // let speedUpdate =
     //   (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
     // let speedResize =
     //   (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
+
+    if (progressResize > 0 && progressResize < 50) {
+      speedResize = (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
+    } else {
+      speedResize = 0;
+    }
+
+    if (progressUpload > 0 && progressUpload < 50) {
+      speedUpdate = (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
+    } else {
+      speedUpdate = 0;
+    }
+
+    var allSpeed = speedUpdate + speedResize;
+    if (allSpeed > 0) console.log('speed', allSpeed);
 
     if (progressUpload > 0) {
       console.log('Upload', // nowTimeUpload,
@@ -609,8 +623,6 @@ function filesUpload() {
     fetch('/progress').then(function (response) {
       return response.text();
     }).then(function (data) {
-      // console.log(typeof (data), data, !data);
-      // return false
       if (data && data != Math.round(lastProgressResize * 2)) {
         lastProgressResize = progressResize;
         progressResize = data / 2;
