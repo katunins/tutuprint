@@ -93,7 +93,7 @@ class ImageController extends Controller
             $pathThumbnail = $folder . '/Thumbnail/' . $current_file_name;
 
             // Storage::put($folder . '/temp.dat', ($i + 1) * 100 / count($files));
-            Cache::put('progress', $i);
+            Cache::put('progress', ($i + 1) * 100 / count($files));
 
             Session::push('images', [
                 'id' => $id + $i,

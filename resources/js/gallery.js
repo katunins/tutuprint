@@ -662,7 +662,7 @@ function filesUpload() {
         document.querySelector('.gallery').removeChild(fakeEmptyBlock);
       }
     });
-
+    getResize() //последний запрос, что бы сбросить в 0
     clearInterval(progressListener);
     turnOFFSuperModal();
     updatePrice();
