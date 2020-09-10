@@ -553,6 +553,8 @@ function clearSelected() {
 }
 
 function filesUpload() {
+  // console.log (typeof (this.files))
+  // return
   var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // let now = new Date ().getTime ();
 
   function recalcSpeed(obj) {
@@ -575,8 +577,7 @@ function filesUpload() {
   var lastTimeUpload = nowTime;
   var lastTimeResize = nowTime;
   var nowTimeUpload = nowTime;
-  var nowTimeResize = nowTime; // console.log ('lastTimeUpload', lastTimeUpload);
-  // console.log ('lastTimeResize', lastTimeResize);
+  var nowTimeResize = nowTime;
 
   function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст

@@ -541,6 +541,8 @@ function clearSelected() {
 }
 
 function filesUpload() {
+  // console.log (typeof (this.files))
+  // return
   let token = document
     .querySelector('meta[name="csrf-token"]')
     .getAttribute('content');
@@ -570,9 +572,6 @@ function filesUpload() {
   let lastTimeResize = nowTime;
   let nowTimeUpload = nowTime;
   let nowTimeResize = nowTime;
-
-  // console.log ('lastTimeUpload', lastTimeUpload);
-  // console.log ('lastTimeResize', lastTimeResize);
 
   function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
