@@ -576,8 +576,8 @@ function filesUpload() {
   }
 
   function progressUpdate() {
-    console.log('progressUpdate()'); // расчитывает общий процент загрузки и ресайза + обновляет текст
-
+    // console.log ('progressUpdate()')
+    // расчитывает общий процент загрузки и ресайза + обновляет текст
     clearInterval(shiftProgress);
     var progressAll = Math.round(progressUpload + progressResize);
     changeProgress(progressAll);
@@ -597,8 +597,9 @@ function filesUpload() {
     var allSpeed = speedUpdate + speedResize; // console.log ('speed', allSpeed)
 
     if (allSpeed > 0) {
-      var shiftProgress = setTimeout(function () {// progressAll++
-        // changeProgress(progressAll)
+      var shiftProgress = setTimeout(function () {
+        progressAll++;
+        changeProgress(progressAll);
       }, allSpeed);
     }
   }
