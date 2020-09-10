@@ -85,13 +85,12 @@ class ImageController extends Controller
 
             if (!Storage::disk('local')->exists($folder . '/Thumbnail')) Storage::makeDirectory($folder . '/Thumbnail', 0775, true); //Сделаем директорию для preview
 
-            // $thumbnail = Image::make($files[$i]->getRealPath())->orientate()->resize(600, 600, function ($constraint) {
-            //     $constraint->aspectRatio();
-            //     $constraint->upsize();
-            // })->sharpen(5);
-            // $thumbnail->save($thumbnailFolder . $current_file_name);
-            // $pathThumbnail = $folder . '/Thumbnail/' . $current_file_name;
-            $pathThumbnail = '';
+            $thumbnail = Image::make($files[$i]->getRealPath())->orientate()->resize(600, 600, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->sharpen(5);
+            $thumbnail->save($thumbnailFolder . $current_file_name);
+            $pathThumbnail = $folder . '/Thumbnail/' . $current_file_name;
 
             // Storage::put($folder . '/temp.dat', ($i + 1) * 100 / count($files));
             Cache::put('progress', ($i + 1) * 100 / count($files));
