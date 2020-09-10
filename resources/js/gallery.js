@@ -541,8 +541,8 @@ function clearSelected() {
 }
 
 function filesUpload() {
-  // console.log (typeof (this.files))
-  // return
+  console.log (typeof (this.files))
+  return
   let token = document
     .querySelector('meta[name="csrf-token"]')
     .getAttribute('content');

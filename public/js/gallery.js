@@ -93,6 +93,8 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 var priceArr = new Object({
   photoprint: {
     size: {
@@ -553,8 +555,8 @@ function clearSelected() {
 }
 
 function filesUpload() {
-  // console.log (typeof (this.files))
-  // return
+  console.log(_typeof(this.files));
+  return;
   var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // let now = new Date ().getTime ();
 
   function recalcSpeed(obj) {
