@@ -566,9 +566,7 @@ function filesUpload() {
   var nowTimeResize = nowTime;
 
   function changeProgress(progressAll) {
-    var spanAllProgress = document.querySelector('.super-modal-message').querySelector('span'); // if (!spanAllProgress)  {
-    //   document.querySelector('.super-modal-message').innerHTML ='Загрузка <span></span> %';
-    // }
+    var spanAllProgress = document.querySelector('.super-modal-message').querySelector('span');
 
     if (spanAllProgress) {
       if (progressAll > spanAllProgress.innerHTML) {
@@ -596,6 +594,7 @@ function filesUpload() {
     }
 
     var allSpeed = speedUpdate + speedResize;
+    console.log('speed', allSpeed);
 
     if (allSpeed > 0) {
       var shiftProgress = setTimeout(function () {

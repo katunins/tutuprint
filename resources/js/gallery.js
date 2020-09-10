@@ -558,10 +558,9 @@ function filesUpload() {
   let nowTimeResize = nowTime;
 
   function changeProgress(progressAll) {
+
     let spanAllProgress = document.querySelector('.super-modal-message').querySelector('span')
-    // if (!spanAllProgress)  {
-    //   document.querySelector('.super-modal-message').innerHTML ='Загрузка <span></span> %';
-    // }
+
     if (spanAllProgress) {
       if (progressAll > spanAllProgress.innerHTML) {
         spanAllProgress.innerHTML = progressAll
@@ -587,8 +586,8 @@ function filesUpload() {
     } else {
       speedUpdate = 0
     }
-
     let allSpeed = speedUpdate + speedResize
+    console.log ('speed', allSpeed)
     if (allSpeed > 0) {
       var shiftProgress = setTimeout(function () {
         progressAll++
