@@ -555,19 +555,6 @@ function clearSelected() {
 function filesUpload() {
   if (!this.files) return;
   var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-  function recalcSpeed(obj) {
-    var nowTime = new Date().getTime();
-
-    if (obj == 'upload') {
-      progress.upload.speed = Math.round((nowTime - progress.upload.lastTime) / (progress.upload.now - progress.upload.last));
-    }
-
-    if (obj == 'resize') {
-      progress.resize.speed = Math.round((nowTime - progress.upload.lastTime) / (progress.upload.now - progress.upload.last));
-    }
-  }
-
   var nowTime = new Date().getTime();
   var lastProgressUpload = 0;
   var lastProgressResize = 0;
@@ -578,14 +565,17 @@ function filesUpload() {
   var nowTimeUpload = nowTime;
   var nowTimeResize = nowTime;
 
+  function changeProgress(progressAll) {
+    var lastAllProgress = document.querySelector('.super-modal-message').querySelector('span');
+    console.log(lastAllProgress);
+    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + '<span>' + progressAll + '</span>' + '%';
+  }
+
   function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
     clearInterval(shiftProgress);
     var progressAll = Math.round(progressUpload + progressResize);
-    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + progressAll + '%'; // let speedUpdate =
-    //   (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
-    // let speedResize =
-    //   (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
+    changeProgress(progressAll);
 
     if (progressResize > 0 && progressResize < 50) {
       speedResize = (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
@@ -604,31 +594,9 @@ function filesUpload() {
     if (allSpeed > 0) {
       var shiftProgress = setTimeout(function () {
         progressAll++;
-        document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + progressAll + '%';
-      }, allSpeed); // console.log('speed', allSpeed)
-    } // if (progressUpload > 0) {
-    //   console.log('Upload',
-    //     // nowTimeUpload,
-    //     // lastTimeUpload,
-    //     progressUpload,
-    //     lastProgressUpload
-    //   );
-    // }
-    // if (progressResize > 0) {
-    //   console.log('Resize',
-    //     // nowTimeResize,
-    //     // lastTimeResize,
-    //     progressResize,
-    //     lastProgressResize
-    //   );
-    // }
-    // console.log('progressAll', progressAll)
-    // console.log(' - --- - - - - - ')
-    // console.log ('speed', speedUpdate, speedResize)
-    // let  speed =
-    // let shiftProgress = setTimeout (function () {}, speed);
-    // let autoInc = setInterval()
-
+        changeProgress(progressAll);
+      }, allSpeed);
+    }
   }
 
   function getResize() {
@@ -684,8 +652,7 @@ function filesUpload() {
     });
     getResize(); //последний запрос, что бы сбросить в 0
 
-    clearInterval(progressListener); // clearInterval(shiftProgress);
-
+    clearInterval(progressListener);
     turnOFFSuperModal();
     updatePrice();
     addEmptyElems(); // timeRecalc();
