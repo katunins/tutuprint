@@ -580,7 +580,9 @@ function filesUpload() {
 
   function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
-    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progressUpload + progressResize) + '%'; // let speedUpdate =
+    clearInterval(shiftProgress);
+    var progressAll = Math.round(progressUpload + progressResize);
+    document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + progressAll + '%'; // let speedUpdate =
     //   (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
     // let speedResize =
     //   (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
@@ -598,7 +600,14 @@ function filesUpload() {
     }
 
     var allSpeed = speedUpdate + speedResize;
-    if (allSpeed > 0) console.log('speed', allSpeed);
+
+    if (allSpeed > 0) {
+      var shiftProgress = setTimeout(function () {
+        progressAll++;
+        document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + progressAll + '%';
+      }, allSpeed);
+      console.log('speed', allSpeed);
+    }
 
     if (progressUpload > 0) {
       console.log('Upload', // nowTimeUpload,
@@ -610,9 +619,9 @@ function filesUpload() {
       console.log('Resize', // nowTimeResize,
       // lastTimeResize,
       progressResize, lastProgressResize);
-    }
+    } // console.log('progressAll', progressAll)
 
-    console.log('progressAll', progressAll);
+
     console.log(' - --- - - - - - '); // console.log ('speed', speedUpdate, speedResize)
     // let  speed =
     // let shiftProgress = setTimeout (function () {}, speed);
@@ -673,6 +682,7 @@ function filesUpload() {
     getResize(); //последний запрос, что бы сбросить в 0
 
     clearInterval(progressListener);
+    clearInterval(shiftProgress);
     turnOFFSuperModal();
     updatePrice();
     addEmptyElems(); // timeRecalc();
