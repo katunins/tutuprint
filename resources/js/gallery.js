@@ -586,14 +586,14 @@ function filesUpload () {
     let speedResize =
       (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
     console.log ('Upload',
-      nowTimeUpload,
-      lastTimeUpload,
+      // nowTimeUpload,
+      // lastTimeUpload,
       progressUpload,
       lastProgressUpload
     );
     console.log ('Resize',
-      nowTimeResize,
-      lastTimeResize,
+      // nowTimeResize,
+      // lastTimeResize,
       progressResize,
       lastProgressResize
     );
