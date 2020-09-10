@@ -81,7 +81,7 @@ use App\Http\Controllers\ImageController; ?>
                     <div class="buttons">
 
                         <button id="general-additional-button-cancel" type="button">
-                            <img src="http://127.0.0.1:8000/back-button.svg" alt="Назад">Назад
+                            <img src={{ asset('images/back-button.svg')}} alt="Назад">Назад
                         </button>
                         <button class="half-opacity" id="general-additional-button-save" type="button"
                             style="background-color: ffcc00;">Сохранить</button>
