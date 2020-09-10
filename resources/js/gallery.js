@@ -541,7 +541,7 @@ function clearSelected() {
 }
 
 function filesUpload() {
-  if (!this.files) return
+  if (!this.files) return //вдруг нажемт ESC при выборе файлов и this будет без файлов
 
   let token = document
     .querySelector('meta[name="csrf-token"]')
@@ -560,7 +560,7 @@ function filesUpload() {
   let nowTimeResize = nowTime;
 
   function changeProgress(progressAll) {
-
+    // обновляет процент в модальном окне
     let spanAllProgress = document.querySelector('.super-modal-message').querySelector('span')
 
     if (spanAllProgress) {
@@ -573,10 +573,10 @@ function filesUpload() {
   function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
 
-
     var progressAll = Math.round(progressUpload + progressResize)
     changeProgress(progressAll)
 
+    // обновим скорости и последние пероиды Resize и Upload
     if (progressResize > 0 && progressResize < 50) {
       lastResizePeriod = progressResize - lastProgressResize
       speedResize = (nowTimeResize - lastTimeResize) / lastResizePeriod;
@@ -593,21 +593,44 @@ function filesUpload() {
       speedUpdate = 0
       lastUploadPeriod = 0
     }
+
     let allSpeed = speedUpdate + speedResize
     let lastAllPeriods = lastResizePeriod + lastUploadPeriod
-    clearInterval(shiftProgress)
+
+
+    clearInterval(shiftProgress) //отключим предыдущую итерацию Shift
 
     if (allSpeed > 0) {
       let shiftPeriod = 0
       var shiftProgress = setInterval(function () {
-        shiftPeriod ++
+        // Что бы не было слишком резких прыжков в проценте в момент этой паузы запустим Shift цикл со скоростью последней итерации
+        shiftPeriod++
         if (shiftPeriod > lastAllPeriods) { clearInterval(shiftProgress) } else { changeProgress(progressAll + shiftPeriod) }
 
       }, allSpeed);
     }
   }
 
-  function getResize() {
+
+
+  turnONSuperModal('uploadProgress');
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/imageupload', true);
+
+  xhr.upload.onprogress = function (event) {
+    // Запрашиваем итерации во время загрузки файлов
+    if (event.lengthComputable) {
+      lastProgressUpload = progressUpload;
+      progressUpload = event.loaded / event.total * 100 / 2;
+      lastTimeUpload = nowTimeUpload;
+      nowTimeUpload = new Date().getTime();
+      progressUpdate();
+    }
+  };
+
+  let progressListener = setInterval(function () {
+    // Запрашиваем на сервере статус resize
     fetch('/progress').then(response => response.text()).then(data => {
       if (data && data != lastProgressResize * 2) {
         lastProgressResize = progressResize;
@@ -617,23 +640,8 @@ function filesUpload() {
         progressUpdate();
       }
     });
-  }
+  }, 500);
 
-  turnONSuperModal('uploadProgress');
-
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/imageupload', true);
-
-  xhr.upload.onprogress = function (event) {
-    if (event.lengthComputable) {
-      lastProgressUpload = progressUpload;
-      progressUpload = event.loaded / event.total * 100 / 2;
-      lastTimeUpload = nowTimeUpload;
-      nowTimeUpload = new Date().getTime();
-      progressUpdate();
-    }
-  };
-  let progressListener = setInterval(getResize, 250); // каждый период опрашиваются данные прогресса в АПИ
   xhr.onload = event => {
     let gallery = document.querySelector('.gallery');
     let elementBefore = gallery.querySelector('form');
@@ -664,7 +672,6 @@ function filesUpload() {
     updatePrice();
     addEmptyElems();
 
-    // timeRecalc();
   };
 
   xhr.setRequestHeader('enctype', 'multipart/form-data');
