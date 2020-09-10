@@ -586,12 +586,18 @@ function filesUpload() {
     // let speedResize =
     //   (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
 
-    console.log('Upload', // nowTimeUpload,
-    // lastTimeUpload,
-    progressUpload, lastProgressUpload);
-    console.log('Resize', // nowTimeResize,
-    // lastTimeResize,
-    progressResize, lastProgressResize);
+    if (progressUpload > 0) {
+      console.log('Upload', // nowTimeUpload,
+      // lastTimeUpload,
+      progressUpload, lastProgressUpload);
+    }
+
+    if (progressResize > 0) {
+      console.log('Resize', // nowTimeResize,
+      // lastTimeResize,
+      progressResize, lastProgressResize);
+    }
+
     console.log('progressAll', progressAll);
     console.log(' - --- - - - - - '); // console.log ('speed', speedUpdate, speedResize)
     // let  speed =
