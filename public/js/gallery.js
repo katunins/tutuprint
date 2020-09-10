@@ -596,9 +596,8 @@ function filesUpload() {
     var allSpeed = speedUpdate + speedResize; // console.log ('speed', allSpeed)
 
     if (allSpeed > 0) {
-      var shiftProgress = setTimeout(function () {
-        progressAll++;
-        changeProgress(progressAll);
+      var shiftProgress = setTimeout(function () {// progressAll++
+        // changeProgress(progressAll)
       }, allSpeed);
     }
   }
