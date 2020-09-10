@@ -559,14 +559,14 @@ function filesUpload() {
 
   function changeProgress(progressAll) {
     let spanAllProgress = document.querySelector('.super-modal-message').querySelector('span')
-    // console.log (lastAllProgress)
+    // if (!spanAllProgress)  {
+    //   document.querySelector('.super-modal-message').innerHTML ='Загрузка <span></span> %';
+    // }
     if (spanAllProgress) {
-      if (progressAll < spanAllProgress.innerHTML) {
-        document.querySelector('.super-modal-message').innerHTML =
-          'Загрузка ' + '<span>' + progressAll + '</span>' + '%';
+      if (progressAll > spanAllProgress.innerHTML) {
+        spanAllProgress.innerHTML = progressAll
       }
     }
-
   }
 
   function progressUpdate() {

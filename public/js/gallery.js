@@ -566,11 +566,13 @@ function filesUpload() {
   var nowTimeResize = nowTime;
 
   function changeProgress(progressAll) {
-    var spanAllProgress = document.querySelector('.super-modal-message').querySelector('span'); // console.log (lastAllProgress)
+    var spanAllProgress = document.querySelector('.super-modal-message').querySelector('span'); // if (!spanAllProgress)  {
+    //   document.querySelector('.super-modal-message').innerHTML ='Загрузка <span></span> %';
+    // }
 
     if (spanAllProgress) {
-      if (progressAll < spanAllProgress.innerHTML) {
-        document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + '<span>' + progressAll + '</span>' + '%';
+      if (progressAll > spanAllProgress.innerHTML) {
+        spanAllProgress.innerHTML = progressAll;
       }
     }
   }

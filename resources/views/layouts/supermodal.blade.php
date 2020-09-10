@@ -50,7 +50,7 @@
                 document.querySelector('.modal-cssload-wrap').classList.remove('hide');
                 document.querySelector('.super-modal-message').classList.remove('hide');
                 document.querySelector('.super-modal-message').innerHTML =
-                    'Загрузка файлов     ...';
+                    'Загрузка <span></span> %';
                 document.querySelector('.modal-block').style = 'margin-top: -135px';
                 break
 
