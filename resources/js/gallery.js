@@ -611,7 +611,18 @@ function filesUpload() {
     }
   }
 
-
+  function getResize () {
+    // Запрашиваем на сервере статус resize
+    fetch('/progress').then(response => response.text()).then(data => {
+      if (data && data != lastProgressResize * 2) {
+        lastProgressResize = progressResize;
+        progressResize = data / 2;
+        lastTimeResize = nowTimeResize;
+        nowTimeResize = new Date().getTime();
+        progressUpdate();
+      }
+    });
+  }
 
   turnONSuperModal('uploadProgress');
 
@@ -629,18 +640,7 @@ function filesUpload() {
     }
   };
 
-  let progressListener = setInterval(function () {
-    // Запрашиваем на сервере статус resize
-    fetch('/progress').then(response => response.text()).then(data => {
-      if (data && data != lastProgressResize * 2) {
-        lastProgressResize = progressResize;
-        progressResize = data / 2;
-        lastTimeResize = nowTimeResize;
-        nowTimeResize = new Date().getTime();
-        progressUpdate();
-      }
-    });
-  }, 500);
+  let progressListener = setInterval(getResize, 500);
 
   xhr.onload = event => {
     let gallery = document.querySelector('.gallery');

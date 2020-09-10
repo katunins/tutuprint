@@ -619,6 +619,21 @@ function filesUpload() {
     }
   }
 
+  function getResize() {
+    // Запрашиваем на сервере статус resize
+    fetch('/progress').then(function (response) {
+      return response.text();
+    }).then(function (data) {
+      if (data && data != lastProgressResize * 2) {
+        lastProgressResize = progressResize;
+        progressResize = data / 2;
+        lastTimeResize = nowTimeResize;
+        nowTimeResize = new Date().getTime();
+        progressUpdate();
+      }
+    });
+  }
+
   turnONSuperModal('uploadProgress');
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/imageupload', true);
@@ -634,20 +649,7 @@ function filesUpload() {
     }
   };
 
-  var progressListener = setInterval(function () {
-    // Запрашиваем на сервере статус resize
-    fetch('/progress').then(function (response) {
-      return response.text();
-    }).then(function (data) {
-      if (data && data != lastProgressResize * 2) {
-        lastProgressResize = progressResize;
-        progressResize = data / 2;
-        lastTimeResize = nowTimeResize;
-        nowTimeResize = new Date().getTime();
-        progressUpdate();
-      }
-    });
-  }, 500);
+  var progressListener = setInterval(getResize, 500);
 
   xhr.onload = function (event) {
     var gallery = document.querySelector('.gallery');
