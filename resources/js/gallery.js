@@ -569,6 +569,7 @@ function filesUpload() {
   }
 
   function progressUpdate() {
+    console.log ('progressUpdate()')
     // расчитывает общий процент загрузки и ресайза + обновляет текст
     clearInterval(shiftProgress)
 
