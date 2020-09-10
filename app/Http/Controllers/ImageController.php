@@ -8,18 +8,12 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 use Image;
 
 
 class ImageController extends Controller
 {
-
-    function progressToFile(Request $request)
-    {
-
-        $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
-        Storage::put($folder . '/temp.dat', $fileContents);
-    }
 
     public function updateSessionImageCount(Request $request)
     {
@@ -75,6 +69,7 @@ class ImageController extends Controller
         $thumbnailFolder = 'storage/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token') . '/Thumbnail/'; // кривое решение из за Image Intervention - он не может доступ получить к Storage
         $files = $request->file('images');
         // Storage::put($folder . '/temp.dat', 0);
+        Cache::put ('progress', 0);
         
         for ($i = 0; $i < count($files); $i++) {
 
@@ -97,7 +92,8 @@ class ImageController extends Controller
             $thumbnail->save($thumbnailFolder . $current_file_name);
             $pathThumbnail = $folder . '/Thumbnail/' . $current_file_name;
 
-            Storage::put($folder . '/temp.dat', ($i + 1) * 100 / count($files));
+            // Storage::put($folder . '/temp.dat', ($i + 1) * 100 / count($files));
+            Cache::put('progress', ($i + 1) * 100 / count($files));
 
             Session::push('images', [
                 'id' => $id + $i,
@@ -135,13 +131,13 @@ class ImageController extends Controller
 
     public function getProgressUpload(Request $request)
     {
-
-        $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
-        if (Storage::exists($folder . '/temp.dat')) {
-            $progress = Storage::get($folder . '/temp.dat');
-            Storage::put($folder . '/temp.dat', 0);
-            return Response::json($progress);
-        }
-        else return Response::json(null);
+        Response::json(Cache::pull('progress'));
+        // $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
+        // if (Storage::exists($folder . '/temp.dat')) {
+        //     $progress = Storage::get($folder . '/temp.dat');
+        //     Storage::put($folder . '/temp.dat', 0);
+        //     return Response::json($progress);
+        // }
+        // else return Response::json(null);
     }
 }
