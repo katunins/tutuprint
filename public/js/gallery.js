@@ -605,27 +605,30 @@ function filesUpload() {
       var shiftProgress = setTimeout(function () {
         progressAll++;
         document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + progressAll + '%';
-      }, allSpeed);
-      console.log('speed', allSpeed);
-    }
-
-    if (progressUpload > 0) {
-      console.log('Upload', // nowTimeUpload,
-      // lastTimeUpload,
-      progressUpload, lastProgressUpload);
-    }
-
-    if (progressResize > 0) {
-      console.log('Resize', // nowTimeResize,
-      // lastTimeResize,
-      progressResize, lastProgressResize);
-    } // console.log('progressAll', progressAll)
-
-
-    console.log(' - --- - - - - - '); // console.log ('speed', speedUpdate, speedResize)
+      }, allSpeed); // console.log('speed', allSpeed)
+    } // if (progressUpload > 0) {
+    //   console.log('Upload',
+    //     // nowTimeUpload,
+    //     // lastTimeUpload,
+    //     progressUpload,
+    //     lastProgressUpload
+    //   );
+    // }
+    // if (progressResize > 0) {
+    //   console.log('Resize',
+    //     // nowTimeResize,
+    //     // lastTimeResize,
+    //     progressResize,
+    //     lastProgressResize
+    //   );
+    // }
+    // console.log('progressAll', progressAll)
+    // console.log(' - --- - - - - - ')
+    // console.log ('speed', speedUpdate, speedResize)
     // let  speed =
     // let shiftProgress = setTimeout (function () {}, speed);
     // let autoInc = setInterval()
+
   }
 
   function getResize() {
@@ -681,8 +684,8 @@ function filesUpload() {
     });
     getResize(); //последний запрос, что бы сбросить в 0
 
-    clearInterval(progressListener);
-    clearInterval(shiftProgress);
+    clearInterval(progressListener); // clearInterval(shiftProgress);
+
     turnOFFSuperModal();
     updatePrice();
     addEmptyElems(); // timeRecalc();
