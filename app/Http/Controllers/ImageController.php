@@ -131,7 +131,8 @@ class ImageController extends Controller
 
     public function getProgressUpload(Request $request)
     {
-        Response::json(Cache::pull('progress'));
+        if (Cache::has('progress')) Response::json(Cache::pull('progress')); else Response::json(0);
+        
         // $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
         // if (Storage::exists($folder . '/temp.dat')) {
         //     $progress = Storage::get($folder . '/temp.dat');
