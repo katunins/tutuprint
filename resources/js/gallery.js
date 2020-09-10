@@ -591,7 +591,7 @@ function filesUpload() {
     clearInterval(shiftProgress)
 
     if (allSpeed > 0) {
-      console.log ('newshift')
+      console.log ('newShift', allSpeed)
       var shiftProgress = setTimeout(function () {
         
         progressAll++
