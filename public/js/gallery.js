@@ -560,6 +560,8 @@ function filesUpload() {
   var lastProgressResize = 0;
   var progressUpload = 0;
   var progressResize = 0;
+  var lastUploadPeriod = 0;
+  var lastResizePeriod = 0;
   var lastTimeUpload = nowTime;
   var lastTimeResize = nowTime;
   var nowTimeUpload = nowTime;
@@ -581,24 +583,33 @@ function filesUpload() {
     changeProgress(progressAll);
 
     if (progressResize > 0 && progressResize < 50) {
-      speedResize = (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
+      lastResizePeriod = progressResize - lastProgressResize;
+      speedResize = (nowTimeResize - lastTimeResize) / lastResizePeriod;
     } else {
       speedResize = 0;
+      lastResizePeriod = 0;
     }
 
     if (progressUpload > 0 && progressUpload < 50) {
-      speedUpdate = (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
+      lastUploadPeriod = progressUpload - lastProgressUpload;
+      speedUpdate = (nowTimeUpload - lastTimeUpload) / lastUploadPeriod;
     } else {
       speedUpdate = 0;
+      lastUploadPeriod = 0;
     }
 
     var allSpeed = speedUpdate + speedResize;
+    var lastAllPeriods = lastResizePeriod + lastUploadPeriod;
     clearInterval(shiftProgress);
 
     if (allSpeed > 0) {
+      var shiftPeriod = 0;
       var shiftProgress = setInterval(function () {
-        progressAll++;
-        changeProgress(progressAll);
+        if (shiftPeriod > lastAllPeriods) {
+          clearInterval(shiftProgress);
+        }
+
+        changeProgress(progressAll + shiftPeriod);
       }, allSpeed);
     }
   }
