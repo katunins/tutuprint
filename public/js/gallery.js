@@ -575,9 +575,8 @@ function filesUpload() {
   var lastTimeUpload = nowTime;
   var lastTimeResize = nowTime;
   var nowTimeUpload = nowTime;
-  var nowTimeResize = nowTime;
-  console.log('lastTimeUpload', lastTimeUpload);
-  console.log('lastTimeResize', lastTimeResize);
+  var nowTimeResize = nowTime; // console.log ('lastTimeUpload', lastTimeUpload);
+  // console.log ('lastTimeResize', lastTimeResize);
 
   function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
@@ -585,9 +584,19 @@ function filesUpload() {
     // console.log ('progressUpdate - nowTime', nowTime-lastTimeResize)
     document.querySelector('.super-modal-message').innerHTML = 'Загрузка ' + Math.round(progressUpload + progressResize) + '%';
     var speedUpdate = (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
-    var speedResize = (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
-    console.log(nowTimeUpload, lastTimeUpload, progressUpload, lastProgressUpload);
-    console.log(nowTimeResize, lastTimeResize, progressResize, lastProgressResize); // console.log ('speed', speedUpdate, speedResize)
+    var speedResize = (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize); // console.log (
+    //   nowTimeUpload,
+    //   lastTimeUpload,
+    //   progressUpload,
+    //   lastProgressUpload
+    // );
+    // console.log (
+    //   nowTimeResize,
+    //   lastTimeResize,
+    //   progressResize,
+    //   lastProgressResize
+    // );
+    // console.log ('speed', speedUpdate, speedResize)
     // let  speed =
     // let shiftProgress = setTimeout (function () {}, speed);
     // let autoInc = setInterval()
@@ -771,7 +780,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

@@ -571,8 +571,8 @@ function filesUpload () {
   let nowTimeUpload = nowTime;
   let nowTimeResize = nowTime;
 
-  console.log ('lastTimeUpload', lastTimeUpload);
-  console.log ('lastTimeResize', lastTimeResize);
+  // console.log ('lastTimeUpload', lastTimeUpload);
+  // console.log ('lastTimeResize', lastTimeResize);
 
   function progressUpdate () {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
@@ -585,18 +585,18 @@ function filesUpload () {
       (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
     let speedResize =
       (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
-    console.log (
-      nowTimeUpload,
-      lastTimeUpload,
-      progressUpload,
-      lastProgressUpload
-    );
-    console.log (
-      nowTimeResize,
-      lastTimeResize,
-      progressResize,
-      lastProgressResize
-    );
+    // console.log (
+    //   nowTimeUpload,
+    //   lastTimeUpload,
+    //   progressUpload,
+    //   lastProgressUpload
+    // );
+    // console.log (
+    //   nowTimeResize,
+    //   lastTimeResize,
+    //   progressResize,
+    //   lastProgressResize
+    // );
     // console.log ('speed', speedUpdate, speedResize)
     // let  speed =
     // let shiftProgress = setTimeout (function () {}, speed);
