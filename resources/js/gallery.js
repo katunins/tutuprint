@@ -597,6 +597,7 @@ function filesUpload () {
       progressResize,
       lastProgressResize
     );
+    console.log (' - --- - - - - - ')
     // console.log ('speed', speedUpdate, speedResize)
     // let  speed =
     // let shiftProgress = setTimeout (function () {}, speed);

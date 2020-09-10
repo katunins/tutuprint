@@ -586,7 +586,8 @@ function filesUpload() {
     var speedUpdate = (nowTimeUpload - lastTimeUpload) / (progressUpload - lastProgressUpload);
     var speedResize = (nowTimeResize - lastTimeResize) / (progressResize - lastProgressResize);
     console.log('Upload', nowTimeUpload, lastTimeUpload, progressUpload, lastProgressUpload);
-    console.log('Resize', nowTimeResize, lastTimeResize, progressResize, lastProgressResize); // console.log ('speed', speedUpdate, speedResize)
+    console.log('Resize', nowTimeResize, lastTimeResize, progressResize, lastProgressResize);
+    console.log(' - --- - - - - - '); // console.log ('speed', speedUpdate, speedResize)
     // let  speed =
     // let shiftProgress = setTimeout (function () {}, speed);
     // let autoInc = setInterval()
