@@ -585,13 +585,13 @@ function checkLowQuality () {
 
     // let longSide = currentWidth > currentHeigh ? currentWidth : currentHeigh;
 
-    let minHeigh = Number(document
-      .querySelector ('.active[name="size"]')
-      .getAttribute ('minWidth'));
-    let minWidth = Number(document
-      .querySelector ('.active[name="size"]')
-      .getAttribute ('minHeigh'));
-      
+    let minHeigh = Number (
+      document.querySelector ('.active[name="size"]').getAttribute ('minWidth')
+    );
+    let minWidth = Number (
+      document.querySelector ('.active[name="size"]').getAttribute ('minHeigh')
+    );
+
     // эта проверка по всем сторонам currentWidth < minWidth || currentHeigh < minHeigh
     if (currentWidth < minWidth) {
       image.setAttribute ('lowQuality', true);
@@ -604,7 +604,7 @@ function checkLowQuality () {
     document.querySelector ('.super-modal-message').innerHTML =
       'Разрешение у некоторых загруженных фотографий (' +
       lowQuality +
-      'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Удалить эти фотографии?';
+      'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Оставить их или удалить?';
 
     // повесим onclick на компку OK модального окна
     setOkButton (function () {
@@ -625,7 +625,7 @@ function checkLowQuality () {
       addEmptyElems ();
       turnOFFSuperModal ();
     }, 'Удалить');
-    setCancelButton (turnOFFSuperModal, 'Оставить');
+    setCancelButton (turnOFFSuperModal, 'Продолжить');
 
     turnONSuperModal ('lowQuality');
   }
@@ -777,10 +777,21 @@ function filesUpload () {
   xhr.setRequestHeader ('X-CSRF-TOKEN', token);
 
   var formData = new FormData ();
+  var isImagesTypeTrue = false
   for (i = 0; i < this.files.length; i++) {
-    formData.append ('images[]', this.files[i]);
+
+    // проверим тип файла
+    var trueType = false;
+    ['image/jpeg', 'image/png'].forEach (type => {
+      if (this.files[i].type == type) trueType = true;
+    });
+    
+    if (trueType) {
+      isImagesTypeTrue = true
+      formData.append ('images[]', this.files[i]);
+    }
   }
-  xhr.send (formData);
+  if (isImagesTypeTrue) xhr.send (formData);
 }
 
 function createDropListener () {

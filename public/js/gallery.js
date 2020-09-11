@@ -602,7 +602,7 @@ function checkLowQuality() {
   });
 
   if (lowQuality > 0) {
-    document.querySelector('.super-modal-message').innerHTML = 'Разрешение у некоторых загруженных фотографий (' + lowQuality + 'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Удалить эти фотографии?'; // повесим onclick на компку OK модального окна
+    document.querySelector('.super-modal-message').innerHTML = 'Разрешение у некоторых загруженных фотографий (' + lowQuality + 'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Оставить их или удалить?'; // повесим onclick на компку OK модального окна
 
     setOkButton(function () {
       var arrList = [];
@@ -620,12 +620,14 @@ function checkLowQuality() {
       addEmptyElems();
       turnOFFSuperModal();
     }, 'Удалить');
-    setCancelButton(turnOFFSuperModal, 'Оставить');
+    setCancelButton(turnOFFSuperModal, 'Продолжить');
     turnONSuperModal('lowQuality');
   }
 }
 
 function filesUpload() {
+  var _this2 = this;
+
   if (!this.files) return; //вдруг нажемт ESC при выборе файлов и this будет без файлов
 
   var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -762,12 +764,22 @@ function filesUpload() {
   xhr.setRequestHeader('enctype', 'multipart/form-data');
   xhr.setRequestHeader('X-CSRF-TOKEN', token);
   var formData = new FormData();
+  var isImagesTypeTrue = false;
 
   for (i = 0; i < this.files.length; i++) {
-    formData.append('images[]', this.files[i]);
+    // проверим тип файла
+    var trueType = false;
+    ['image/jpeg', 'image/png'].forEach(function (type) {
+      if (_this2.files[i].type == type) trueType = true;
+    });
+
+    if (trueType) {
+      isImagesTypeTrue = true;
+      formData.append('images[]', this.files[i]);
+    }
   }
 
-  xhr.send(formData);
+  if (isImagesTypeTrue) xhr.send(formData);
 }
 
 function createDropListener() {
