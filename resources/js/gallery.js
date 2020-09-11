@@ -572,7 +572,7 @@ function clearSelected () {
 
 function checkLowQuality () {
   // уведомляет клиента о низком разрешении
-  let lowQulity = 0;
+  let lowQuality = 0;
   document.querySelectorAll ('.image-box').forEach (image => {
     let currentWidth = image.getAttribute ('width');
     let currentHeigh = image.getAttribute ('heigh');
@@ -583,26 +583,27 @@ function checkLowQuality () {
       currentWidth = temp;
     }
 
-    let longSide = currentWidth > currentHeigh ? currentWidth : currentHeigh;
+    // let longSide = currentWidth > currentHeigh ? currentWidth : currentHeigh;
 
-    let minHeigh = document
+    let minHeigh = Number(document
       .querySelector ('.active[name="size"]')
-      .getAttribute ('minWidth');
-    let minWidth = document
+      .getAttribute ('minWidth'));
+    let minWidth = Number(document
       .querySelector ('.active[name="size"]')
-      .getAttribute ('minHeigh');
+      .getAttribute ('minHeigh'));
+      
     // эта проверка по всем сторонам currentWidth < minWidth || currentHeigh < minHeigh
-    if (longSide < minWidth) {
+    if (currentWidth < minWidth) {
       image.setAttribute ('lowQuality', true);
       image.querySelector ('.img-alert').classList.remove ('hide');
-      lowQulity++;
+      lowQuality++;
     }
   });
 
-  if (lowQulity > 0) {
+  if (lowQuality > 0) {
     document.querySelector ('.super-modal-message').innerHTML =
       'Разрешение у некоторых загруженных фотографий (' +
-      lowQulity +
+      lowQuality +
       'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Удалить эти фотографии?';
 
     // повесим onclick на компку OK модального окна

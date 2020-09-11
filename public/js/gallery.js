@@ -579,7 +579,7 @@ function clearSelected() {
 
 function checkLowQuality() {
   // уведомляет клиента о низком разрешении
-  var lowQulity = 0;
+  var lowQuality = 0;
   document.querySelectorAll('.image-box').forEach(function (image) {
     var currentWidth = image.getAttribute('width');
     var currentHeigh = image.getAttribute('heigh');
@@ -588,21 +588,21 @@ function checkLowQuality() {
       var temp = currentHeigh;
       currentHeigh = currentWidth;
       currentWidth = temp;
-    }
+    } // let longSide = currentWidth > currentHeigh ? currentWidth : currentHeigh;
 
-    var longSide = currentWidth > currentHeigh ? currentWidth : currentHeigh;
-    var minHeigh = document.querySelector('.active[name="size"]').getAttribute('minWidth');
-    var minWidth = document.querySelector('.active[name="size"]').getAttribute('minHeigh'); // эта проверка по всем сторонам currentWidth < minWidth || currentHeigh < minHeigh
 
-    if (longSide < minWidth) {
+    var minHeigh = Number(document.querySelector('.active[name="size"]').getAttribute('minWidth'));
+    var minWidth = Number(document.querySelector('.active[name="size"]').getAttribute('minHeigh')); // эта проверка по всем сторонам currentWidth < minWidth || currentHeigh < minHeigh
+
+    if (currentWidth < minWidth) {
       image.setAttribute('lowQuality', true);
       image.querySelector('.img-alert').classList.remove('hide');
-      lowQulity++;
+      lowQuality++;
     }
   });
 
-  if (lowQulity > 0) {
-    document.querySelector('.super-modal-message').innerHTML = 'Разрешение у некоторых загруженных фотографий (' + lowQulity + 'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Удалить эти фотографии?'; // повесим onclick на компку OK модального окна
+  if (lowQuality > 0) {
+    document.querySelector('.super-modal-message').innerHTML = 'Разрешение у некоторых загруженных фотографий (' + lowQuality + 'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Удалить эти фотографии?'; // повесим onclick на компку OK модального окна
 
     setOkButton(function () {
       var arrList = [];
