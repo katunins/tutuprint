@@ -59,17 +59,20 @@ class ImageController extends Controller
     public function imageUpload(Request $request)
     {
 
+        $test = $request->session()->all();
         // загружает одно изображение, ресайзит и прописывает в сессию
-        $id = Session::has('images') ? intval(array_key_last(Session::get('images'))) : 0; //найдем последний ID из сессии, если она есть
-        $result = [];
-
+        
+        //найдем последний ID из сессии, если она есть
+        if (Session::has('images')) {
+            $sessionArr = Session::get('images');
+            $id = end($sessionArr)['id']+1;
+        } else $id = 0;
+        
         // определим папки для загрузки
 
         $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
         $thumbnailFolder = 'storage/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token') . '/Thumbnail/'; // кривое решение из за Image Intervention - он не может доступ получить к Storage
         $files = $request->file('images');
-        // Storage::put($folder . '/temp.dat', 0);
-        // Cache::put ('progress', 0);
 
         for ($i = 0; $i < count($files); $i++) {
 
@@ -91,7 +94,7 @@ class ImageController extends Controller
             $heigh = $image->height();
             $size = $image->filesize();
 
-            $image->resize(600, 600, function ($constraint) {
+            $image->resize(500, 500, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })->sharpen(5)->save($thumbnailFolder . $current_file_name);
@@ -118,9 +121,9 @@ class ImageController extends Controller
                 'width' => $width,
                 'heigh' => $heigh,
                 'size' => $size,
+                'test' => $test
             ];
         }
-        // Storage::put($folder . '/temp.dat', 0);
         return Response::json($result);
     }
 

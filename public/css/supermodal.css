@@ -42,6 +42,23 @@
   font-weight: 300;
 }
 
+#file-data-text {
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 300;
+}
+
+#file-data-text span {
+  font-size: 12px;
+  font-weight: 100;
+}
+
+#file-data-text img {
+  width: 17px;
+  transform: translate(-6px, 4px);
+}
+
 .super-modal-message {
   margin-bottom: 20px;
 }

@@ -1,18 +1,15 @@
 <?php
-use App\Http\Controllers\ImageController; ?>
+use App\Http\Controllers\ImageController; 
+?>
 
 @extends('layouts.app')
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
 
 @section('content')
-{{-- {{dd (Session::get('images'))}} --}}
+
 @include('layouts.supermodal')
+
 <div class="gallery-block">
-
-
-
-
-
 
     <div class="gallery">
 
