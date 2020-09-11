@@ -7,6 +7,10 @@
   z-index: 4;
 }
 
+.super-modal * {
+  font-weight: 300;
+}
+
 .modal-block {
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -61,6 +65,7 @@
 
 .super-modal-message {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .close-modal-button {

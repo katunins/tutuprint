@@ -304,12 +304,14 @@ function changeModalCount() {
     modalTempData.value = currentCount;
   } else {
     currentCount = modalTempData.value;
-  }
+  } // console.log ('modalcount', currentCount)
+
 
   currentCount = Number(currentCount) + Number(this.increase);
   if (currentCount < 0) currentCount = 0;
   document.getElementById('image-modal-count').innerHTML = currentCount;
-  modalTempData.value = currentCount;
+  modalTempData.value = currentCount; // console.log (document.getElementById ('modal-temporary-data'))
+  // console.log (document.getElementById ('modal-temporary-data'))
 }
 
 function ajax(url, data) {
@@ -337,6 +339,7 @@ var imageBoxOpenModalListener = function imageBoxOpenModalListener() {
   turnONSuperModal('clickToImage');
   document.querySelector('.modal-img-block').style.backgroundImage = this.style.backgroundImage;
   document.getElementById('image-modal-count').innerHTML = this.getAttribute('count');
+  document.getElementById('modal-temporary-data').value = this.getAttribute('count');
 
   function formatSize(length) {
     var i = 0,
@@ -348,8 +351,7 @@ var imageBoxOpenModalListener = function imageBoxOpenModalListener() {
     }
 
     return length.toFixed(2) + ' ' + type[i];
-  } // retro.jpg (12.3 Mb 1240x1300 px)
-
+  }
 
   var filename = this.getAttribute('url').split('/').pop();
   var filesize = formatSize(this.getAttribute('size'));
@@ -358,9 +360,8 @@ var imageBoxOpenModalListener = function imageBoxOpenModalListener() {
   document.getElementById('file-data-text').innerHTML = filename + '<br><span>' + alert + '(' + filesize + ', ' + resolution + 'px)</span>'; // повесим onclick на компку OK модального окна
 
   setOkButton(function () {
-    console.log(this);
     var newCount = document.getElementById('modal-temporary-data').value;
-    if (newCount == '') return;
+    if (newCount == '') return true;
     this.setAttribute('count', newCount);
     var imageCountElement = this.querySelector('div.img-count'); //Передадим данные в контроллер для изменения данных сессии
 
@@ -388,78 +389,7 @@ var imageBoxOpenModalListener = function imageBoxOpenModalListener() {
     turnOFFSuperModal(); // добавим пустые эелементы
 
     addEmptyElems();
-  }.bind(this)); // setOkButton ((elem = this.id)=>{
-  //   console.log (elem)
-  //   let newCount = document.getElementById ('modal-temporary-data').value;
-  //   if (newCount=='') return
-  //   elem.setAttribute ('count', newCount);
-  //   let imageCountElement = elem.querySelector ('div.img-count');
-  //   //Передадим данные в контроллер для изменения данных сессии
-  //   ajax ('/updatecount', {
-  //     data: [
-  //       {
-  //         id: elem.id,
-  //         count: newCount,
-  //       },
-  //     ],
-  //   });
-  //   // покажем количество, если более 1шт
-  //   if (newCount > 1) {
-  //     imageCountElement.innerHTML = newCount + 'x';
-  //     imageCountElement.classList.remove ('hide');
-  //   } else {
-  //     imageCountElement.classList.add ('hide');
-  //   }
-  //   // удалим фотогарфию
-  //   if (newCount == 0) {
-  //     // this.parentNode.this
-  //     elem.parentNode.removeChild (elem);
-  //     // this.remove ();
-  //   }
-  //   updatePrice ();
-  //   turnOFFSuperModal ();
-  //   // добавим пустые эелементы
-  //   addEmptyElems ();
-  // })
-  // document
-  //   .getElementById ('ok-change-count-modal-button')
-  //   .addEventListener (
-  //     'click',
-  //     function () {
-  //       let newCount = document.getElementById ('modal-temporary-data').value;
-  //       if (newCount=='') return
-  //       this.setAttribute ('count', newCount);
-  //       let imageCountElement = this.querySelector ('div.img-count');
-  //       //Передадим данные в контроллер для изменения данных сессии
-  //       ajax ('/updatecount', {
-  //         data: [
-  //           {
-  //             id: this.id,
-  //             count: newCount,
-  //           },
-  //         ],
-  //       });
-  //       // покажем количество, если более 1шт
-  //       if (newCount > 1) {
-  //         imageCountElement.innerHTML = newCount + 'x';
-  //         imageCountElement.classList.remove ('hide');
-  //       } else {
-  //         imageCountElement.classList.add ('hide');
-  //       }
-  //       // удалим фотогарфию
-  //       if (newCount == 0) {
-  //         // this.parentNode.this
-  //         this.parentNode.removeChild (this);
-  //         // this.remove ();
-  //       }
-  //       updatePrice ();
-  //       turnOFFSuperModal ();
-  //       // добавим пустые эелементы
-  //       addEmptyElems ();
-  //     }.bind (this),
-  //     {once: true}
-  //   );
-
+  }.bind(this));
   document.querySelectorAll('.inc-modal-button').forEach(function (changeModalButton) {
     changeModalButton.onclick = changeModalCount.bind({
       id: _this.id,
@@ -609,9 +539,8 @@ function turnSelectMode() {
 
 function clearAll() {
   // настроем моадальное окно
-  turnONSuperModal('clearAll'); // повесим onclick на компку OK модального окна
-
-  document.getElementById('ok-clear-all-modal-button').addEventListener('click', function () {
+  turnONSuperModal('clearAll');
+  setOkButton(function () {
     // Удалим все блоки с изображениями
     document.querySelectorAll('.image-box').forEach(function (elem) {
       elem.parentNode.removeChild(elem);
@@ -621,9 +550,8 @@ function clearAll() {
     turnSelectMode();
     turnOFFSuperModal();
     addEmptyElems();
-  }, {
-    once: true
   });
+  setCancelButton();
 }
 
 function clearSelected() {
@@ -662,22 +590,21 @@ function checkLowQuality() {
       currentWidth = temp;
     }
 
+    var longSide = currentWidth > currentHeigh ? currentWidth : currentHeigh;
     var minHeigh = document.querySelector('.active[name="size"]').getAttribute('minWidth');
-    var minWidth = document.querySelector('.active[name="size"]').getAttribute('minHeigh');
+    var minWidth = document.querySelector('.active[name="size"]').getAttribute('minHeigh'); // эта проверка по всем сторонам currentWidth < minWidth || currentHeigh < minHeigh
 
-    if (currentWidth < minWidth || currentHeigh < minHeigh) {
+    if (longSide < minWidth) {
       image.setAttribute('lowQuality', true);
       image.querySelector('.img-alert').classList.remove('hide');
       lowQulity++;
     }
   });
-  var lowqualityModalNoShow = document.getElementById('lowquality-modal-noshow');
 
   if (lowQulity > 0) {
-    document.querySelector('.super-modal-message').innerHTML = 'Некоторые загруженные фотографии (' + lowQulity + 'шт) с низким разрешением. При печати у этих фотографий может быть слабая детализация. Удалить файлы с низким разрешением?'; // повесим onclick на компку OK модального окна
+    document.querySelector('.super-modal-message').innerHTML = 'Разрешение у некоторых загруженных фотографий (' + lowQulity + 'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Удалить эти фотографии?'; // повесим onclick на компку OK модального окна
 
-    document.getElementById('remove-all-low-quality-modal-button').addEventListener('click', function () {
-      console.log('dd');
+    setOkButton(function () {
       var arrList = [];
       document.querySelectorAll('.image-box[lowquality="true"]').forEach(function (elem) {
         arrList.push({
@@ -692,9 +619,8 @@ function checkLowQuality() {
       updatePrice();
       addEmptyElems();
       turnOFFSuperModal();
-    }, {
-      once: true
-    });
+    }, 'Удалить');
+    setCancelButton(turnOFFSuperModal, 'Оставить');
     turnONSuperModal('lowQuality');
   }
 }
@@ -882,6 +808,7 @@ function createDropListener() {
 document.addEventListener('DOMContentLoaded', function () {
   // обработчик нопки info
   document.querySelector('.info').onclick = function () {
+    setOkButton();
     turnONSuperModal('info');
   };
 

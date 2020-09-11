@@ -22,37 +22,44 @@
         </div>
         <div class="super-modal-message hide">Удалить все фотографии?</div>
         <div class="super-model-buttons">
-            <button class="hide" id="ok-modal-button" onclick="turnOFFSuperModal()">ok</button>
-            {{-- <button class="hide" id="ok-change-count-modal-button">ok</button>
-            <button class="hide" id="ok-clear-all-modal-button">ok</button>
-            <button class=" hide" id="remove-all-low-quality-modal-button">Удалить</button> --}}
-            <button class=" hide" id="cancel-modal-button" onclick="turnOFFSuperModal()">Отменить</button>
+            <button class="hide" id="ok-modal-button">ok</button>
+            <button class="hide" id="cancel-modal-button">Отменить</button>
         </div>
 
     </div>
 </div>
 <script>
-    let okButton = document.getElementById('ok-change-count-modal-button')
-    let cancelButton = document.getElementById('ok-change-count-modal-button')
+    let okButton = document.getElementById('ok-modal-button')
+    let cancelButton = document.getElementById('cancel-modal-button')
 
-    function setOkButton (okButtonCallback, name = 'ok') {
+    // var okButtonCallback = function () {
+    //     return
+    // }
+    // var cancelButtonCallback = function () {
+    //     return
+    // }
 
+    function setOkButton (okButtonCallback = turnOFFSuperModal, name = 'ok') {
+        
         okButton.innerHTML = name
-        okButton.addEventListener('click', okButtonCallback)
+        // okButton.addEventListener('click', okButtonCallback)
+        okButton.onclick = okButtonCallback
         okButton.classList.remove ('hide')
 
     }
 
     
-    function setCancelButton (cancelButtonCallback, name = 'Отмена') {
+    function setCancelButton (cancelButtonCallback = turnOFFSuperModal, name = 'Отмена') {
 
         cancelButton.innerHTML = name
-        cancelButton.addEventListener('click', okButtonCallback)
+        // cancelButton.addEventListener('click', cancelButtonCallback)
+        cancelButton.onclick = cancelButtonCallback
         cancelButton.classList.remove ('hide')
 
     }
 
     function turnOFFSuperModal() {
+
         document.querySelector('.super-modal').classList.add('hide')
         document.querySelector('.modal-img-block').style=''
         document.querySelector('.modal-img-block').classList.add('hide')
@@ -65,15 +72,10 @@
         document.querySelector('.modal-cssload-wrap').classList.add('hide');
         document.getElementById('modal-temporary-data').value='';
         document.querySelector('.close-modal-button').classList.add('hide');
-        document.getElementById ('ok-change-count-modal-button').onclick = "ok"
         
-        if (typeof (okButtonCallback) !='undefined' ) okButton.removeEventListener('click', okButtonCallback)
-        if (typeof (cancelButtonCallback) !='undefined' ) cancelButton.removeEventListener('click', cancelButtonCallback)
-
-        // document.querySelector('.super-model-buttons').querySelectorAll('button').forEach(button=>{
-        //     button.classList.add('hide')
-        //     button.removeEventListener('click', callBack)
-        // })
+        okButton.classList.add('hide')
+        cancelButton.classList.add('hide')
+        
     }
 
     function escKey (key) {
@@ -93,7 +95,7 @@
                 break
 
             case 'clickToImage':
-                document.getElementById('ok-change-count-modal-button').classList.remove('hide');
+                // document.getElementById('ok-change-count-modal-button').classList.remove('hide');
                 document.querySelector('.close-modal-button').classList.remove('hide');
                 document.querySelector('.super-modal').classList.remove('hide');
                 document.querySelector('.modal-img-block').classList.remove('hide');
@@ -104,13 +106,13 @@
                 break
 
             case 'clearAll':
-                document.getElementById('ok-clear-all-modal-button').classList.remove('hide');
+                // document.getElementById('ok-clear-all-modal-button').classList.remove('hide');
                 document.querySelector('.close-modal-button').classList.remove('hide');
                 document.querySelector('.super-modal').classList.remove('hide');
                 document.querySelector('.super-modal-message').innerHTML =
                     'Удалить все загруженные фотографии?';
                 document.querySelector('.super-modal-message').classList.remove('hide');
-                document.getElementById('cancel-modal-button').classList.remove('hide');
+                // document.getElementById('cancel-modal-button').classList.remove('hide');
                 document.querySelector('.modal-block').style = 'margin-top: -78px';
                 document.addEventListener('keyup',escKey, {once: true});
                 break
@@ -126,11 +128,11 @@
                 break
 
                 case 'lowQuality':
-                document.getElementById('remove-all-low-quality-modal-button').classList.remove('hide');
+                // document.getElementById('remove-all-low-quality-modal-button').classList.remove('hide');
                 document.querySelector('.close-modal-button').classList.remove('hide');
                 document.querySelector('.super-modal').classList.remove('hide');
                 document.querySelector('.super-modal-message').classList.remove('hide');
-                document.getElementById('cancel-modal-button').classList.remove('hide');
+                // document.getElementById('cancel-modal-button').classList.remove('hide');
                 document.querySelector('.modal-block').style = 'margin-top: -78px';
                 document.querySelector('.modal-img-block').classList.remove('hide');
                 document.querySelector('.modal-img-block').style= 'background-image: url( {{ asset('images/alert.png') }}); width: 40px; height: 100px'
