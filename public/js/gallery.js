@@ -336,10 +336,10 @@ function ajax(url, data) {
 var imageBoxOpenModalListener = function imageBoxOpenModalListener() {
   var _this = this;
 
-  turnONSuperModal('clickToImage');
-  document.querySelector('.modal-img-block').style.backgroundImage = this.style.backgroundImage;
-  document.getElementById('image-modal-count').innerHTML = this.getAttribute('count');
-  document.getElementById('modal-temporary-data').value = this.getAttribute('count');
+  "";
+  turnONmodalImage(this.style.backgroundImage);
+  turnONmodal('-306px');
+  turnONmodalCount(this.getAttribute('count'));
 
   function formatSize(length) {
     var i = 0,
@@ -357,9 +357,8 @@ var imageBoxOpenModalListener = function imageBoxOpenModalListener() {
   var filesize = formatSize(this.getAttribute('size'));
   var resolution = this.getAttribute('width') + ' x ' + this.getAttribute('heigh');
   var alert = this.getAttribute('lowquality') ? '<img src="images/alert.png">' : '';
-  document.getElementById('file-data-text').innerHTML = filename + '<br><span>' + alert + '(' + filesize + ', ' + resolution + 'px)</span>'; // повесим onclick на компку OK модального окна
-
-  setOkButton(function () {
+  turnONmodalFilename(filename + '<br><span>' + alert + '(' + filesize + ', ' + resolution + 'px)</span>');
+  setOkModalButton(function () {
     var newCount = document.getElementById('modal-temporary-data').value;
     if (newCount == '') return true;
     this.setAttribute('count', newCount);
@@ -539,8 +538,7 @@ function turnSelectMode() {
 
 function clearAll() {
   // настроем моадальное окно
-  turnONSuperModal('clearAll');
-  setOkButton(function () {
+  setOkModalButton(function () {
     // Удалим все блоки с изображениями
     document.querySelectorAll('.image-box').forEach(function (elem) {
       elem.parentNode.removeChild(elem);
@@ -551,7 +549,9 @@ function clearAll() {
     turnOFFSuperModal();
     addEmptyElems();
   });
-  setCancelButton();
+  setCancelModalButton();
+  turnONmodalMessage('Удалить все загруженные фотографии?');
+  turnONmodal('-78px');
 }
 
 function clearSelected() {
@@ -581,30 +581,34 @@ function checkLowQuality() {
   // уведомляет клиента о низком разрешении
   var lowQuality = 0;
   document.querySelectorAll('.image-box').forEach(function (image) {
-    var currentWidth = image.getAttribute('width');
-    var currentHeigh = image.getAttribute('heigh');
+    var currentWidth = Number(image.getAttribute('width'));
+    var currentHeigh = Number(image.getAttribute('heigh')); // console.log (currentWidth, currentHeigh)
 
     if (currentHeigh > currentWidth) {
       var temp = currentHeigh;
       currentHeigh = currentWidth;
       currentWidth = temp;
     } // let longSide = currentWidth > currentHeigh ? currentWidth : currentHeigh;
+    // let minHeigh = Number (
+    //   document.querySelector ('.active[name="size"]').getAttribute ('minWidth')
+    // );
 
 
-    var minHeigh = Number(document.querySelector('.active[name="size"]').getAttribute('minWidth'));
     var minWidth = Number(document.querySelector('.active[name="size"]').getAttribute('minHeigh')); // эта проверка по всем сторонам currentWidth < minWidth || currentHeigh < minHeigh
 
     if (currentWidth < minWidth) {
       image.setAttribute('lowQuality', true);
       image.querySelector('.img-alert').classList.remove('hide');
-      lowQuality++;
+      if (!image.hasAttribute('lowqualityagree')) lowQuality++;
+    } else {
+      image.removeAttribute('lowQuality');
+      image.querySelector('.img-alert').classList.add('hide');
     }
   });
 
   if (lowQuality > 0) {
-    document.querySelector('.super-modal-message').innerHTML = 'Разрешение у некоторых загруженных фотографий (' + lowQuality + 'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Оставить их или удалить?'; // повесим onclick на компку OK модального окна
-
-    setOkButton(function () {
+    // повесим onclick на компку OK модального окна
+    setOkModalButton(function () {
       var arrList = [];
       document.querySelectorAll('.image-box[lowquality="true"]').forEach(function (elem) {
         arrList.push({
@@ -620,8 +624,25 @@ function checkLowQuality() {
       addEmptyElems();
       turnOFFSuperModal();
     }, 'Удалить');
-    setCancelButton(turnOFFSuperModal, 'Продолжить');
-    turnONSuperModal('lowQuality');
+    setCancelModalButton(function () {
+      var elemsToAgree = [];
+      document.querySelectorAll('.image-box[lowquality="true"]').forEach(function (elem) {
+        elem.setAttribute('lowqualityagree', true);
+        elemsToAgree.push(elem.id);
+      });
+
+      if (elemsToAgree.length > 0) {
+        // console.log (elemsToAgree)
+        ajax('/setlowqualityargee', {
+          data: elemsToAgree
+        });
+      }
+
+      turnOFFSuperModal();
+    }, 'Продолжить');
+    turnONmodalImage("url('images/alert.png')", '40px', '100px');
+    turnONmodalMessage('Разрешение у некоторых загруженных фотографий (' + lowQuality + 'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Оставить их или удалить?');
+    turnONmodal('-78px');
   }
 }
 
@@ -709,7 +730,9 @@ function filesUpload() {
     });
   }
 
-  turnONSuperModal('uploadProgress');
+  turnONmodalLoader();
+  turnONmodalMessage('Загрузка <span></span> %');
+  turnONmodal('-135px');
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/imageupload', true);
 
@@ -817,11 +840,23 @@ function createDropListener() {
   }, false);
 }
 
+function pressAddToBasket(event) {
+  // кнопка добавить в корзину
+  event.preventDefault();
+  setOkModalButton(function () {
+    turnOFFSuperModal();
+  }, 'Добавить');
+  setCancelModalButton(function () {}, 'В корзину');
+  turnONmodalMessage('Фотографии (' + getPhotoCount() + ' шт.) добавлены в заказ.<br>Загрузить еще фотографии или перейти в коризну?');
+  turnONmodal('-78px');
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   // обработчик нопки info
   document.querySelector('.info').onclick = function () {
-    setOkButton();
-    turnONSuperModal('info');
+    setOkModalButton();
+    turnONmodalMessage(document.getElementById('info-page').innerHTML);
+    turnONmodal(0, false);
   };
 
   turnOFFSuperModal();
@@ -836,6 +871,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.switcher').forEach(function (elem) {
     elem.addEventListener('click', function () {
       switchRefresh(this);
+      if (this.classList.contains('size-switcher')) checkLowQuality();
     });
   }); // обработчик пересчета цены с коробкой
 
@@ -875,7 +911,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   createDropListener(); // проверим на плохое качество
 
-  checkLowQuality();
+  checkLowQuality(); // клик на кнопку добавить в корзину
+
+  document.getElementById('add-to-basket-button').onclick = pressAddToBasket;
 });
 
 /***/ }),

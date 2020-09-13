@@ -21,10 +21,11 @@ use App\Http\Controllers\ImageController;
 
         <div class="image-box" id={{ $item['id'] }} url={{ $item['url'] }} width={{$item['width']}}
             heigh={{$item['heigh']}} size={{$item['size']}}
-            style="background-image: url( {{ asset($item['thumbnail']) }})" count={{ $item['count'] }}>
+            style="background-image: url( {{ asset($item['thumbnail']) }})" count={{ $item['count'] }}
+            @isset($item['lowqualityagree']) lowqualityagree="true" lowquality="true" @endisset>
             <div class="img-count hide"></div>
             <div class="img-select hide"></div>
-            <div class="img-alert hide"></div>
+            <div class="img-alert @isset($item['lowqualityagree']) @else hide @endisset"></div>
         </div>
         @endif
         @endforeach
@@ -46,7 +47,7 @@ use App\Http\Controllers\ImageController;
 
     <div class="controls">
 
-        <form action="">
+        <form id="control-form" action="">
             @csrf
 
             <div class="params">
@@ -103,7 +104,7 @@ use App\Http\Controllers\ImageController;
                         <div class="param active" switchdata='false' name='size' value='10x15' minWidth=1795
                             minHeigh=1205>10 x 15 cm</div>
                         <div class="button">
-                            <input type="checkbox" class="checkbox switcher">
+                            <input type="checkbox" class="checkbox switcher size-switcher">
                             <div class="knobs"></div>
                             <div class="layer"></div>
                         </div>
@@ -134,14 +135,16 @@ use App\Http\Controllers\ImageController;
             <div class="to-order-block">
 
 
-                <button type="submit">
-                    <div class="price-block"><span id="price-to-basket"></span>₽</div>
-                    <img src="{{ asset('images/basket.svg') }}" alt=""> Добавить
-                </button>
+                <div class="price-block"><span id="price-to-basket"></span>₽</div>
+
+
                 <div class="price-description-block">
                     <p id="description-1"></p>
                     <p id="description-2"></p>
                 </div>
+
+                <button id="add-to-basket-button"><img src="{{ asset('images/basket.svg') }}" alt=""> Добавить</button>
+
             </div>
         </form>
     </div>

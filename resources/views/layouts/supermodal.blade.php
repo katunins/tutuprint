@@ -32,14 +32,7 @@
     let okButton = document.getElementById('ok-modal-button')
     let cancelButton = document.getElementById('cancel-modal-button')
 
-    // var okButtonCallback = function () {
-    //     return
-    // }
-    // var cancelButtonCallback = function () {
-    //     return
-    // }
-
-    function setOkButton (okButtonCallback = turnOFFSuperModal, name = 'ok') {
+    function setOkModalButton (okButtonCallback = turnOFFSuperModal, name = 'ok') {
         
         okButton.innerHTML = name
         // okButton.addEventListener('click', okButtonCallback)
@@ -49,7 +42,7 @@
     }
 
     
-    function setCancelButton (cancelButtonCallback = turnOFFSuperModal, name = 'Отмена') {
+    function setCancelModalButton (cancelButtonCallback = turnOFFSuperModal, name = 'Отмена') {
 
         cancelButton.innerHTML = name
         // cancelButton.addEventListener('click', cancelButtonCallback)
@@ -82,63 +75,40 @@
         if (key.key === 'Escape') turnOFFSuperModal();
     }
 
-    function turnONSuperModal(status) {
-        switch (status) {
+    function turnONmodalLoader () {
+        document.querySelector('.modal-cssload-wrap').classList.remove('hide');
+    }
 
-            case 'uploadProgress':
-                document.querySelector('.super-modal').classList.remove('hide');
-                document.querySelector('.modal-cssload-wrap').classList.remove('hide');
-                document.querySelector('.super-modal-message').classList.remove('hide');
-                document.querySelector('.super-modal-message').innerHTML =
-                    'Загрузка <span></span> %';
-                document.querySelector('.modal-block').style = 'margin-top: -135px';
-                break
+    function turnONmodalMessage (message) {
+        document.querySelector('.super-modal-message').classList.remove('hide');
+        document.querySelector('.super-modal-message').innerHTML = message
+    }
 
-            case 'clickToImage':
-                // document.getElementById('ok-change-count-modal-button').classList.remove('hide');
-                document.querySelector('.close-modal-button').classList.remove('hide');
-                document.querySelector('.super-modal').classList.remove('hide');
-                document.querySelector('.modal-img-block').classList.remove('hide');
-                document.querySelector('.count-block').classList.remove('hide');
-                document.querySelector('.modal-block').style = 'margin-top: -306px';
-                document.getElementById('file-data-text').classList.remove('hide')
-                document.addEventListener('keyup',escKey, {once: true});
-                break
+    function turnONmodalImage (url, width = '500px', height = '400px') {
+        document.querySelector('.modal-img-block').classList.remove('hide');
+        document.querySelector('.modal-img-block').style.backgroundImage = url//'url(' + url + ')'
+        document.querySelector('.modal-img-block').style.width = width
+        document.querySelector('.modal-img-block').style.height = height
+    }
 
-            case 'clearAll':
-                // document.getElementById('ok-clear-all-modal-button').classList.remove('hide');
-                document.querySelector('.close-modal-button').classList.remove('hide');
-                document.querySelector('.super-modal').classList.remove('hide');
-                document.querySelector('.super-modal-message').innerHTML =
-                    'Удалить все загруженные фотографии?';
-                document.querySelector('.super-modal-message').classList.remove('hide');
-                // document.getElementById('cancel-modal-button').classList.remove('hide');
-                document.querySelector('.modal-block').style = 'margin-top: -78px';
-                document.addEventListener('keyup',escKey, {once: true});
-                break
+    function turnONmodalCount (count) {
+        document.getElementById ('image-modal-count').innerHTML = count
+        document.getElementById ('modal-temporary-data').value = count
+        document.querySelector('.count-block').classList.remove('hide');
+    }
 
-            case 'info':
-                document.querySelector ('.super-modal').classList.remove ('hide');
-                document.querySelector ('.super-modal-message').innerHTML = document.getElementById ('info-page').innerHTML;
-                document.querySelector ('.super-modal-message').classList.remove ('hide');
-                document.getElementById('ok-modal-button').classList.remove('hide');
-                document.querySelector('.close-modal-button').classList.remove('hide');
-                // document.querySelector ('.modal-block').style = 'margin-top: -78px';
-                document.addEventListener('keyup',escKey, {once: true});
-                break
+    function turnONmodalFilename (filename) {
+        document.getElementById ('file-data-text').innerHTML = filename
+        document.getElementById('file-data-text').classList.remove('hide')
+    }
 
-                case 'lowQuality':
-                // document.getElementById('remove-all-low-quality-modal-button').classList.remove('hide');
-                document.querySelector('.close-modal-button').classList.remove('hide');
-                document.querySelector('.super-modal').classList.remove('hide');
-                document.querySelector('.super-modal-message').classList.remove('hide');
-                // document.getElementById('cancel-modal-button').classList.remove('hide');
-                document.querySelector('.modal-block').style = 'margin-top: -78px';
-                document.querySelector('.modal-img-block').classList.remove('hide');
-                document.querySelector('.modal-img-block').style= 'background-image: url( {{ asset('images/alert.png') }}); width: 40px; height: 100px'
-                document.addEventListener('keyup',escKey, {once: true});
-                break
-
+    function turnONmodal (margin, closeButton = true) {
+        document.querySelector('.super-modal').classList.remove('hide');
+        document.querySelector('.modal-block').style.marginTop = margin;
+        
+        if (closeButton) {
+            document.querySelector('.close-modal-button').classList.remove('hide');
+            document.addEventListener('keyup',escKey, {once: true});
         }
     }
 

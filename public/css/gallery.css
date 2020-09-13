@@ -127,7 +127,7 @@
 
 .gallery-block .controls {
   width: 100%;
-  height: 250px;
+  padding: 20px 0 30px;
   background-color: #eeebeb;
 }
 
@@ -138,7 +138,7 @@
 .gallery-block .controls form {
   display: flex;
   height: 100%;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .gallery-block .controls .inactive {
@@ -188,11 +188,10 @@
 .general-additional-params-block .reset-all-button button {
   width: 209px;
   height: 30px;
-  border: 1px solid #80808063;
   background: transparent;
   padding: 4px 0;
   border-radius: 3px;
-  border: 1px solid #ffcc00;
+  border: 1px solid #bebdbd;
   font-weight: 300;
   cursor: pointer;
 }
@@ -205,7 +204,7 @@
 
 .general-params-block .buttons button,
 .general-additional-params-block .buttons button {
-  border: 1px solid #ffcc00;
+  border: 1px solid #bebdbd;
   border-radius: 3px;
   width: 100px;
   height: 30px;
@@ -259,14 +258,8 @@
   cursor: pointer;
   font-weight: 300;
   font-size: 14px;
-}
-
-.param-block button::before {
-  content: "\2713";
-  margin-right: 8px;
-  background-color: #ffcc00;
-  padding: 2px 5px;
-  border-radius: 3px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #bebdbd;
 }
 
 .param-block button:active {
@@ -299,7 +292,7 @@
 }
 
 .param-check-block label {
-  border: 1px solid #ffcc00;
+  border: 1px solid #bebdbd;
   display: block;
   width: 135px;
   height: 30px;
@@ -316,9 +309,10 @@
   transition: 0.3s ease-in-out;
 }
 
-.param-check-block input:checked + label {
-  opacity: 1;
-  background-color: #ffcc00;
+.param-check-block input:checked + label::before {
+  font-size: 14px;
+  margin-right: 5px;
+  content: "\2713";
   transition: 0.3s ease-in-out;
 }
 
@@ -327,7 +321,7 @@
   margin-top: 10px;
   padding: 5px;
   text-align: center;
-  border: 1px solid #ffcc00;
+  border: 1px solid #bebdbd;
   background-color: transparent;
   outline: none;
 }
@@ -354,6 +348,7 @@
   font-weight: 300;
   font-size: 12px;
   text-align: center;
+  margin: 10px auto;
 }
 
 .to-order-block button {
@@ -363,9 +358,9 @@
   outline: none;
   border: none;
   width: 160px;
-  height: 90px;
+  height: 40;
   background-color: #ffcc00;
-  margin-bottom: 10px;
+  margin-top: 20px;
   border-radius: 3px;
 }
 

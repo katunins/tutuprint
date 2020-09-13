@@ -270,18 +270,12 @@ function ajax (url, data) {
     });
 }
 
-const imageBoxOpenModalListener = function () {
-  turnONSuperModal ('clickToImage');
-  document.querySelector (
-    '.modal-img-block'
-  ).style.backgroundImage = this.style.backgroundImage;
-  document.getElementById ('image-modal-count').innerHTML = this.getAttribute (
-    'count'
-  );
+const imageBoxOpenModalListener = function () {``
+  
+turnONmodalImage (this.style.backgroundImage)
 
-  document.getElementById ('modal-temporary-data').value = this.getAttribute (
-    'count'
-  );
+turnONmodal ('-306px')
+turnONmodalCount (this.getAttribute ('count')) 
 
   function formatSize (length) {
     var i = 0, type = ['б', 'Кб', 'Мб', 'Гб', 'Тб', 'Пб'];
@@ -300,18 +294,16 @@ const imageBoxOpenModalListener = function () {
     ? '<img src="images/alert.png">'
     : '';
 
-  document.getElementById ('file-data-text').innerHTML =
-    filename +
-    '<br><span>' +
-    alert +
-    '(' +
-    filesize +
-    ', ' +
-    resolution +
-    'px)</span>';
-  // повесим onclick на компку OK модального окна
+    turnONmodalFilename (filename +
+      '<br><span>' +
+      alert +
+      '(' +
+      filesize +
+      ', ' +
+      resolution +
+      'px)</span>')
 
-  setOkButton (
+  setOkModalButton (
     function () {
       let newCount = document.getElementById ('modal-temporary-data').value;
       if (newCount == '') return true;
@@ -530,8 +522,7 @@ function turnSelectMode () {
 
 function clearAll () {
   // настроем моадальное окно
-  turnONSuperModal ('clearAll');
-  setOkButton (function () {
+  setOkModalButton (function () {
     // Удалим все блоки с изображениями
     document.querySelectorAll ('.image-box').forEach (elem => {
       elem.parentNode.removeChild (elem);
@@ -544,7 +535,10 @@ function clearAll () {
     turnOFFSuperModal ();
     addEmptyElems ();
   });
-  setCancelButton ();
+  setCancelModalButton ();
+
+  turnONmodalMessage ('Удалить все загруженные фотографии?')
+  turnONmodal ('-78px')
 }
 
 function clearSelected () {
@@ -574,20 +568,21 @@ function checkLowQuality () {
   // уведомляет клиента о низком разрешении
   let lowQuality = 0;
   document.querySelectorAll ('.image-box').forEach (image => {
-    let currentWidth = image.getAttribute ('width');
-    let currentHeigh = image.getAttribute ('heigh');
+    let currentWidth = Number (image.getAttribute ('width'));
+    let currentHeigh = Number (image.getAttribute ('heigh'));
+
+    // console.log (currentWidth, currentHeigh)
 
     if (currentHeigh > currentWidth) {
       let temp = currentHeigh;
       currentHeigh = currentWidth;
       currentWidth = temp;
     }
-
     // let longSide = currentWidth > currentHeigh ? currentWidth : currentHeigh;
 
-    let minHeigh = Number (
-      document.querySelector ('.active[name="size"]').getAttribute ('minWidth')
-    );
+    // let minHeigh = Number (
+    //   document.querySelector ('.active[name="size"]').getAttribute ('minWidth')
+    // );
     let minWidth = Number (
       document.querySelector ('.active[name="size"]').getAttribute ('minHeigh')
     );
@@ -596,18 +591,18 @@ function checkLowQuality () {
     if (currentWidth < minWidth) {
       image.setAttribute ('lowQuality', true);
       image.querySelector ('.img-alert').classList.remove ('hide');
-      lowQuality++;
+
+      if (!image.hasAttribute ('lowqualityagree')) lowQuality++;
+    } else {
+      image.removeAttribute ('lowQuality');
+      image.querySelector ('.img-alert').classList.add ('hide');
     }
   });
 
   if (lowQuality > 0) {
-    document.querySelector ('.super-modal-message').innerHTML =
-      'Разрешение у некоторых загруженных фотографий (' +
-      lowQuality +
-      'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Оставить их или удалить?';
 
     // повесим onclick на компку OK модального окна
-    setOkButton (function () {
+    setOkModalButton (function () {
       let arrList = [];
       document
         .querySelectorAll ('.image-box[lowquality="true"]')
@@ -625,9 +620,29 @@ function checkLowQuality () {
       addEmptyElems ();
       turnOFFSuperModal ();
     }, 'Удалить');
-    setCancelButton (turnOFFSuperModal, 'Продолжить');
 
-    turnONSuperModal ('lowQuality');
+    setCancelModalButton (function () {
+      let elemsToAgree = [];
+      document
+        .querySelectorAll ('.image-box[lowquality="true"]')
+        .forEach (elem => {
+          elem.setAttribute ('lowqualityagree', true);
+          elemsToAgree.push (elem.id);
+        });
+      if (elemsToAgree.length > 0) {
+        // console.log (elemsToAgree)
+        ajax ('/setlowqualityargee', {
+          data: elemsToAgree,
+        });
+      }
+      turnOFFSuperModal ();
+    }, 'Продолжить');
+
+    turnONmodalImage ( "url('images/alert.png')", '40px', '100px' )
+    turnONmodalMessage ('Разрешение у некоторых загруженных фотографий (' +
+    lowQuality +
+    'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Оставить их или удалить?')
+    turnONmodal ('-78px')
   }
 }
 
@@ -718,7 +733,9 @@ function filesUpload () {
     });
   }
 
-  turnONSuperModal ('uploadProgress');
+  turnONmodalLoader ()
+  turnONmodalMessage ('Загрузка <span></span> %')
+  turnONmodal ('-135px')
 
   const xhr = new XMLHttpRequest ();
   xhr.open ('POST', '/imageupload', true);
@@ -777,17 +794,16 @@ function filesUpload () {
   xhr.setRequestHeader ('X-CSRF-TOKEN', token);
 
   var formData = new FormData ();
-  var isImagesTypeTrue = false
+  var isImagesTypeTrue = false;
   for (i = 0; i < this.files.length; i++) {
-
     // проверим тип файла
     var trueType = false;
     ['image/jpeg', 'image/png'].forEach (type => {
       if (this.files[i].type == type) trueType = true;
     });
-    
+
     if (trueType) {
-      isImagesTypeTrue = true
+      isImagesTypeTrue = true;
       formData.append ('images[]', this.files[i]);
     }
   }
@@ -849,11 +865,28 @@ function createDropListener () {
   );
 }
 
+function pressAddToBasket (event) {
+  // кнопка добавить в корзину
+  event.preventDefault()
+
+  setOkModalButton (function (){
+    turnOFFSuperModal ()
+  }, 'Добавить')
+  setCancelModalButton (function (){
+
+  }, 'В корзину')
+  turnONmodalMessage ('Фотографии ('+getPhotoCount() + ' шт.) добавлены в заказ.<br>Загрузить еще фотографии или перейти в коризну?')
+  turnONmodal ('-78px');
+}
+
 document.addEventListener ('DOMContentLoaded', function () {
+  
   // обработчик нопки info
   document.querySelector ('.info').onclick = () => {
-    setOkButton ();
-    turnONSuperModal ('info');
+    
+    setOkModalButton (); 
+    turnONmodalMessage (document.getElementById ('info-page').innerHTML)
+    turnONmodal(0, false)
   };
 
   turnOFFSuperModal ();
@@ -872,6 +905,7 @@ document.addEventListener ('DOMContentLoaded', function () {
   document.querySelectorAll ('.switcher').forEach (elem => {
     elem.addEventListener ('click', function () {
       switchRefresh (this);
+      if (this.classList.contains ('size-switcher')) checkLowQuality ();
     });
   });
 
@@ -921,4 +955,7 @@ document.addEventListener ('DOMContentLoaded', function () {
 
   // проверим на плохое качество
   checkLowQuality ();
+
+  // клик на кнопку добавить в корзину
+  document.getElementById ('add-to-basket-button').onclick = pressAddToBasket;
 });

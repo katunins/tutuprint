@@ -147,4 +147,19 @@ class ImageController extends Controller
     {
         return response(Cache::pull('progress'));
     }
+
+    public function setLowQualityArgee (Request $request) 
+    // записывает в сессию данные о согласии клиента использовать картинку с низким разрешением
+    {
+        $currentArr = Session::get('images');
+        $newArr = [];
+        foreach ($currentArr as $elem) {
+
+            if (array_search($elem['id'], $request->data) !== false) $elem['lowqualityagree'] = true;
+            $newArr[] = $elem;
+        }
+
+        Session::put('images', $newArr);
+        return Response::json(true);
+    }
 }

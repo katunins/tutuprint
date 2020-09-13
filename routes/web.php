@@ -46,3 +46,4 @@ Route::post('imageupload', 'ImageController@imageUpload');
 Route::get('removeolduploads', 'ImageController@removeOldUploads');
 
 Route::get ('progress', 'ImageController@getProgressUpload');
+Route::post ('setlowqualityargee', 'ImageController@setLowQualityArgee');
