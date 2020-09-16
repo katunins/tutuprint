@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use Image;
 
 
@@ -161,5 +162,25 @@ class ImageController extends Controller
 
         Session::put('images', $newArr);
         return Response::json(true);
+    }
+
+    public function addToBasket (Request $request) {
+        // проверим авторизацию
+        if (Auth::user()) {
+            // return response(['result'=>true]);
+            $folder = 'public/basket/'. '/' . $request->session()->get('_token');
+            if (!Storage::disk('local')->exists($folder . '/basket') Storage::makeDirectory($folder . '/basket', 0775, true);; // Вдруг одинаковые названия у файлов
+            // В папке baskets/id_клиента создаем папку с названием формата
+            // берем все варианты количеств и создаем папки по 1 по 2 ... 
+            // переносим туда необходимые файл8
+            // Заносим в базу данных basket json с количеством файлов, ценой за шт, форматом и коробкой
+            // возвращяем true
+        } else {
+            // return response(['result'=>false]);
+            // Нет авторизации: 
+            // возвращаем false
+            // предлагаем авторизоваться или продолжить без регистрации
+            // создаем временную авторизацию
+        }
     }
 }

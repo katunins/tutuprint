@@ -639,7 +639,7 @@ function checkLowQuality() {
       }
 
       turnOFFSuperModal();
-    }, 'Продолжить');
+    }, 'Оставить');
     turnONmodalImage("url('images/alert.png')", '40px', '100px');
     turnONmodalMessage('Разрешение у некоторых загруженных фотографий (' + lowQuality + 'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Оставить их или удалить?');
     turnONmodal('-78px');
@@ -842,11 +842,15 @@ function createDropListener() {
 
 function pressAddToBasket(event) {
   // кнопка добавить в корзину
-  event.preventDefault();
+  event.preventDefault(); // Добавим в корзину
+
+  ajax('/addtobasket');
   setOkModalButton(function () {
     turnOFFSuperModal();
   }, 'Добавить');
-  setCancelModalButton(function () {}, 'В корзину');
+  setCancelModalButton(function () {
+    document.location.href = '/basket';
+  }, 'В корзину');
   turnONmodalMessage('Фотографии (' + getPhotoCount() + ' шт.) добавлены в заказ.<br>Загрузить еще фотографии или перейти в коризну?');
   turnONmodal('-78px');
 }

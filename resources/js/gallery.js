@@ -270,12 +270,13 @@ function ajax (url, data) {
     });
 }
 
-const imageBoxOpenModalListener = function () {``
-  
-turnONmodalImage (this.style.backgroundImage)
+const imageBoxOpenModalListener = function () {
+  ``;
 
-turnONmodal ('-306px')
-turnONmodalCount (this.getAttribute ('count')) 
+  turnONmodalImage (this.style.backgroundImage);
+
+  turnONmodal ('-306px');
+  turnONmodalCount (this.getAttribute ('count'));
 
   function formatSize (length) {
     var i = 0, type = ['б', 'Кб', 'Мб', 'Гб', 'Тб', 'Пб'];
@@ -294,14 +295,16 @@ turnONmodalCount (this.getAttribute ('count'))
     ? '<img src="images/alert.png">'
     : '';
 
-    turnONmodalFilename (filename +
+  turnONmodalFilename (
+    filename +
       '<br><span>' +
       alert +
       '(' +
       filesize +
       ', ' +
       resolution +
-      'px)</span>')
+      'px)</span>'
+  );
 
   setOkModalButton (
     function () {
@@ -537,8 +540,8 @@ function clearAll () {
   });
   setCancelModalButton ();
 
-  turnONmodalMessage ('Удалить все загруженные фотографии?')
-  turnONmodal ('-78px')
+  turnONmodalMessage ('Удалить все загруженные фотографии?');
+  turnONmodal ('-78px');
 }
 
 function clearSelected () {
@@ -600,7 +603,6 @@ function checkLowQuality () {
   });
 
   if (lowQuality > 0) {
-
     // повесим onclick на компку OK модального окна
     setOkModalButton (function () {
       let arrList = [];
@@ -636,13 +638,15 @@ function checkLowQuality () {
         });
       }
       turnOFFSuperModal ();
-    }, 'Продолжить');
+    }, 'Оставить');
 
-    turnONmodalImage ( "url('images/alert.png')", '40px', '100px' )
-    turnONmodalMessage ('Разрешение у некоторых загруженных фотографий (' +
-    lowQuality +
-    'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Оставить их или удалить?')
-    turnONmodal ('-78px')
+    turnONmodalImage ("url('images/alert.png')", '40px', '100px');
+    turnONmodalMessage (
+      'Разрешение у некоторых загруженных фотографий (' +
+        lowQuality +
+        'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Оставить их или удалить?'
+    );
+    turnONmodal ('-78px');
   }
 }
 
@@ -733,9 +737,9 @@ function filesUpload () {
     });
   }
 
-  turnONmodalLoader ()
-  turnONmodalMessage ('Загрузка <span></span> %')
-  turnONmodal ('-135px')
+  turnONmodalLoader ();
+  turnONmodalMessage ('Загрузка <span></span> %');
+  turnONmodal ('-135px');
 
   const xhr = new XMLHttpRequest ();
   xhr.open ('POST', '/imageupload', true);
@@ -867,26 +871,31 @@ function createDropListener () {
 
 function pressAddToBasket (event) {
   // кнопка добавить в корзину
-  event.preventDefault()
+  event.preventDefault ();
 
-  setOkModalButton (function (){
-    turnOFFSuperModal ()
-  }, 'Добавить')
-  setCancelModalButton (function (){
+  // Добавим в корзину
+  ajax ('/addtobasket')
 
-  }, 'В корзину')
-  turnONmodalMessage ('Фотографии ('+getPhotoCount() + ' шт.) добавлены в заказ.<br>Загрузить еще фотографии или перейти в коризну?')
+  setOkModalButton (function () {
+    turnOFFSuperModal ();
+  }, 'Добавить');
+  setCancelModalButton (function () {
+    document.location.href = '/basket';
+  }, 'В корзину');
+  turnONmodalMessage (
+    'Фотографии (' +
+      getPhotoCount () +
+      ' шт.) добавлены в заказ.<br>Загрузить еще фотографии или перейти в коризну?'
+  );
   turnONmodal ('-78px');
 }
 
 document.addEventListener ('DOMContentLoaded', function () {
-  
   // обработчик нопки info
   document.querySelector ('.info').onclick = () => {
-    
-    setOkModalButton (); 
-    turnONmodalMessage (document.getElementById ('info-page').innerHTML)
-    turnONmodal(0, false)
+    setOkModalButton ();
+    turnONmodalMessage (document.getElementById ('info-page').innerHTML);
+    turnONmodal (0, false);
   };
 
   turnOFFSuperModal ();
