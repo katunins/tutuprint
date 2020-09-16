@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Image;
 
 
@@ -62,13 +63,13 @@ class ImageController extends Controller
 
         $test = $request->session()->all();
         // загружает одно изображение, ресайзит и прописывает в сессию
-        
+
         //найдем последний ID из сессии, если она есть
         if (Session::has('images')) {
             $sessionArr = Session::get('images');
-            $id = end($sessionArr)['id']+1;
+            $id = end($sessionArr)['id'] + 1;
         } else $id = 0;
-        
+
         // определим папки для загрузки
 
         $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
@@ -86,6 +87,14 @@ class ImageController extends Controller
 
             $current_file_name = $original_name . '.' . $original_ext;
             $path = $files[$i]->storeAs($folder . '/HD', $current_file_name); //основная директория для hiRes фотографий
+
+            // $path = Storage::disk('local')->putFileAs(
+            //     $folder . '/HD', $files[$i], $current_file_name
+            // );
+
+            // $path = Storage::putFileAs(
+            //     $folder . '/HD', $files[$i], $current_file_name
+            // );
 
             if (!Storage::disk('local')->exists($folder . '/Thumbnail')) Storage::makeDirectory($folder . '/Thumbnail', 0775, true); //Сделаем директорию для preview
 
@@ -105,7 +114,7 @@ class ImageController extends Controller
 
             Session::push('images', [
                 'id' => $id + $i,
-                'url' => Storage::url($path),
+                'url' => $path, //Storage::url($path),
                 'count' => 1,
                 'thumbnail' => Storage::url($pathThumbnail),
                 'filename' => $current_file_name,
@@ -149,7 +158,7 @@ class ImageController extends Controller
         return response(Cache::pull('progress'));
     }
 
-    public function setLowQualityArgee (Request $request) 
+    public function setLowQualityArgee(Request $request)
     // записывает в сессию данные о согласии клиента использовать картинку с низким разрешением
     {
         $currentArr = Session::get('images');
@@ -164,23 +173,58 @@ class ImageController extends Controller
         return Response::json(true);
     }
 
-    public function addToBasket (Request $request) {
-        // проверим авторизацию
+    public function addToBasket(Request $request)
+    {
+        // получим или создадим корзину для клиента 
         if (Auth::user()) {
-            // return response(['result'=>true]);
-            $folder = 'public/basket/'. '/' . $request->session()->get('_token');
-            if (!Storage::disk('local')->exists($folder) Storage::makeDirectory($folder, 0775, true); // Вдруг одинаковые названия у файлов
-            // В папке baskets/id_клиента создаем папку с названием формата
-            // берем все варианты количеств и создаем папки по 1 по 2 ... 
-            // переносим туда необходимые файл8
-            // Заносим в базу данных basket json с количеством файлов, ценой за шт, форматом и коробкой
-            // возвращяем true
+            
+            $userEmail = Auth::user()->email;
+            $basket = DB::table('basket')->where('user-email', $userEmail)->get();
+        if (count($basket) == 0)
+            // return Response::json(count($basket));
         } else {
-            // return response(['result'=>false]);
-            // Нет авторизации: 
-            // возвращаем false
-            // предлагаем авторизоваться или продолжить без регистрации
-            // создаем временную авторизацию
+
+            // проверим или создадим временный ID для пользователя в этой сессии
+            if (Session::has('temporary-user')) {
+                $tempUserId =  Session::get('temporary-user');
+            } else {
+                $tempUserId = Str::random(5);
+                Session::set('temporary-user', $tempUserId);
+            }
+            $basket = DB::table('basket')->where('temporary-user-id', $tempUserId)->get();
+            // return Response::json($basket);
         }
+
+
+        // Перенесем фотографии из UPLOAD в BASKET и распределим их по папкам с количеством
+        $basketFolder = 'public/basket/' . $request->session()->get('_token');
+        if (!Storage::disk('local')->exists($basketFolder)) Storage::makeDirectory($basketFolder, 0775, true);
+
+        foreach (Session::get('images') as $image) {
+            if (!Storage::disk('local')->exists($basketFolder . '/' . $image['count'])) Storage::makeDirectory($basketFolder . '/' . $image['count'], 0775, true);
+
+            Storage::move($image['url'], $basketFolder . '/' . $image['count'] . '/' . $image['filename']);
+            Storage::delete($image['Thumbnail']);
+        }
+
+
+
+        // проверим авторизацию
+        // if (Auth::user()) {
+        //     // return response(['result'=>true]);
+        //     // Storage::disk('local')->makeDirectory('basket');
+
+        //     // В папке baskets/id_клиента создаем папку с названием формата
+        //     // берем все варианты количеств и создаем папки по 1 по 2 ... 
+        //     // переносим туда необходимые файл8
+        //     // Заносим в базу данных basket json с количеством файлов, ценой за шт, форматом и коробкой
+        //     // возвращяем true
+        // } else {
+        //     // return response(['result'=>false]);
+        //     // Нет авторизации: 
+        //     // возвращаем false
+        //     // предлагаем авторизоваться или продолжить без регистрации
+        //     // создаем временную авторизацию
+        // }
     }
 }

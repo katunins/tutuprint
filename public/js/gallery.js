@@ -260,6 +260,13 @@ function updatePrice() {
   };
   var pricePerOne = priceArr[paramSelected.product].size[paramSelected.size];
   var count = getPhotoCount();
+  var basketButton = document.getElementById('add-to-basket-button');
+
+  if (count == 0) {
+    basketButton.classList.add('half-opacity');
+  } else {
+    basketButton.classList.remove('half-opacity');
+  }
 
   if (paramSelected.box) {
     priceAdditionally = 0;
@@ -929,7 +936,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })
