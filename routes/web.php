@@ -48,3 +48,5 @@ Route::get('removeolduploads', 'ImageController@removeOldUploads');
 Route::get ('progress', 'ImageController@getProgressUpload');
 Route::post ('setlowqualityargee', 'ImageController@setLowQualityArgee');
 Route::post('addtobasket', 'ImageController@addToBasket');
+
+Route::post('getBasketCount', 'ImageController@getBasketCount');

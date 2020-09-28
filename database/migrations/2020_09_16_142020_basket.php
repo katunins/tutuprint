@@ -14,10 +14,11 @@ class Basket extends Migration
     public function up()
     {
         Schema::create('basket', function (Blueprint $table) {
-            // $table->increments('id');
-            $table->boolean('temporary-user-id');
-            $table->string('user-email');
-            $table->text('data');
+            $table->increments('id'); 
+            $table->integer('basketId');
+            $table->string('temporaryUserId')->nullable();
+            $table->string('userEmail')->nullable();
+            $table->json('data');
             $table->timestamps();
         });
     }

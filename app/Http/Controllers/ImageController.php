@@ -175,56 +175,85 @@ class ImageController extends Controller
 
     public function addToBasket(Request $request)
     {
-        // получим или создадим корзину для клиента 
+        // получим корзину, если она есть
+        $userEmail= '';
+        $tempUserId = '';
         if (Auth::user()) {
             
             $userEmail = Auth::user()->email;
-            $basket = DB::table('basket')->where('user-email', $userEmail)->get();
-        if (count($basket) == 0)
+            $basket = DB::table('basket')->where('userEmail', $userEmail)->get();
+        
             // return Response::json(count($basket));
         } else {
 
             // проверим или создадим временный ID для пользователя в этой сессии
-            if (Session::has('temporary-user')) {
-                $tempUserId =  Session::get('temporary-user');
+            if (Session::has('temporaryUser')) {
+                $tempUserId =  Session::get('temporaryUser');
             } else {
                 $tempUserId = Str::random(5);
-                Session::set('temporary-user', $tempUserId);
+                Session::put('temporaryUser', $tempUserId);
             }
-            $basket = DB::table('basket')->where('temporary-user-id', $tempUserId)->get();
-            // return Response::json($basket);
+            $basket = DB::table('basket')->where('temporaryUserId', $tempUserId)->get();
         }
-
+        $id = 0;
+        
+        if (count($basket) > 0) {
+            // получим последний внтренний ID корзины и увеличим его
+            $id = $basket[count($basket)-1]->basketId+1;
+        }
+        
 
         // Перенесем фотографии из UPLOAD в BASKET и распределим их по папкам с количеством
-        $basketFolder = 'public/basket/' . $request->session()->get('_token');
+        $basketFolder = 'public/basket/' . $request->session()->get('_token').'/'.$id; // + добавим продукт, формат , поля
         if (!Storage::disk('local')->exists($basketFolder)) Storage::makeDirectory($basketFolder, 0775, true);
 
         foreach (Session::get('images') as $image) {
             if (!Storage::disk('local')->exists($basketFolder . '/' . $image['count'])) Storage::makeDirectory($basketFolder . '/' . $image['count'], 0775, true);
 
             Storage::move($image['url'], $basketFolder . '/' . $image['count'] . '/' . $image['filename']);
-            Storage::delete($image['Thumbnail']);
+            // Storage::delete($image['thumbnail']);
         }
 
+        // удалим пустую папку с upload и сессию
+        $path = explode('/HD', $image['url'])[0];
+        Storage::deleteDirectory(($path));
+        Session::forget('images');
 
+        // Создадим в базе корзину
+        DB::table('basket')->insert([
+            ['basketId' => $id, 
+            'userEmail' => $userEmail, 
+            'temporaryUserId' => $tempUserId, 
+            'data'=>json_encode($request->input())],
+        ]);
 
-        // проверим авторизацию
-        // if (Auth::user()) {
-        //     // return response(['result'=>true]);
-        //     // Storage::disk('local')->makeDirectory('basket');
+    return Response::json ();
+    }
 
-        //     // В папке baskets/id_клиента создаем папку с названием формата
-        //     // берем все варианты количеств и создаем папки по 1 по 2 ... 
-        //     // переносим туда необходимые файл8
-        //     // Заносим в базу данных basket json с количеством файлов, ценой за шт, форматом и коробкой
-        //     // возвращяем true
-        // } else {
-        //     // return response(['result'=>false]);
-        //     // Нет авторизации: 
-        //     // возвращаем false
-        //     // предлагаем авторизоваться или продолжить без регистрации
-        //     // создаем временную авторизацию
-        // }
+    public function getBasketCount () {
+        // получим корзину - вернем сумму ее и количество позиций
+        if (Auth::user()) {
+            
+            $userEmail = Auth::user()->email;
+            $basket = DB::table('basket')->where('userEmail', $userEmail)->get();
+        
+            // return Response::json(count($basket));
+        } elseif (Session::has('temporaryUser')) {
+                $tempUserId =  Session::get('temporaryUser');
+                $basket = DB::table('basket')->where('temporaryUserId', $tempUserId)->get();
+             
+            
+        }
+        $count = 0;
+        $summ = 0;
+        
+        foreach ($basket as $item) {
+            $summ += json_decode($item->data)->price->data;
+            $count ++;
+        }
+        if ($count > 0) {
+            $result = ['summ'=>$summ, 'count'=>$count];
+        } else {$result = false;}
+        return Response::json ($result);
     }
 }

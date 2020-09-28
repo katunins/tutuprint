@@ -22,8 +22,10 @@
                 <img src="{{ asset('back-button.svg') }}" alt="Назад">
             </a>
 
-            <div class="basket">
-                <img src="{{ asset('images/basket.svg') }}" alt="">
+            <div class="basket half-opacity">
+                <a href="/basket"><img src="{{ asset('images/basket.svg') }}" alt=""></a>
+
+                <span id="basket-icon-summ"></span>
             </div>
         </div>
 

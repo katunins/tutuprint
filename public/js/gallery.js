@@ -322,6 +322,9 @@ function changeModalCount() {
 }
 
 function ajax(url, data) {
+  var callBack = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {
+    return true;
+  };
   fetch(url, {
     headers: {
       'Content-Type': 'application/json',
@@ -334,7 +337,8 @@ function ajax(url, data) {
     body: JSON.stringify(data)
   }).then(function (response) {
     return response.json();
-  }).then(function (response) {// console.log (response);
+  }).then(function (response) {
+    callBack(response); // console.log (callBack);
   })["catch"](function (error) {
     console.log(error);
   });
@@ -847,23 +851,64 @@ function createDropListener() {
   }, false);
 }
 
+function updateBasketIconCount() {
+  ajax('/getBasketCount', {}, function (result) {
+    if (result != false) {
+      document.querySelector('.basket').classList.remove('half-opacity');
+      var basketPrice = result.summ;
+      document.getElementById('basket-icon-summ').innerHTML = basketPrice.toLocaleString('rus-IN') + ' ₽';
+    } else {
+      document.querySelector('.basket').classList.add('half-opacity');
+      document.getElementById('basket-icon-summ').innerHTML = '';
+    }
+  });
+}
+
 function pressAddToBasket(event) {
   // кнопка добавить в корзину
   event.preventDefault(); // Добавим в корзину
 
-  ajax('/addtobasket');
+  var params = {
+    product: {
+      name: 'Продукт',
+      data: document.querySelector('.param.active[name="product"]').innerHTML
+    },
+    size: {
+      name: 'Формат',
+      data: document.querySelector('.param.active[name="size"]').innerHTML
+    },
+    whiteborder: {
+      name: 'Белая рамка по краям',
+      data: document.getElementById('white-border').checked
+    },
+    count: {
+      name: 'Количество',
+      data: getPhotoCount()
+    },
+    box: {
+      name: 'Коробка',
+      data: document.getElementById('box').checked
+    },
+    price: {
+      name: 'Стоимость',
+      data: document.getElementById('price-to-basket').innerHTML
+    }
+  };
+  ajax('/addtobasket', params);
+  updateBasketIconCount();
   setOkModalButton(function () {
     turnOFFSuperModal();
-  }, 'Добавить');
+  }, 'Добавить еще');
   setCancelModalButton(function () {
     document.location.href = '/basket';
   }, 'В корзину');
-  turnONmodalMessage('Фотографии (' + getPhotoCount() + ' шт.) добавлены в заказ.<br>Загрузить еще фотографии или перейти в коризну?');
+  turnONmodalMessage('Фотографии (' + getPhotoCount() + ' шт.) добавлены в корзину.<br>Желаете ли еще загрузить фотографии или перейти в коризну?');
   turnONmodal('-78px');
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  // обработчик нопки info
+  updateBasketIconCount(); // обработчик нопки info
+
   document.querySelector('.info').onclick = function () {
     setOkModalButton();
     turnONmodalMessage(document.getElementById('info-page').innerHTML);
@@ -936,7 +981,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })
