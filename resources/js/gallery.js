@@ -935,7 +935,7 @@ function pressAddToBasket (event) {
       getPhotoCount () +
       ' шт.) добавлены в корзину.<br>Желаете ли еще загрузить фотографии или перейти в коризну?'
   );
-  turnONmodal ('-78px');
+  turnONmodal ('-78px', false);
 }
 
 document.addEventListener ('DOMContentLoaded', function () {

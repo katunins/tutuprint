@@ -178,6 +178,7 @@ class ImageController extends Controller
         // получим корзину, если она есть
         $userEmail= '';
         $tempUserId = '';
+
         if (Auth::user()) {
             
             $userEmail = Auth::user()->email;
@@ -202,15 +203,17 @@ class ImageController extends Controller
             $id = $basket[count($basket)-1]->basketId+1;
         }
         
+        // $id = $id;
 
         // Перенесем фотографии из UPLOAD в BASKET и распределим их по папкам с количеством
-        $basketFolder = 'public/basket/' . $request->session()->get('_token').'/'.$id; // + добавим продукт, формат , поля
+        $basketFolder = 'public/basket/' . $request->session()->get('_token').'/'.'N_'.$id; // + добавим продукт, формат , поля
         if (!Storage::disk('local')->exists($basketFolder)) Storage::makeDirectory($basketFolder, 0775, true);
 
         foreach (Session::get('images') as $image) {
-            if (!Storage::disk('local')->exists($basketFolder . '/' . $image['count'])) Storage::makeDirectory($basketFolder . '/' . $image['count'], 0775, true);
+            $copies = $image['count'].'_copies';
+            if (!Storage::disk('local')->exists($basketFolder . '/' . $copies)) Storage::makeDirectory($basketFolder . '/' . $copies, 0775, true);
 
-            Storage::move($image['url'], $basketFolder . '/' . $image['count'] . '/' . $image['filename']);
+            Storage::move($image['url'], $basketFolder . '/' . $copies . '/' . $image['filename']);
             // Storage::delete($image['thumbnail']);
         }
 
@@ -243,10 +246,9 @@ class ImageController extends Controller
                 $basket = DB::table('basket')->where('temporaryUserId', $tempUserId)->get();
              
             
-        }
+        } else $basket = [];
         $count = 0;
         $summ = 0;
-        
         foreach ($basket as $item) {
             $summ += json_decode($item->data)->price->data;
             $count ++;

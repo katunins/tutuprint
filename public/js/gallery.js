@@ -903,7 +903,7 @@ function pressAddToBasket(event) {
     document.location.href = '/basket';
   }, 'В корзину');
   turnONmodalMessage('Фотографии (' + getPhotoCount() + ' шт.) добавлены в корзину.<br>Желаете ли еще загрузить фотографии или перейти в коризну?');
-  turnONmodal('-78px');
+  turnONmodal('-78px', false);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
