@@ -292,7 +292,6 @@
 }
 
 .param-check-block label {
-  border: 1px solid #bebdbd;
   display: block;
   width: 135px;
   height: 30px;
@@ -301,18 +300,24 @@
   line-height: 2;
 }
 
+.param-check-block label::before {
+  font-size: 12px;
+  color: rgba(160, 160, 160, 0);
+  margin-right: 5px;
+  content: "\2713";
+  border: 1px solid grey;
+  padding: 1px 3px;
+  border-radius: 4px;
+  transition: 0.3s ease-in-out;
+}
+
 .param-check-block span {
   font-weight: 300;
 }
 
-.param-check-block input:not(:checked) + label {
-  transition: 0.3s ease-in-out;
-}
-
 .param-check-block input:checked + label::before {
-  font-size: 14px;
-  margin-right: 5px;
   content: "\2713";
+  color: #727171;
   transition: 0.3s ease-in-out;
 }
 

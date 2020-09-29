@@ -10,7 +10,7 @@
 
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
+    <script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
 </head>
 
 <body>
@@ -43,3 +43,8 @@
 </body>
 
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function (){
+        updateBasketIconCount ()
+    })
+</script>

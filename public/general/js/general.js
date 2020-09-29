@@ -81,48 +81,10 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ "./resources/js/app.js":
-/*!*****************************!*\
-  !*** ./resources/js/app.js ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-// require('./bootstrap');
-__webpack_require__(/*! ./general */ "./resources/js/general.js"); // alert ()
-// window.Vue = require('vue');
-
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-// const app = new Vue({
-//     el: '#app',
-// });
-
-/***/ }),
 
 /***/ "./resources/js/general.js":
 /*!*********************************!*\
@@ -171,86 +133,14 @@ window.updateBasketIconCount = function () {
 
 /***/ }),
 
-/***/ "./resources/sass/app.scss":
-/*!*********************************!*\
-  !*** ./resources/sass/app.scss ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./resources/sass/gallery.scss":
-/*!*************************************!*\
-  !*** ./resources/sass/gallery.scss ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./resources/sass/login.scss":
-/*!***********************************!*\
-  !*** ./resources/sass/login.scss ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./resources/sass/personal.scss":
-/*!**************************************!*\
-  !*** ./resources/sass/personal.scss ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./resources/sass/supermodal.scss":
-/*!****************************************!*\
-  !*** ./resources/sass/supermodal.scss ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./resources/sass/welcome.scss":
-/*!*************************************!*\
-  !*** ./resources/sass/welcome.scss ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 0:
-/*!*********************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/welcome.scss ./resources/sass/personal.scss ./resources/sass/login.scss ./resources/sass/gallery.scss ./resources/sass/supermodal.scss ./resources/sass/app.scss ***!
-  \*********************************************************************************************************************************************************************************************************************/
+/***/ 1:
+/*!***************************************!*\
+  !*** multi ./resources/js/general.js ***!
+  \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/welcome.scss */"./resources/sass/welcome.scss");
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/personal.scss */"./resources/sass/personal.scss");
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/login.scss */"./resources/sass/login.scss");
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/gallery.scss */"./resources/sass/gallery.scss");
-__webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/supermodal.scss */"./resources/sass/supermodal.scss");
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/sass/app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/general.js */"./resources/js/general.js");
 
 
 /***/ })

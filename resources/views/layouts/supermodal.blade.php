@@ -32,6 +32,22 @@
     let okButton = document.getElementById('ok-modal-button')
     let cancelButton = document.getElementById('cancel-modal-button')
 
+    function changeModalCount() {
+  let modalTempData = document.getElementById('modal-temporary-data'); //буфер модального окна
+  let currentImage = document.getElementById(this.id);
+
+  if (modalTempData.value == '') {
+    currentCount = currentImage.getAttribute('count');
+    modalTempData.value = currentCount;
+  } else {
+    currentCount = modalTempData.value;
+  }
+  currentCount = Number(currentCount) + Number(this.increase);
+  if (currentCount < 0) currentCount = 0;
+  document.getElementById('image-modal-count').innerHTML = currentCount;
+  modalTempData.value = currentCount;
+}
+
     function setOkModalButton (okButtonCallback = turnOFFSuperModal, name = 'ok') {
         
         okButton.innerHTML = name

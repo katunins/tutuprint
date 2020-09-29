@@ -175,6 +175,7 @@ class ImageController extends Controller
 
     public function addToBasket(Request $request)
     {
+        // return Response::json ($size);
         // получим корзину, если она есть
         $userEmail= '';
         $tempUserId = '';
@@ -203,10 +204,12 @@ class ImageController extends Controller
             $id = $basket[count($basket)-1]->basketId+1;
         }
         
-        // $id = $id;
 
         // Перенесем фотографии из UPLOAD в BASKET и распределим их по папкам с количеством
-        $basketFolder = 'public/basket/' . $request->session()->get('_token').'/'.'N_'.$id; // + добавим продукт, формат , поля
+        
+        $size = str_replace(' ', '', $request->size['data']); 
+        $basketFolder = 'public/basket/' . $request->session()->get('_token').'/'.'N_'.$id.'/'.$size; // + добавим продукт, формат , поля
+        
         if (!Storage::disk('local')->exists($basketFolder)) Storage::makeDirectory($basketFolder, 0775, true);
 
         foreach (Session::get('images') as $image) {
