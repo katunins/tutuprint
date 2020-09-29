@@ -18,9 +18,6 @@ use App\Http\Controllers\ImageController;
         @foreach (Session::get('images') as $item)
         @if ($item['count'] > 0)
 
-        <?php 
-        // print_r ($item['url']); 
-        ?>
 
         <div class="image-box" id={{ $item['id'] }} url={{ $item['url'] }} width={{$item['width']}}
             heigh={{$item['heigh']}} size={{$item['size']}}
@@ -127,7 +124,7 @@ use App\Http\Controllers\ImageController;
                     </div>
 
                     <div class="text-for-box param-block hide">
-                        <textarea name="text-for-box" cols="30" rows="2" placeholder="Надпись на коробке"></textarea>
+                        <textarea id="text-for-box" name="text-for-box" cols="30" rows="2" placeholder="Надпись на коробке"></textarea>
                     </div>
                 </div>
 

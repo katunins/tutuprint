@@ -858,6 +858,7 @@ function pressAddToBasket(event) {
     box: {
       name: 'Коробка',
       data: document.getElementById('box').checked,
+      text: document.getElementById('text-for-box').value
     },
     price: {
       name: 'Стоимость',
@@ -874,6 +875,7 @@ function pressAddToBasket(event) {
     document.querySelectorAll('.image-box').forEach(elem => {
       elem.parentNode.removeChild(elem);
     });
+    addEmptyElems ()
   }, 'Добавить еще');
   setCancelModalButton(function () {
     document.location.href = '/basket';

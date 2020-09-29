@@ -14,8 +14,19 @@ b {
     font-weight: 400;
 }
 
-button, 
-button:active, 
+
+.hide {
+    display: none !important;
+}
+
+.half-opacity {
+    opacity: 0.3;
+    filter: grayscale(1);
+    pointer-events: none;
+}
+
+button,
+button:active,
 button:focus {
     outline: none;
 }
@@ -45,29 +56,33 @@ body {
     background-size: contain;
 }
 
+
 .basket {
     text-align: center;
     width: 40px;
     margin-right: 25px;
-    
+
+    a {
+        text-decoration: none;
+    }
+
     img {
         width: 30px;
         margin-bottom: 3px;
-    };
+    }
+
+    ;
 
     #basket-icon-summ {
-        // font-weight: 400;
-        // padding-top: 5px;
-        // font-size: 12px;
-        // color: grey;
+
 
         font-weight: 400;
-    font-size: 11px;
-    color: #252424;
-    background: #ffcc00;
-    padding: 2px 5px;
-    border-radius: 8px;
-    margin-top: 5px;
+        font-size: 11px;
+        color: #252424;
+        background: #ffcc00;
+        padding: 2px 5px;
+        border-radius: 8px;
+        margin-top: 5px;
     }
 }
 
@@ -90,6 +105,7 @@ body {
 .top-back {
     display: none;
 }
+
 .modal {
     margin: 0px auto 30px;
     font-size: 16px;
@@ -112,8 +128,7 @@ body {
 }
 
 @keyframes open {
-    0% {
-    }
+    0% {}
 
     99% {
         opacity: 0;

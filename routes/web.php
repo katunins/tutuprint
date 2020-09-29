@@ -38,6 +38,10 @@ Route::get('/gallery', function (){
     return View ('gallery');
 });
 
+Route::get('basket', function () {
+    return View ('basket');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('updatecount', 'ImageController@updateSessionImageCount');

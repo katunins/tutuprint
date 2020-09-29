@@ -140,7 +140,7 @@ window.updateBasketIconCount = function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/general.js */"./resources/js/general.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/js/general.js */"./resources/js/general.js");
 
 
 /***/ })

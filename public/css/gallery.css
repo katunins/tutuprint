@@ -5,17 +5,6 @@
   max-width: 800px !important;
 }
 
-.hide {
-  display: none !important;
-}
-
-.half-opacity {
-  opacity: 0.3;
-  -webkit-filter: grayscale(1);
-          filter: grayscale(1);
-  pointer-events: none;
-}
-
 .header {
   display: flex !important;
   width: 100% !important;

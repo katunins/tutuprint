@@ -10,6 +10,17 @@ b {
   font-weight: 400;
 }
 
+.hide {
+  display: none !important;
+}
+
+.half-opacity {
+  opacity: 0.3;
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
+  pointer-events: none;
+}
+
 button,
 button:active,
 button:focus {
@@ -45,6 +56,10 @@ body {
   text-align: center;
   width: 40px;
   margin-right: 25px;
+}
+
+.basket a {
+  text-decoration: none;
 }
 
 .basket img {

@@ -10,7 +10,7 @@
 
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
+    
 </head>
 
 <body>
@@ -23,9 +23,11 @@
             </a>
 
             <div class="basket half-opacity">
-                <a href="/basket"><img src="{{ asset('images/basket.svg') }}" alt=""></a>
+                <a href="{{ url ('basket') }}">
+                    <img src="{{ asset('images/basket.svg') }}" alt="">
 
                 <span id="basket-icon-summ"></span>
+            </a>
             </div>
         </div>
 
@@ -43,6 +45,7 @@
 </body>
 
 </html>
+<script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function (){
         updateBasketIconCount ()

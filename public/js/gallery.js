@@ -831,7 +831,8 @@ function pressAddToBasket(event) {
     },
     box: {
       name: 'Коробка',
-      data: document.getElementById('box').checked
+      data: document.getElementById('box').checked,
+      text: document.getElementById('text-for-box').value
     },
     price: {
       name: 'Стоимость',
@@ -846,6 +847,7 @@ function pressAddToBasket(event) {
     document.querySelectorAll('.image-box').forEach(function (elem) {
       elem.parentNode.removeChild(elem);
     });
+    addEmptyElems();
   }, 'Добавить еще');
   setCancelModalButton(function () {
     document.location.href = '/basket';
@@ -927,7 +929,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

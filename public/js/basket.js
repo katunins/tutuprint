@@ -81,66 +81,30 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/general.js":
-/*!*********************************!*\
-  !*** ./resources/js/general.js ***!
-  \*********************************/
+/***/ "./resources/js/basket.js":
+/*!********************************!*\
+  !*** ./resources/js/basket.js ***!
+  \********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-window.ajax = function (url, data) {
-  var callBack = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function (response) {
-    console.log('ajax', response); // return true
-  };
-  fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json, text-plain, */*',
-      'X-Requested-With': 'XMLHttpRequest',
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    },
-    method: 'post',
-    credentials: 'same-origin',
-    body: JSON.stringify(data)
-  }).then(function (response) {
-    return response.json();
-  }).then(function (response) {
-    callBack(response); // console.log (callBack);
-  })["catch"](function (error) {
-    console.log(error);
-  });
-};
 
-window.updateBasketIconCount = function () {
-  ajax('/getBasketCount', {}, function (result) {
-    if (result != false) {
-      document.querySelector('.basket').classList.remove('half-opacity');
-      var basketPrice = result.summ;
-      document.getElementById('basket-icon-summ').innerHTML = basketPrice.toLocaleString('rus-IN') + ' ₽';
-      document.getElementById('basket-icon-summ').classList.remove('hide');
-    } else {
-      document.querySelector('.basket').classList.add('half-opacity');
-      document.getElementById('basket-icon-summ').innerHTML = '';
-      document.getElementById('basket-icon-summ').classList.add('hide');
-    }
-  });
-};
 
 /***/ }),
 
-/***/ 1:
-/*!***************************************!*\
-  !*** multi ./resources/js/general.js ***!
-  \***************************************/
+/***/ 3:
+/*!**************************************!*\
+  !*** multi ./resources/js/basket.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/js/general.js */"./resources/js/general.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/js/basket.js */"./resources/js/basket.js");
 
 
 /***/ })

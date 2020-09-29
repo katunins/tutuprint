@@ -13,11 +13,13 @@ const mix = require('laravel-mix');
 
 mix
   .js('resources/js/app.js', 'public/js')
-  .js('resources/js/general.js', 'general/js')
+  .js('resources/js/general.js', 'public/js')
   .js('resources/js/gallery.js', 'public/js')
+  .js('resources/js/basket.js', 'public/js')
   .sass('resources/sass/welcome.scss', 'public/css')
   .sass('resources/sass/personal.scss', 'public/css')
   .sass('resources/sass/login.scss', 'public/css')
   .sass('resources/sass/gallery.scss', 'public/css')
   .sass('resources/sass/supermodal.scss', 'public/css')
+  .sass('resources/sass/basket.scss', 'public/css')
   .sass('resources/sass/app.scss', 'public/css');
