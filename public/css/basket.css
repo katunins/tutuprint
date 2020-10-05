@@ -83,3 +83,30 @@
   cursor: pointer;
 }
 
+form {
+  width: 450px;
+  margin-top: 20px;
+}
+
+form * {
+  font-weight: 300;
+}
+
+form h3 {
+  margin: 10px 0 10px;
+  font-size: 22px;
+}
+
+form .form-block input {
+  display: none;
+}
+
+form .form-block input + label {
+  padding: 5px 10px;
+}
+
+form .form-block input:checked + label {
+  background-color: #ffcc00;
+  padding: 5px 10px;
+}
+

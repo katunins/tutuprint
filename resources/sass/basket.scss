@@ -85,3 +85,35 @@
         cursor: pointer;
     }
 }
+
+form {
+    width: 450px;
+    margin-top: 20px;
+    
+    * {
+        font-weight: 300;
+    }
+
+    h3 {
+        margin: 10px 0 10px;
+        font-size: 22px;
+    }
+
+    .form-block {
+        // margin: 10px 0 10x;
+        
+        input {
+            display: none;
+        }
+
+        input + label {
+            // background-color: #ffcc00;   
+            padding: 5px 10px;
+        }
+
+        input:checked + label {
+            background-color: #ffcc00;   
+            padding: 5px 10px;
+        }
+    }
+}

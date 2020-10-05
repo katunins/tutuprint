@@ -33,7 +33,7 @@ if (Auth::user()) {
         // dd ($preview);
         ?>
 <div class="basket-block">
-    
+
     <div class="preview" style="background-image: url({{ Storage::disk('local')->url($thumbnailUrl) }})">
     </div>
     <div class="params">
@@ -65,6 +65,42 @@ if (Auth::user()) {
 </div>
 @endif
 
+<form action="">
+    @csrf
+    <h3>Способ доставки</h3>
+
+    <div class="form-block">
+
+        <input type="radio" name="delivery" id="vrn__delivery" value="vrn__delivery">
+        <label for="vrn__delivery">Курьером в Воронеже (250 руб)</label>
+    </div>
+    <div class="form-block">
+        <input type="radio" name="delivery" id="vrn__pickup" value="vrn__pickup">
+        <label for="vrn__pickup">Самостоятельно на Театральная, 11</label>
+    </div>
+    <div class="form-block">
+        <input type="radio" name="delivery" id="cdek" value="cdek">
+        <label for="cdek">Доставка CDEK в другие регионы</label>
+    </div>
+
+    <div class="form-block">
+        <div class="cdek"></div>
+
+        <input type="text" name="vrn_adress" id="vrn_adress">
+        <label for="vrn_adress">Адрес в Воронеже</label>
+    </div>
+
+    <div class="form-block">
+        <div class="message">
+
+        </div>
+        <div class="time">
+
+        </div>
+    </div>
+
+
+</form>
 
 @endsection
 
