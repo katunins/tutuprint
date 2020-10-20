@@ -54,3 +54,9 @@ Route::post ('setlowqualityargee', 'ImageController@setLowQualityArgee');
 Route::post('addtobasket', 'ImageController@addToBasket');
 
 Route::post('getBasketCount', 'ImageController@getBasketCount');
+
+Route::post('payorder', 'BasketController@payorder')->name('payorder');
+
+Route::get('orderauth', function () {
+    return View ('layouts.orderauth');
+})->name('orderauth');
