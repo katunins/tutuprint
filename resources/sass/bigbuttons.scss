@@ -1,0 +1,64 @@
+.button-block {
+    display: flex;
+}
+
+.big-button {
+    margin: 0 7px;
+    border: 1px solid #bebbbb;
+    border-radius: 12px;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+
+    div {
+        padding: 5px;
+    }
+
+    p {
+        font-size: 13px;
+        font-weight: 300;
+        margin-top: 8px;
+    }
+
+    svg {
+        height: 32px;
+    }
+}
+
+a.big-button {
+    text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+
+    .big-button {
+        width: 85px;
+        height: 85px;
+
+        p {
+            font-size: 12px;
+            // margin-top: 8px;
+        }
+    }
+}
+
+@media (max-device-width: 330px) {
+    .container {
+        margin-bottom: 30px;
+     }
+
+     .big-button {
+         margin: 5px;
+         width: 80px;
+         height: 80px;
+
+        p {
+            font-size: 11px;
+        }
+    }
+}
+
