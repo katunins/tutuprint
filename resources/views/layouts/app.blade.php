@@ -10,44 +10,91 @@
 
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    
+
 </head>
 
 <body>
     <div class="container">
-        <div class="header" style="background-image: url({{ asset ('logo.svg') }})">
 
+        <div class="header">
+            <div class="top-back-button" <?php if (URL::current() == url ('/') || View::hasSection('back')) {?>
+                style="visibility: hidden" <?php } ?>>
+                <?php $urlBack = (URL::previous() == URL::current()) ? '/' : URL::previous(); ?>
+                <a href={{ $urlBack }}>
+                    <img src="{{ asset('back-button.svg') }}" alt="Назад">
+                </a>
+            </div>
 
-            <a class="top-back" href=@yield('back')>
-                <img src="{{ asset('back-button.svg') }}" alt="Назад">
-            </a>
+            <div class="logo">
+                <a href="{{ url ('/') }}">
+                    <img src="{{ asset ('logo.svg') }}" alt="tutuprint.ru">
+                </a>
+            </div>
 
-            <div class="basket half-opacity">
-                <a href="{{ url ('basket') }}">
-                    <img src="{{ asset('images/basket.svg') }}" alt="">
+            <div class="personal-block">
+
+                @if(Auth::user())
+                    <div class="user">
+                        <a href="{{ url ('auth') }}">
+                            <img src="{{ asset('images/user.svg') }}" alt="">
+                        </a>
+                    </div>
+                @elseif(Session::has('temporaryUser'))
+                    <div class="user temp-user">
+                        <a href="{{ url ('personal') }}">
+                            <img src="{{ asset('images/user.svg') }}" alt="">
+                        </a>
+                    </div>
+                @else
+                    <div class="user half-opacity">
+                        <a href="">
+                            <img src="{{ asset('images/user.svg') }}" alt="">
+                        </a>
+                    </div>
+                @endif
+
+                <div class="basket half-opacity">
+                    <a href="{{ url ('basket') }}">
+                        <img src="{{ asset('images/basket.svg') }}" alt="">
+                    </a>
+                    <span id="basket-icon-summ"></span>
+                </div>
+
+                {{-- <div class="basket">
+                    <a href="{{ url ('basket') }}">
+                <img src="{{ asset('images/basket.svg') }}" alt="">
 
                 <span id="basket-icon-summ"></span>
-            </a>
-            </div>
+                </a>
+            </div> --}}
         </div>
 
-        @include('layouts.modal')
+    </div>
 
-        @yield('content')
+    @include('layouts.modal')
 
-        @if(View::hasSection('back'))
-        <a class="back" href=@yield('back')>
+    @yield('content')
+
+    @if(View::hasSection('back'))
+        <a class="back" href={{ $urlBack }}>
             <img src="{{ asset('back-button.svg') }}" alt="Назад">
         </a>
-        @endif
+    @endif
 
     </div>
 </body>
 
+{{-- @if(Auth::user())
+    {{ dd (Auth::id()) }}
+@endif--}}
+
 </html>
 <script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function (){
-        updateBasketIconCount ()
-    })
+    document.addEventListener('DOMContentLoaded', function () {
+        updateBasketIconCount()
+    });
+
 </script>
+{{-- {{ print_r(Session::all()) }}
+{{ var_dump(Auth::check()) }} --}}

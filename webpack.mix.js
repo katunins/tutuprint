@@ -17,6 +17,7 @@ mix
   .js('resources/js/gallery.js', 'public/js')
   .js('resources/js/basket.js', 'public/js')
   .sass('resources/sass/welcome.scss', 'public/css')
+  .sass('resources/sass/bigbuttons.scss', 'public/css')
   .sass('resources/sass/personal.scss', 'public/css')
   .sass('resources/sass/login.scss', 'public/css')
   .sass('resources/sass/gallery.scss', 'public/css')

@@ -11,35 +11,41 @@
 |
 */
 
-// use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Session;
-
-
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
- 
+
 Route::get('/auth', function () {
     return view('auth');
 });
 
 Route::get('/agree', function () {
     return view('auth.agree');
-})->name ('agree');
+})->name('agree');
 
-Route::get('/logout', function (){
+Route::get('/logout', function () {
     Auth::logout();
-    return View('auth');
+    return redirect()->to('auth');
 })->name('LogOut');
 
 Auth::routes();
 
-Route::get('/gallery', function (){
-    return View ('gallery');
+Route::get('/gallery', function () {
+    return View('gallery');
 });
 
-Route::get('basket', function () {
-    return View ('basket');
+Route::get('basket/{auth?}', function ($auth = null) {
+    if ($auth) {
+        if ($auth == 'noAuth') {
+            Session::put('noAuthOk', true);
+        }
+        if ($auth == 'needAuth') {
+            if (Session::has('noAuthOk')) Session::forget('noAuthOk');
+            Session::put('basketAuth', true);
+            return View('auth');
+        }
+    }
+    return View('basket');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -49,14 +55,26 @@ Route::post('eraseall', 'ImageController@eraseAllImages');
 Route::post('imageupload', 'ImageController@imageUpload');
 Route::get('removeolduploads', 'ImageController@removeOldUploads');
 
-Route::get ('progress', 'ImageController@getProgressUpload');
-Route::post ('setlowqualityargee', 'ImageController@setLowQualityArgee');
+Route::get('progress', 'ImageController@getProgressUpload');
+Route::post('setlowqualityargee', 'ImageController@setLowQualityArgee');
 Route::post('addtobasket', 'ImageController@addToBasket');
 
 Route::post('getBasketCount', 'ImageController@getBasketCount');
 
 Route::post('payorder', 'BasketController@payorder')->name('payorder');
 
-Route::get('orderauth', function () {
-    return View ('layouts.orderauth');
-})->name('orderauth');
+
+Route::get('payok/{id}', function ($id) {
+    Session::forget('payCount');
+    return redirect('personal')->with('modal-info', 'Заказ №' . $id . ' успешно оформлен. В ближайшее время с вами свяжется менеджер!');
+})->name('payok');
+
+Route::get('payerror/{id}', function ($id) {
+    Session::forget('payCount');
+    return redirect('personal')->with('modal-info', 'В процессе оплаты заказа №' . $id . ' возникла ошибка. Попробуйте еще раз');
+})->name('payok');
+
+Route::get('personal', function () {
+    if (Session::has('temporaryUser') || Auth::check()) return View('personal');
+    else return redirect('auth');
+});//->name('personal');

@@ -118,6 +118,8 @@ window.ajax = function (url, data) {
 
 window.updateBasketIconCount = function () {
   ajax('/getBasketCount', {}, function (result) {
+    console.log(result);
+
     if (result != false) {
       document.querySelector('.basket').classList.remove('half-opacity');
       var basketPrice = result.summ;
@@ -125,8 +127,7 @@ window.updateBasketIconCount = function () {
       document.getElementById('basket-icon-summ').classList.remove('hide');
     } else {
       document.querySelector('.basket').classList.add('half-opacity');
-      document.getElementById('basket-icon-summ').innerHTML = '';
-      document.getElementById('basket-icon-summ').classList.add('hide');
+      document.getElementById('basket-icon-summ').innerHTML = '0 ₽'; // document.getElementById ('basket-icon-summ').classList.add ('hide')
     }
   });
 };
@@ -140,7 +141,7 @@ window.updateBasketIconCount = function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatuninhome/Documents/tutuprint/resources/js/general.js */"./resources/js/general.js");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/general.js */"./resources/js/general.js");
 
 
 /***/ })

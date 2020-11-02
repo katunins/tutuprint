@@ -14,7 +14,7 @@
 .modal-block {
     width: fit-content;
     padding: 40px;
-    max-width: 80%;
+    max-width: 600px; //80%;
     position: relative;
     top: 50%;
     // margin-top: -200px;
@@ -32,13 +32,15 @@
         button {
             margin: 10px 5px 0 5px;
             width: 120px;
+    //         padding: 0 10px;
+    // min-width: 120px;
             height: 30px;
             border-radius: 3px;
             background-color: #ffcc00;
             border: none;
             outline: none;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 300;
         }
     }

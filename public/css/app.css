@@ -14,10 +14,14 @@ b {
   display: none !important;
 }
 
-.half-opacity {
+.half-opacity,
+.temp-user {
   opacity: 0.3;
   -webkit-filter: grayscale(1);
           filter: grayscale(1);
+}
+
+.half-opacity {
   pointer-events: none;
 }
 
@@ -45,36 +49,58 @@ body {
 
 .header {
   width: 100%;
-  max-width: 500px;
-  height: 50px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  max-width: 470px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.basket {
+.header * {
+  margin: 0;
+}
+
+.header .top-back-button,
+.header .personal-block {
+  width: 70px;
   text-align: center;
-  width: 40px;
-  margin-right: 25px;
 }
 
-.basket a {
-  text-decoration: none;
+.header .top-back-button img {
+  height: 20px;
 }
 
-.basket img {
-  width: 30px;
-  margin-bottom: 3px;
+.header .logo img {
+  height: 45px;
 }
 
-.basket #basket-icon-summ {
+.header .personal-block {
+  display: inline-flex;
+  justify-content: end;
+}
+
+.header .personal-block a {
+  width: 100%;
+  height: 100%;
+}
+
+.header .personal-block img {
+  height: 23px;
+  margin: auto 5px;
+  opacity: 0.7;
+}
+
+.header .personal-block .basket {
+  line-height: 2;
+}
+
+.header .personal-block #basket-icon-summ {
   font-weight: 400;
-  font-size: 11px;
+  font-size: 9px;
   color: #252424;
   background: #ffcc00;
   padding: 2px 5px;
   border-radius: 8px;
-  margin-top: 5px;
 }
 
 .back {
@@ -113,8 +139,8 @@ body {
           animation-direction: normal;
   -webkit-animation-fill-mode: forwards;
           animation-fill-mode: forwards;
-  -webkit-animation-delay: 2s;
-          animation-delay: 2s;
+  -webkit-animation-delay: 3s;
+          animation-delay: 3s;
 }
 
 .modal svg {

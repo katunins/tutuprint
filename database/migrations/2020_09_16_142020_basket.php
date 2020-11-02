@@ -15,7 +15,8 @@ class Basket extends Migration
     {
         Schema::create('basket', function (Blueprint $table) {
             $table->increments('id'); 
-            $table->string('basketId', 3);
+            $table->integer('basketId');
+            // $table->string('basketId', 3);
             $table->string('userId');
             $table->json('data');
             $table->timestamps();

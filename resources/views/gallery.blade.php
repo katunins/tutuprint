@@ -13,22 +13,26 @@ use App\Http\Controllers\ImageController;
 
     <div class="gallery">
 
-        @if (Session::has('images'))
+        @if(Session::has('images'))
 
-        @foreach (Session::get('images') as $item)
-        @if ($item['count'] > 0)
+            @foreach(Session::get('images') as $item)
+                @if($item['count'] > 0)
 
 
-        <div class="image-box" id={{ $item['id'] }} url={{ $item['url'] }} width={{$item['width']}}
-            heigh={{$item['heigh']}} size={{$item['size']}}
-            style="background-image: url( {{ asset($item['thumbnail']) }})" count={{ $item['count'] }}
-            @isset($item['lowqualityagree']) lowqualityagree="true" lowquality="true" @endisset>
-            <div class="img-count hide"></div>
-            <div class="img-select hide"></div>
-            <div class="img-alert @isset($item['lowqualityagree']) @else hide @endisset"></div>
-        </div>
-        @endif
-        @endforeach
+                    <div class="image-box" id={{ $item['id'] }}
+                        url={{ $item['url'] }}
+                        width={{ $item['width'] }}
+                        heigh={{ $item['heigh'] }}
+                        size={{ $item['size'] }}
+                        style="background-image: url( {{ asset($item['thumbnail']) }})"
+                        count={{ $item['count'] }} <blade
+                        isset|(%24item%5B%26%2339%3Blowqualityagree%26%2339%3B%5D)%20lowqualityagree%3D%26%2334%3Btrue%26%2334%3B%20lowquality%3D%26%2334%3Btrue%26%2334%3B%20%40endisset%3E>
+                        <div class="img-count hide"></div>
+                        <div class="img-select hide"></div>
+                        <div class="img-alert @isset($item['lowqualityagree']) @else hide @endisset"></div>
+                    </div>
+                @endif
+            @endforeach
         @endif
 
         <form class="hide" action="" method="post">
@@ -80,7 +84,7 @@ use App\Http\Controllers\ImageController;
                     <div class="buttons">
 
                         <button id="general-additional-button-cancel" type="button">
-                            <img src={{ asset('images/back-button.svg')}} alt="Назад">Назад
+                            <img src={{ asset('images/back-button.svg') }} alt="Назад">Назад
                         </button>
                         <button class="half-opacity" id="general-additional-button-save" type="button"
                             style="background-color: ffcc00;">Сохранить</button>
@@ -124,7 +128,8 @@ use App\Http\Controllers\ImageController;
                     </div>
 
                     <div class="text-for-box param-block hide">
-                        <textarea id="text-for-box" name="text-for-box" cols="30" rows="2" placeholder="Надпись на коробке"></textarea>
+                        <textarea id="text-for-box" name="text-for-box" cols="30" rows="2"
+                            placeholder="Надпись на коробке"></textarea>
                     </div>
                 </div>
 
@@ -143,7 +148,8 @@ use App\Http\Controllers\ImageController;
                     <p id="description-2"></p>
                 </div>
 
-                <button id="add-to-basket-button"><img src="{{ asset('images/basket.svg') }}" alt=""> Добавить</button>
+                <button id="add-to-basket-button"><img src="{{ asset('images/basket.svg') }}"
+                        alt=""> Добавить</button>
 
             </div>
         </form>
@@ -154,10 +160,6 @@ use App\Http\Controllers\ImageController;
 
     @include('layouts.info')
 </div>
-@endsection
-
-@section('back')
-{{ url('/') }}
 @endsection
 
 <script src="{{ asset('js/gallery.js') }}"></script>

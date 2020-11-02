@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -29,9 +30,27 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
     // Павел. Функция перехода после входа
-    protected function redirectTo(){
-        return redirect()->route('welcome')->with('modal-info', 'Добро пожаловать, '.Auth::user()->name.'!');
-     }
+    protected function redirectTo()
+    {
+
+        // Если после авторизации есть временный пользователь и у него есть заказы, то перенесем их
+        if (session()->has('temporaryUser')) {
+            $tempId = session()->get('temporaryUser');
+            $authId = Auth::user()->id;
+            DB::table('orders')->where('userId', $tempId)->update(['userId'=>$authId]);
+            session()->forget('temporaryUser');
+        }
+
+        // session()->forget('noAuthOk');
+        // session()->flush('modal-info', 'Добро пожаловать, ' . Auth::user()->name . '!');
+
+        if (session()->has('basketAuth')) {
+            // session()->forget('basketAuth');
+            return redirect('basket')->with('modal-info', 'Добро пожаловать, ' . Auth::user()->name . '!')->with('newAuth', true);
+        } else {
+            return redirect()->route('welcome')->with('modal-info', 'Добро пожаловать, ' . Auth::user()->name . '!');
+        }
+    }
 
     /**
      * Create a new controller instance.

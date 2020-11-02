@@ -4,6 +4,11 @@
   outline: none;
 }
 
+body {
+  overflow: initial !important;
+  height: initial !important;
+}
+
 .top-back {
   display: block !important;
   margin: 10px 0 0 25px;
@@ -45,6 +50,7 @@
   border: 1px solid #cacaca;
   border-radius: 10px;
   margin-top: 30px;
+  margin-bottom: 15px;
 }
 
 .params {
@@ -100,13 +106,13 @@ form * {
 
 form h3 {
   margin: 30px 0 10px;
-  font-size: 22px;
+  font-size: 20px;
   text-align: center;
 }
 
 form .delivery-block {
   width: 330px;
-  margin: 30px auto;
+  margin: 20px auto;
 }
 
 form .delivery-block input {
@@ -139,17 +145,28 @@ form .form-center-block label {
 }
 
 form .form-center-block label {
-  margin: 25px auto 10px;
+  margin: 15px auto 10px;
+  font-size: 14px;
+  color: grey;
+}
+
+form .form-center-block label.alert {
+  color: red;
 }
 
 form .form-center-block input {
-  width: 320px;
-  padding: 10px;
+  width: 345px;
+  padding: 15px 10px;
   text-align: center;
+  font-size: 16px;
+  font-weight: 300;
+  border: none;
+  background-color: #f5f4f4;
+  border-radius: 2px;
 }
 
 form .form-block {
-  margin: 17px auto;
+  margin: 10px auto;
 }
 
 form .all-price {
@@ -168,9 +185,5 @@ form .all-price span {
 
 form .all-price p {
   font-size: 16px;
-}
-
-form .alert {
-  color: red;
 }
 

@@ -15,7 +15,7 @@ use Image;
 
 
 class ImageController extends Controller
-{
+{   
 
     public function updateSessionImageCount(Request $request)
     {
@@ -89,10 +89,6 @@ class ImageController extends Controller
             $path = $files[$i]->storeAs($folder . '/HD', $current_file_name); //основная директория для hiRes фотографий
 
             // $path = Storage::disk('local')->putFileAs(
-            //     $folder . '/HD', $files[$i], $current_file_name
-            // );
-
-            // $path = Storage::putFileAs(
             //     $folder . '/HD', $files[$i], $current_file_name
             // );
 
