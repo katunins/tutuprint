@@ -3,17 +3,18 @@
 }
 
 .contact {
+
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    border: 1px solid grey;
-    border-radius: 5px;
-    padding: 20px;
-    width: 320px;
-    margin-bottom: 10px;
+    margin-top: 15px;
+    border: 1px solid #ffcc00;
+    width: 450px;
+    height: 150px;
+    border-radius: 10px;
+    justify-content: space-around;
+    align-items: center;
 
     svg {
-        width: 40px;
+        width: 30px;
     }
 
     p {
@@ -22,14 +23,14 @@
 
     h3 {
         font-weight: 300;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         font-size: 22px;
     }
 }
 
 .links {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 20px;
     font-size: 13px;
 
     a {
@@ -44,40 +45,89 @@
 .order {
     // margin: 10px auto;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-around;
     font-size: 14px;
     // border: 1px solid grey;
-    padding: 20px 15px;
-}
+    padding: 20px 0px;
 
-.goods {
-    font-size: 12px;
-    margin: 0 40px 0 20px;
-
-    li {
-        list-style: none;
-        margin-bottom: 3px;
+    * {
+        margin: 0;
     }
+
+    .num {
+        // width: 20px;
+        font-size: 12px;
+
+        .id {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+    }
+
+    .goods {
+        font-size: 12px;
+    width: 200px;
+    
+        li {
+            list-style: none;
+            margin-bottom: 3px;
+        }
+    }
+
+    .cost {
+        font-size: 18px;
+        font-weight: 400;
+        text-align: center;
+    
+        div {
+            margin-bottom: 4px;
+        }
+    
+        span {
+            opacity: 0.5;
+        }
+    
+        a, .pay-button {
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            background-color: #FFCC00;
+            padding: 2px 10px;
+        }
+    }
+
+
 }
+
+
 
 .status {
     margin-top: 10px;
     font-weight: 300;
 }
 
-.started {
+.wait {
     color: green;
 }
-.started::after {
+.wait:after {
+    content: "В очереди на печать";
+}
+
+.print {
+    color: green;
+}
+.print:after {
     content: "В печати";
 }
 
-.printed {
+.ready {
     color: green;
 }
-.printed:after {
-    content: "Напечатан";
+.ready::after {
+    content: "Готов к выдачи";
 }
+
 
 .shiped {
     color: green;
@@ -93,21 +143,7 @@
     content: "Завершен";
 }
 
-.cost {
-    font-size: 20px;
-    font-weight: 400;
 
-    div {
-        margin-bottom: 4px;
-    }
-
-    a {
-        font-size: 14px;
-        text-decoration: none;
-        background-color: FFCC00;
-        padding: 2px 10px;
-    }
-}
 
 .closed {
     opacity: 0.5;

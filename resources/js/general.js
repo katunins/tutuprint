@@ -2,7 +2,7 @@ window.ajax = function (
   url,
   data,
   callBack = response => {
-    console.log ('ajax', response);
+    // console.log ('ajax', response);
     // return true
   }
 ) {
@@ -31,7 +31,7 @@ window.ajax = function (
 
 window.updateBasketIconCount = function () {
   ajax ('/getBasketCount', {}, result => {
-    console.log (result)
+    // console.log (result)
     if (result != false) {
       document.querySelector ('.basket').classList.remove ('half-opacity');
       let basketPrice = result.summ;

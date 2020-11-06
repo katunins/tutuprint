@@ -53,6 +53,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('updatecount', 'ImageController@updateSessionImageCount');
 Route::post('eraseall', 'ImageController@eraseAllImages');
 Route::post('imageupload', 'ImageController@imageUpload');
+Route::post('removeBasketTtem', 'BasketController@removeBasketTtem');
+
 Route::get('removeolduploads', 'ImageController@removeOldUploads');
 
 Route::get('progress', 'ImageController@getProgressUpload');
@@ -65,14 +67,16 @@ Route::post('payorder', 'BasketController@payorder')->name('payorder');
 
 
 Route::get('payok/{id}', function ($id) {
-    Session::forget('payCount');
-    return redirect('personal')->with('modal-info', 'Заказ №' . $id . ' успешно оформлен. В ближайшее время с вами свяжется менеджер!');
-})->name('payok');
+    if (App\Http\Controllers\BasketController::getPayStatus ($id))
+    return redirect('personal')->with('modal-info', 'Заказ №' . $id . ' оплачен! В ближайшее время с вами свяжется менеджер!');
+    else
+    return redirect('personal')->with('modal-info', 'В процессе оплаты заказа №' . $id . ' возникла ошибка. Попробуйте еще раз');
+});//->name('payok');
 
 Route::get('payerror/{id}', function ($id) {
     Session::forget('payCount');
     return redirect('personal')->with('modal-info', 'В процессе оплаты заказа №' . $id . ' возникла ошибка. Попробуйте еще раз');
-})->name('payok');
+});//->name('payerror');
 
 Route::get('personal', function () {
     if (Session::has('temporaryUser') || Auth::check()) return View('personal');

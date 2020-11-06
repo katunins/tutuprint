@@ -23,7 +23,9 @@ class Orders extends Migration
             $table->string('adress')->nullable();
             $table->string('tel');
             $table->string('status');
+            $table->boolean('payStatus')->default(false);
             $table->string('payId')->nullable();
+            $table->string('payCount')->default(0);
             $table->json('properties');
             $table->timestamps();
         });

@@ -6,17 +6,17 @@
 
 .contact {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  border: 1px solid grey;
-  border-radius: 5px;
-  padding: 20px;
-  width: 320px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  border: 1px solid #ffcc00;
+  width: 450px;
+  height: 150px;
+  border-radius: 10px;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .contact svg {
-  width: 40px;
+  width: 30px;
 }
 
 .contact p {
@@ -25,13 +25,13 @@
 
 .contact h3 {
   font-weight: 300;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 22px;
 }
 
 .links {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 20px;
   font-size: 13px;
 }
 
@@ -45,19 +45,56 @@
 
 .order {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-around;
   font-size: 14px;
-  padding: 20px 15px;
+  padding: 20px 0px;
 }
 
-.goods {
+.order * {
+  margin: 0;
+}
+
+.order .num {
   font-size: 12px;
-  margin: 0 40px 0 20px;
 }
 
-.goods li {
+.order .num .id {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.order .goods {
+  font-size: 12px;
+  width: 200px;
+}
+
+.order .goods li {
   list-style: none;
   margin-bottom: 3px;
+}
+
+.order .cost {
+  font-size: 18px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.order .cost div {
+  margin-bottom: 4px;
+}
+
+.order .cost span {
+  opacity: 0.5;
+}
+
+.order .cost a,
+.order .cost .pay-button {
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  background-color: #FFCC00;
+  padding: 2px 10px;
 }
 
 .status {
@@ -65,20 +102,28 @@
   font-weight: 300;
 }
 
-.started {
+.wait {
   color: green;
 }
 
-.started::after {
+.wait:after {
+  content: "\412   \43E\447\435\440\435\434\438   \43D\430   \43F\435\447\430\442\44C";
+}
+
+.print {
+  color: green;
+}
+
+.print:after {
   content: "\412   \43F\435\447\430\442\438";
 }
 
-.printed {
+.ready {
   color: green;
 }
 
-.printed:after {
-  content: "\41D\430\43F\435\447\430\442\430\43D";
+.ready::after {
+  content: "\413\43E\442\43E\432   \43A   \432\44B\434\430\447\438";
 }
 
 .shiped {
@@ -95,22 +140,6 @@
 
 .finished::after {
   content: "\417\430\432\435\440\448\435\43D";
-}
-
-.cost {
-  font-size: 20px;
-  font-weight: 400;
-}
-
-.cost div {
-  margin-bottom: 4px;
-}
-
-.cost a {
-  font-size: 14px;
-  text-decoration: none;
-  background-color: FFCC00;
-  padding: 2px 10px;
 }
 
 .closed {

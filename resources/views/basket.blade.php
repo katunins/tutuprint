@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="{{ asset('css/supermodal.css') }}">
 <?php 
+
+
 // получим корзину - вернем сумму ее и количество позиций
     $userId='';
     if (Auth::user()) {
@@ -24,6 +26,7 @@
 @extends('layouts.app')
 
 @section('title', 'Корзина')
+@include('layouts.supermodal')
 <link rel="stylesheet" href={{ asset('css/basket.css') }}>
 
 @section('content')
@@ -32,16 +35,13 @@
     @if(!Auth::user() && !Session::has('noAuthOk') && $basket)
         <div class="super-modal">
             <div class="modal-block">
-                {{-- <div class="close-modal-button">
-                    <button onclick="location.reload(true)">×</button>
-                </div> --}}
                 <div id="file-data-text">
                     Для начисления бонусных баллов необходимо авторизоваться.<br>Продолжить без авторизации?
 
                 </div>
                 <div class="super-model-buttons">
                     <button id="ok-modal-button" onclick="location.href = '/basket/noAuth'">Продолжить</button>
-                    <button id=" cancel-modal-button"
+                    <button id="cancel-modal-button"
                         onclick="location.href = '/basket/needAuth'">Авторизоваться</button>
                 </div>
 
@@ -80,9 +80,11 @@
                 <div class="price" price={{ $param->price->data }}>
                     <span>{{ number_format($param->price->data, 0, '', ' ' ) }}₽</span>
                     <div>
-                        <button>Удалить</button>
+                        <button id="basket-remove" 
+                        data-id={{ $item->id }} 
+                        onclick='removeBasketItem({{ $item->id }}, {{ $item->basketId }}, "{{ $param->product->data }}")'>Удалить</button>
                     </div>
-                </div>
+                </div>  
             </div>
         @endforeach
         <form action="{{ route('payorder') }}" role="form" method="post">
@@ -160,6 +162,7 @@
         {{-- тут скрипт потому, что он нужен только при загрузки корзины --}}
         <script src="{{ asset('js/basket.js') }}"></script>
     @endif
+    
 @else
     <div class="empty">
         Корзина пуста
@@ -169,3 +172,27 @@
 @endif
 
 @endsection
+
+<script>
+    function removeBasketItem(id, basketId, name){
+        setOkModalButton(function () {
+            // Передадим данные в контроллер для изменения данных сессии
+            ajax('/removeBasketTtem', {
+                id:id,
+                basketId: basketId
+            }, function(data){
+                // console.log (data)
+                window.location.reload()
+            })
+}, 'Удалить');
+        
+        setCancelModalButton(function () {
+            turnOFFSuperModal();
+        }, 'Отменить');
+        turnONmodalMessage(
+        'Вы действительно хотите удалить '+ name +'?'
+        );
+        turnONmodal('-78px', false);
+    }
+</script>
+

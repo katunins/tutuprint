@@ -6,9 +6,38 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
 {
+
+    static function getPayStatus ($orderId) {
+
+        $order = DB::table('orders')->where('id', $orderId)->first();
+        if (!$order) return false;
+        if (!$order->payId) return false;
+
+        $vars = array();
+        $vars['userName'] = 'T366401444667-api';
+        $vars['password'] = 'T366401444667';
+        $vars['orderId'] = $order->payId;
+        
+        $ch = curl_init('https://3dsec.sberbank.ru/payment/rest/getOrderStatusExtended.do?' . http_build_query($vars));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        $res = curl_exec($ch);
+        curl_close($ch);
+        
+        $res = json_decode($res, JSON_OBJECT_AS_ARRAY);
+        
+        if ($res['orderStatus'] == 1 || $res['orderStatus'] == 2) {
+            DB::table('orders')->where('id', $orderId)->update(['payStatus'=>true]);
+            return true;
+        } else return false;
+    }
+
     static function SberToPay ($id, $ticketProperties, $allPrice, $request) {
 
         // Оплата с Сбер
@@ -16,19 +45,12 @@ class BasketController extends Controller
         $vars['userName'] = 'T366401444667-api';
         $vars['password'] = 'T366401444667';
 
-        // Проверим количество попыток оплаты
-        if ($request->session()->has('payCount')) {
-            $count = $request->session()->get('payCount');
-            $count ++;
-            
-        } else {
-            $count = 0;
-        };
-
-        $request->session()->put('payCount',$count);;
-
+        $payCount = $request->payCount;
+        $payCount ++;
+        DB::table('orders')->where('id', $request->id)->update(['payCount'=>$payCount]);
+        
         /* ID заказа в магазине */
-        $vars['orderNumber'] = $id.'_'.$count;
+        $vars['orderNumber'] = $id.'_'.$payCount;
 
         $vars['orderBundle'] = json_encode(
             array(
@@ -59,12 +81,9 @@ class BasketController extends Controller
         curl_close($ch);
         $res = json_decode($res, JSON_OBJECT_AS_ARRAY);
         
-        // var_dump($res);
-
         if (empty($res['orderId'])) {
             /* Возникла ошибка: */
             return redirect()->to('payerror/' . $id);
-            // echo 'Ошибка '.$res['errorMessage'];
         } else {
             /* Успех: */
             /* Тут нужно сохранить ID платежа в своей БД - $res['orderId'] */
@@ -77,7 +96,14 @@ class BasketController extends Controller
 
     public function payorder(Request $request)
     {
-        
+        //         "_token" => "omIlYwqw3pwDt7ZO8fnQPnqdPVYkZd6knr6QMhLm"
+        //   "userid" => "1"
+        //   "price" => "10"
+        //   "deliveryprice" => "250"
+        //   "delivery" => "vrn_delivery"
+        //   "name" => "Павел"
+        //   "adress" => "12"
+        //   "tel" => "+1 (711) 111-1111"
 
         $validatedData = $request->validate([
             'name' => 'required',
@@ -91,7 +117,6 @@ class BasketController extends Controller
 
         // получим все корзины юзера
         $basket = DB::table('basket')->where('userId', $request->userid)->get();
-
         // Проверим коризну. Если она пустая, то сюда вернулись назад из оплаты
         if (count($basket) > 0) {
             $properties = [];
@@ -165,7 +190,7 @@ class BasketController extends Controller
 
         } else {
 
-            $order = DB::table('orders')->where('userId', $request->userid)->get()->last();
+            $order = DB::table('orders')->where('userId', $request->userId)->get()->last();
             $id = $order->id;
             $allPrice = intval($order->allPrice);
             $ticketProperties [] = array(
@@ -186,5 +211,17 @@ class BasketController extends Controller
 
             return $this->SberToPay($id, $ticketProperties, $allPrice, $request);
         } 
+    }
+
+    public function removeBasketTtem (Request $request) {
+        if (Auth::user()) {
+            $userId = Auth::user()->id;
+        } else {
+                $userId =  session()->get('temporaryUser');
+        }
+        $folder = 'public/basket/'.$userId.'/N_'.$request->basketId;
+        Storage::deleteDirectory($folder);
+        $result = DB::table('basket')->where('id', $request->id)->delete();
+        return Response::json($result);
     }
 }
