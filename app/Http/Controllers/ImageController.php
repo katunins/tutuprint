@@ -15,7 +15,7 @@ use Image;
 
 
 class ImageController extends Controller
-{   
+{
 
     public function updateSessionImageCount(Request $request)
     {
@@ -61,13 +61,12 @@ class ImageController extends Controller
     public function imageUpload(Request $request)
     {
 
-        $test = $request->session()->all();
         // загружает одно изображение, ресайзит и прописывает в сессию
 
         //найдем последний ID из сессии, если она есть
         if (Session::has('images')) {
             $sessionArr = Session::get('images');
-            $id = end($sessionArr)['id'] + 1;
+            if (count($sessionArr) > 0) $id = end($sessionArr)['id'] + 1; else $id = 0;
         } else $id = 0;
 
         // определим папки для загрузки
@@ -127,7 +126,6 @@ class ImageController extends Controller
                 'width' => $width,
                 'heigh' => $heigh,
                 'size' => $size,
-                'test' => $test
             ];
         }
         return Response::json($result);
@@ -185,7 +183,7 @@ class ImageController extends Controller
         }
 
         $basket = DB::table('basket')->where('userId', $userId)->get();
-        
+
         // получим последний внтренний ID корзины и увеличим его
         $id = 0;
         if (count($basket) > 0) $id = $basket[count($basket) - 1]->basketId + 1;
@@ -196,7 +194,7 @@ class ImageController extends Controller
         $basketFolder = 'public/basket/' . $userId . '/' . 'N_' . $id . '/' . $size; // + добавим продукт, формат , поля
 
         if (!Storage::disk('local')->exists($basketFolder)) Storage::makeDirectory($basketFolder, 0775, true);
-        
+
         $basketPreview = false;
         foreach (Session::get('images') as $image) {
             $copies = $image['count'] . 'x';

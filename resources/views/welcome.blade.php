@@ -1,3 +1,4 @@
+<?php //phpinfo(); die();?>
 <link rel="stylesheet" href="{{ asset ('css/welcome.css') }}">
 
 @extends('layouts.app')

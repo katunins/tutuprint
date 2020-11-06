@@ -615,8 +615,6 @@ function checkLowQuality() {
 }
 
 function filesUpload() {
-  var _this2 = this;
-
   if (!this.files) return; //вдруг нажемт ESC при выборе файлов и this будет без файлов
 
   var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -720,7 +718,8 @@ function filesUpload() {
   xhr.onload = function (event) {
     // return false
     var gallery = document.querySelector('.gallery');
-    var elementBefore = gallery.querySelector('form');
+    var elementBefore = gallery.querySelector('form'); // console.log (event.target.response)
+
     JSON.parse(event.target.response).forEach(function (result) {
       // Добавим загруженную миниатюру в элемент
       var elem = document.createElement('div');
@@ -756,21 +755,31 @@ function filesUpload() {
   xhr.setRequestHeader('X-CSRF-TOKEN', token);
   var formData = new FormData();
   var isImagesTypeTrue = false;
+  trueFilesType = 0;
+  falseFilesType = 0;
 
   for (i = 0; i < this.files.length; i++) {
-    // проверим тип файла
-    var trueType = false;
-    ['image/jpeg', 'image/png'].forEach(function (type) {
-      if (_this2.files[i].type == type) trueType = true;
-    });
-
-    if (trueType) {
-      isImagesTypeTrue = true;
+    if (this.files[i].type == 'image/jpeg' || this.files[i].type == 'image/png') {
+      trueFilesType++;
       formData.append('images[]', this.files[i]);
+    } else {
+      falseFilesType++;
     }
   }
 
-  if (isImagesTypeTrue) xhr.send(formData);
+  if (trueFilesType > 0) {
+    xhr.send(formData);
+  } else {
+    turnOFFSuperModal(); //   turnONmodalLoader ();
+
+    turnONmodalMessage('Тип некоторых файлов не подходит к печати (' + falseFilesType + ' шт.)<br>Используйте файлы форматом jpg');
+    setOkModalButton(function () {
+      turnOFFSuperModal();
+    }, 'Ok');
+    turnONmodal('-135px');
+    return false;
+  } // if (isImagesTypeTrue) xhr.send (formData);
+
 }
 
 function createDropListener() {
@@ -929,7 +938,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

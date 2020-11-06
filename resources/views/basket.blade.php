@@ -80,11 +80,10 @@
                 <div class="price" price={{ $param->price->data }}>
                     <span>{{ number_format($param->price->data, 0, '', ' ' ) }}₽</span>
                     <div>
-                        <button id="basket-remove" 
-                        data-id={{ $item->id }} 
-                        onclick='removeBasketItem({{ $item->id }}, {{ $item->basketId }}, "{{ $param->product->data }}")'>Удалить</button>
+                        <button id="basket-remove" data-id={{ $item->id }}
+                            onclick='removeBasketItem({{ $item->id }}, {{ $item->basketId }}, "{{ $param->product->data }}")'>Удалить</button>
                     </div>
-                </div>  
+                </div>
             </div>
         @endforeach
         <form action="{{ route('payorder') }}" role="form" method="post">
@@ -162,7 +161,7 @@
         {{-- тут скрипт потому, что он нужен только при загрузки корзины --}}
         <script src="{{ asset('js/basket.js') }}"></script>
     @endif
-    
+
 @else
     <div class="empty">
         Корзина пуста
@@ -174,25 +173,25 @@
 @endsection
 
 <script>
-    function removeBasketItem(id, basketId, name){
+    function removeBasketItem(id, basketId, name) {
         setOkModalButton(function () {
             // Передадим данные в контроллер для изменения данных сессии
             ajax('/removeBasketTtem', {
-                id:id,
+                id: id,
                 basketId: basketId
-            }, function(data){
+            }, function (data) {
                 // console.log (data)
                 window.location.reload()
             })
-}, 'Удалить');
-        
+        }, 'Удалить');
+
         setCancelModalButton(function () {
             turnOFFSuperModal();
         }, 'Отменить');
         turnONmodalMessage(
-        'Вы действительно хотите удалить '+ name +'?'
+            'Вы действительно хотите удалить ' + name + '?'
         );
         turnONmodal('-78px', false);
     }
-</script>
 
+</script>

@@ -37,30 +37,8 @@ class RegisterController extends Controller
     
     protected function redirectTo(){
 
-        // Если после авторизации есть временный пользователь и у него есть заказы, то перенесем их
-        if (session()->has('temporaryUser')) {
-            $tempId = session()->get('temporaryUser');
-            $authId = Auth::user()->id;
-            DB::table('orders')->where('userId', $tempId)->update(['userId'=>$authId]);
-            session()->forget('temporaryUser');
-        }
-
-        // session()->forget('noAuthOk');
-        // session()->flush('modal-info', 'Вы успешно зарегестрированы!');
+        return redirect('/afterAuth')->with('modal-info', 'Вы успешно зарегестрированы!');
         
-        if (session()->has('basketAuth')) 
-        {
-            // session()->forget('basketAuth');
-            // session()->flush('newAuth', true);
-            return redirect('basket')->with('modal-info', 'Вы успешно зарегестрированы!')->with('newAuth', true);
-        }
-        else 
-        {
-            return redirect()->route('welcome')->with('modal-info', 'Вы успешно зарегестрированы!');
-            // return redirect()->back()->with('modal-info', 'Вы успешно зарегестрированы!');
-        }
-
-        // return redirect()->route('welcome')->with('modal-info', 'Вы успешно зарегестрированы!');
      }
 
     /**

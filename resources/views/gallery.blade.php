@@ -25,8 +25,19 @@ use App\Http\Controllers\ImageController;
                         heigh={{ $item['heigh'] }}
                         size={{ $item['size'] }}
                         style="background-image: url( {{ asset($item['thumbnail']) }})"
-                        count={{ $item['count'] }} <blade
-                        isset|(%24item%5B%26%2339%3Blowqualityagree%26%2339%3B%5D)%20lowqualityagree%3D%26%2334%3Btrue%26%2334%3B%20lowquality%3D%26%2334%3Btrue%26%2334%3B%20%40endisset%3E>
+                        count={{ $item['count'] }}>
+
+                        {{ dd ($item) }}
+
+                        {{-- @if()
+
+@endif--}}
+
+                        {{-- <blade
+                        isset|(%24item%5B%26%2339%3Blowqualityagree%26%2339%3B%5D)
+                        %20lowqualityagree%3D%26%2334%3Btrue%26%2334%3B%20lowquality%3D%26%2334%3Btrue%26%2334%3B%20%40
+                        endisset%3E> --}}
+
                         <div class="img-count hide"></div>
                         <div class="img-select hide"></div>
                         <div class="img-alert @isset($item['lowqualityagree']) @else hide @endisset"></div>

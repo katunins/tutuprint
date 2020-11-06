@@ -55,6 +55,8 @@ Route::post('eraseall', 'ImageController@eraseAllImages');
 Route::post('imageupload', 'ImageController@imageUpload');
 Route::post('removeBasketTtem', 'BasketController@removeBasketTtem');
 
+Route::get('afterAuth', 'ToolsController@afterAuth');
+
 Route::get('removeolduploads', 'ImageController@removeOldUploads');
 
 Route::get('progress', 'ImageController@getProgressUpload');
