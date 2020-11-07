@@ -15,35 +15,21 @@ use App\Http\Controllers\ImageController;
 
         @if(Session::has('images'))
 
-            @foreach(Session::get('images') as $item)
-                @if($item['count'] > 0)
+        @foreach(Session::get('images') as $item)
+        @if($item['count'] > 0)
 
 
-                    <div class="image-box" id={{ $item['id'] }}
-                        url={{ $item['url'] }}
-                        width={{ $item['width'] }}
-                        heigh={{ $item['heigh'] }}
-                        size={{ $item['size'] }}
-                        style="background-image: url( {{ asset($item['thumbnail']) }})"
-                        count={{ $item['count'] }}>
-
-                        {{ dd ($item) }}
-
-                        {{-- @if()
-
-@endif--}}
-
-                        {{-- <blade
-                        isset|(%24item%5B%26%2339%3Blowqualityagree%26%2339%3B%5D)
-                        %20lowqualityagree%3D%26%2334%3Btrue%26%2334%3B%20lowquality%3D%26%2334%3Btrue%26%2334%3B%20%40
-                        endisset%3E> --}}
-
-                        <div class="img-count hide"></div>
-                        <div class="img-select hide"></div>
-                        <div class="img-alert @isset($item['lowqualityagree']) @else hide @endisset"></div>
-                    </div>
-                @endif
-            @endforeach
+        <div class="image-box" id={{ $item['id'] }} url={{ $item['url'] }} width={{ $item['width'] }}
+            heigh={{ $item['heigh'] }} size={{ $item['size'] }}
+            style="background-image: url( {{ asset($item['thumbnail']) }})" count={{ $item['count'] }}
+            <?php if($item['lowqualityagree']):?> lowqualityagree <?php endif ?>>
+            
+            <div class="img-count hide"></div>
+            <div class="img-select hide"></div>
+            <div class="img-alert @isset($item['lowqualityagree']) @else hide @endisset"></div>
+        </div>
+        @endif
+        @endforeach
         @endif
 
         <form class="hide" action="" method="post">
@@ -159,8 +145,7 @@ use App\Http\Controllers\ImageController;
                     <p id="description-2"></p>
                 </div>
 
-                <button id="add-to-basket-button"><img src="{{ asset('images/basket.svg') }}"
-                        alt=""> Добавить</button>
+                <button id="add-to-basket-button"><img src="{{ asset('images/basket.svg') }}" alt=""> Добавить</button>
 
             </div>
         </form>

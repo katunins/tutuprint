@@ -25,6 +25,8 @@ Route::get('/agree', function () {
 
 Route::get('/logout', function () {
     Auth::logout();
+    Session::forget('noAuthOk');
+    Session::forget('temporaryUser');
     return redirect()->to('auth');
 })->name('LogOut');
 
@@ -34,17 +36,22 @@ Route::get('/gallery', function () {
     return View('gallery');
 });
 
+// Route::get('/test', function () {
+//     Session::put('temporaryUser.id', 'YwChSoTTLi');
+//     Session::put('noAuthOk', true);
+// });
+
 Route::get('basket/{auth?}', function ($auth = null) {
-    if ($auth) {
-        if ($auth == 'noAuth') {
-            Session::put('noAuthOk', true);
-        }
-        if ($auth == 'needAuth') {
-            if (Session::has('noAuthOk')) Session::forget('noAuthOk');
-            Session::put('basketAuth', true);
-            return View('auth');
-        }
-    }
+    // if ($auth) {
+    //     if ($auth == 'noAuth') {
+    //         Session::put('noAuthOk', true);
+    //     }
+    //     if ($auth == 'needAuth') {
+    //         if (Session::has('noAuthOk')) Session::forget('noAuthOk');
+    //         Session::put('basketAuth', true);
+    //         return View('auth');
+    //     }
+    // }
     return View('basket');
 });
 
@@ -61,22 +68,23 @@ Route::get('removeolduploads', 'ImageController@removeOldUploads');
 
 Route::get('progress', 'ImageController@getProgressUpload');
 Route::post('setlowqualityargee', 'ImageController@setLowQualityArgee');
-Route::post('addtobasket', 'ImageController@addToBasket');
+Route::post('addtobasket', 'BasketController@addToBasket');
 
 Route::post('getBasketCount', 'ImageController@getBasketCount');
 
-Route::post('payorder', 'BasketController@payorder')->name('payorder');
+Route::get('payorder/{id}', 'BasketController@payorder');
 
+Route::post('makeorder', 'BasketController@makeorder');
 
 Route::get('payok/{id}', function ($id) {
-    if (App\Http\Controllers\BasketController::getPayStatus ($id))
+
+    if (App\Http\Controllers\ToolsController::getPayStatus ($id))
     return redirect('personal')->with('modal-info', 'Заказ №' . $id . ' оплачен! В ближайшее время с вами свяжется менеджер!');
     else
     return redirect('personal')->with('modal-info', 'В процессе оплаты заказа №' . $id . ' возникла ошибка. Попробуйте еще раз');
 });//->name('payok');
 
 Route::get('payerror/{id}', function ($id) {
-    Session::forget('payCount');
     return redirect('personal')->with('modal-info', 'В процессе оплаты заказа №' . $id . ' возникла ошибка. Попробуйте еще раз');
 });//->name('payerror');
 

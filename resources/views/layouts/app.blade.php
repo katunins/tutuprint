@@ -15,6 +15,7 @@
 
 <body>
     <div class="container">
+        {{-- @dump ((Session::all()), 'Auth -'.Auth::check()) --}}
 
         <div class="header">
             <div class="top-back-button" <?php if (URL::current() == url ('/') || View::hasSection('back')) {?>

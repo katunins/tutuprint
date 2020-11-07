@@ -8,93 +8,127 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class BasketController extends Controller
 {
 
-    static function getPayStatus ($orderId) {
+    static function getTicketProperties($order, $deliveryPrice)
+    {
+        // Создает список товаров для чека
+        $positionId = 1;
+        foreach ($order as $goodsData) {
 
-        $order = DB::table('orders')->where('id', $orderId)->first();
-        if (!$order) return false;
-        if (!$order->payId) return false;
-
-        $vars = array();
-        $vars['userName'] = 'T366401444667-api';
-        $vars['password'] = 'T366401444667';
-        $vars['orderId'] = $order->payId;
-        
-        $ch = curl_init('https://3dsec.sberbank.ru/payment/rest/getOrderStatusExtended.do?' . http_build_query($vars));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        $res = curl_exec($ch);
-        curl_close($ch);
-        
-        $res = json_decode($res, JSON_OBJECT_AS_ARRAY);
-        
-        if ($res['orderStatus'] == 1 || $res['orderStatus'] == 2) {
-            DB::table('orders')->where('id', $orderId)->update(['payStatus'=>true]);
-            return true;
-        } else return false;
-    }
-
-    static function SberToPay ($id, $ticketProperties, $allPrice, $request) {
-
-        // Оплата с Сбер
-        $vars = array();
-        $vars['userName'] = 'T366401444667-api';
-        $vars['password'] = 'T366401444667';
-
-        $payCount = $request->payCount;
-        $payCount ++;
-        DB::table('orders')->where('id', $request->id)->update(['payCount'=>$payCount]);
-        
-        /* ID заказа в магазине */
-        $vars['orderNumber'] = $id.'_'.$payCount;
-
-        $vars['orderBundle'] = json_encode(
-            array(
-                'cartItems' => array(
-                    'items' => $ticketProperties
-                )
-            ),
-            JSON_UNESCAPED_UNICODE
-        );
-
-        /* Сумма заказа в копейках */
-        $vars['amount'] = $allPrice * 100;
-
-        /* URL куда клиент вернется в случае успешной оплаты */
-        $vars['returnUrl'] = url('payok/' . $id); //'http://example.com/success/';
-
-        /* URL куда клиент вернется в случае ошибки */
-        $vars['failUrl'] = url('payerror/' . $id); // 'http://example.com/error/';
-
-        /* Описание заказа, не более 24 символов, запрещены % + \r \n */
-        $vars['description'] = 'Заказ №' . $id . ' на tutuprint.ru';
-
-        $ch = curl_init('https://3dsec.sberbank.ru/payment/rest/register.do?' . http_build_query($vars));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        $res = curl_exec($ch);
-        curl_close($ch);
-        $res = json_decode($res, JSON_OBJECT_AS_ARRAY);
-        
-        if (empty($res['orderId'])) {
-            /* Возникла ошибка: */
-            return redirect()->to('payerror/' . $id);
-        } else {
-            /* Успех: */
-            /* Тут нужно сохранить ID платежа в своей БД - $res['orderId'] */
-            DB::table('orders')->where('id', $id)->update(array('payId' => $res['orderId']));
-            
-            /* Перенаправление клиента на страницу оплаты */
-            return redirect()->to($res['formUrl']);
+            $ticketProperties[] = array(
+                'positionId' => $positionId,
+                'name' => $goodsData->product->data . ' ' . str_replace(' ', '', $goodsData->size->data) . ', ' . $goodsData->count->data . ' шт. ' . ($goodsData->box->data ? 'С коробкой' : ''),
+                'quantity' => array(
+                    'value' => 1,
+                    'measure' => 'шт'
+                ),
+                'itemAmount' => $goodsData->price->data * 100,
+                'itemCode' => 'print',
+                'tax' => array(
+                    'taxType' => 0,
+                    'taxSum' => 0
+                ),
+                'itemPrice' => $goodsData->price->data * 100,
+            );
+            $positionId++;
         }
+        if ($deliveryPrice > 0) {
+            $ticketProperties[] = array(
+                'positionId' => $positionId,
+                'name' => 'Доставка',
+                'quantity' => array(
+                    'value' => 1,
+                    'measure' => 'шт'
+                ),
+                'itemAmount' => $deliveryPrice * 100,
+                'itemCode' => 'print',
+                'tax' => array(
+                    'taxType' => 0,
+                    'taxSum' => 0
+                ),
+                'itemPrice' => $deliveryPrice * 100,
+            );
+        }
+        return $ticketProperties;
     }
 
-    public function payorder(Request $request)
+    public function addToBasket(Request $request)
+    {
+        // получим корзину, если она есть
+        $user = ToolsController::getUser();
+        if ($user) {
+            $userId = $user['id'];
+        } else {
+            $userId = Str::random(10);
+            session()->put('temporaryUser.id', $userId);
+        }
+        
+        // if (Auth::user()) {
+        //     $userId = Auth::user()->id;
+        // } else {
+        //     // проверим или создадим временный ID для пользователя в этой сессии
+        //     if (session()->has('temporaryUser')) {
+        //         $userId =  session()->get('temporaryUser');
+        //     } else {
+        //         $userId = Str::random(10);
+        //         session()->put('temporaryUser.id', $userId);
+        //     }
+        // }
+
+        $basket = DB::table('basket')->where('userId', $userId)->get();
+
+        // получим последний внтренний ID корзины и увеличим его
+        $id = 0;
+        if (count($basket) > 0) $id = $basket[count($basket) - 1]->basketId + 1;
+
+
+        // Перенесем фотографии из UPLOAD в BASKET и распределим их по папкам с количеством
+        $size = str_replace(' ', '', $request->size['data']);
+        $basketFolder = 'public/basket/' . $userId . '/' . 'N_' . $id . '/' . $size; // + добавим продукт, формат , поля
+
+        if (!Storage::disk('local')->exists($basketFolder)) Storage::makeDirectory($basketFolder, 0775, true);
+
+        $basketPreview = false;
+        foreach (session()->get('images') as $image) {
+            $copies = $image['count'] . 'x';
+            if (!Storage::disk('local')->exists($basketFolder . '/' . $copies)) Storage::makeDirectory($basketFolder . '/' . $copies, 0775, true);
+            Storage::move($image['url'], $basketFolder . '/' . $copies . '/' . $image['filename']);
+
+            // перенесем preview
+            if (!$basketPreview) {
+                $previewUrl = '';
+                foreach (explode('/', $image['url']) as $elem) {
+                    if ($elem == 'HD') $elem = 'Thumbnail';
+                    $previewUrl .= $elem . '/';
+                }
+                $previewUrl = substr($previewUrl, 0, -1);
+                Storage::move($previewUrl, $basketFolder . '/' . 'preview.' . explode('.', $previewUrl)[1]);
+                $basketPreview = true;
+            }
+        }
+
+        // удалим пустую папку с upload и сессию
+        $path = explode('/HD', $image['url'])[0];
+        Storage::deleteDirectory(($path));
+        session()->forget('images');
+
+        // Создадим в базе корзину
+        DB::table('basket')->insert([
+            [
+                'basketId' => $id,
+                'userId' => $userId,
+                'data' => json_encode($request->input())
+            ],
+        ]);
+
+        return Response::json();
+    }
+
+    public function makeOrder(Request $request)
     {
         //         "_token" => "omIlYwqw3pwDt7ZO8fnQPnqdPVYkZd6knr6QMhLm"
         //   "userid" => "1"
@@ -115,111 +149,137 @@ class BasketController extends Controller
 
         ]);
 
+        // Запишем адрес и телефон в базу пользователя или запомним в сессии
+        if (Auth::check()) {
+            // $userData = DB::table('users')->where('id', $request->userid)->get()->first();
+            if (Auth::user()->tel != $request->tel) 
+            {
+                DB::table('users')->where('id', $request->userid)->update(['tel' => $request->tel]);
+            }
+        } else {
+            if ($request->tel) session()->put('temporaryUser.tel', $request->tel);
+            if ($request->adress) session()->put('temporaryUser.adress', $request->adress);
+            if ($request->name) session()->put('temporaryUser.name', $request->name);
+        }
+        
+
         // получим все корзины юзера
         $basket = DB::table('basket')->where('userId', $request->userid)->get();
-        // Проверим коризну. Если она пустая, то сюда вернулись назад из оплаты
-        if (count($basket) > 0) {
-            $properties = [];
-            $ticketProperties = [];
-            $positionId = 0;
-            $allPrice = $request->price + $request->deliveryprice;
+        $properties = [];
+        // $ticketProperties = [];
+        $positionId = 1;
+        $allPrice = $request->price + $request->deliveryprice;
 
-            foreach ($basket as $item) {
-                $positionId++;
-                $goodsData = json_decode($item->data);
-                $properties[$item->basketId] = $goodsData;
+        if (count($basket) == 0) return redirect('basket')->with('modal-info', 'Ошибка! Не найдены товары в корзине');
 
-                $ticketProperties[] = array(
-                    'positionId' => $positionId,
-                    'name' => $goodsData->product->data,
-                    'quantity' => array(
-                        'value' => 1,
-                        'measure' => 'шт'
-                    ),
-                    'itemAmount' => $goodsData->price->data * 100,
-                    'itemCode' => 'print',
-                    'tax' => array(
-                        'taxType' => 0,
-                        'taxSum' => 0
-                    ),
-                    'itemPrice' => $goodsData->price->data * 100,
-                );
-            }
+        foreach ($basket as $item) {
 
-            if ($request->deliveryprice > 0) {
-                $ticketProperties[] = array(
-                    'positionId' => $positionId + 1,
-                    'name' => 'Доставка',
-                    'quantity' => array(
-                        'value' => 1,
-                        'measure' => 'шт'
-                    ),
-                    'itemAmount' => $request->deliveryprice * 100,
-                    'itemCode' => 'delivery',
-                    'tax' => array(
-                        'taxType' => 0,
-                        'taxSum' => 0
-                    ),
-                    'itemPrice' => $request->deliveryprice * 100,
-                );
-            }
+            $goodsData = json_decode($item->data);
+            $properties[$item->basketId] = $goodsData;
+            // $ticketProperties [] = $this->getTicketProperties($item);
+            $positionId++;
+        }
+        // if ($request->deliveryprice > 0) {
+        //     $ticketProperties[] = $this->getTicketProperties([], $request->deliveryprice);
+        // }
 
-            // запишем новый заказ
-            $id = DB::table('orders')->insertGetId(
-                [
-                    'userId' => $request->userid,
-                    'allPrice' => $allPrice,
-                    'deliveryPrice' => $request->deliveryprice,
-                    'deliveryType' => $request->delivery,
-                    'name' => $request->name,
-                    'adress' => $request->adress,
-                    'status' => 'wait',
-                    'tel' => $request->tel,
-                    'properties' => json_encode($properties),
-                    'created_at' => Carbon::now(),
-                ]
-            );
-
+        // запишем новый заказ
+        $id = DB::table('orders')->insertGetId(
+            [
+                'userId' => $request->userid,
+                'allPrice' => $allPrice,
+                'deliveryPrice' => $request->deliveryprice,
+                'deliveryType' => $request->delivery,
+                'name' => $request->name,
+                'adress' => $request->adress,
+                'status' => 'wait',
+                'tel' => $request->tel,
+                'properties' => json_encode($properties),
+                'created_at' => Carbon::now(),
+            ]
+        );
+        if ($id) {
             // удалим продукты из корзины
             DB::table('basket')->where('userId', $request->userid)->delete();
-
             // Перенесем папку с продуктами в папку заказов
             Storage::move('public/basket/' . $request->userid, 'public/orders/' . $id);
-
-            return $this->SberToPay($id, $ticketProperties, $allPrice, $request);
-
-        } else {
-
-            $order = DB::table('orders')->where('userId', $request->userId)->get()->last();
-            $id = $order->id;
-            $allPrice = intval($order->allPrice);
-            $ticketProperties [] = array(
-                'positionId' => 1,
-                'name' => 'Заказ tutuprint.ru',
-                'quantity' => array(
-                    'value' => 1,
-                    'measure' => 'шт'
-                ),
-                'itemAmount' => $allPrice * 100,
-                'itemCode' => 'photoprint',
-                'tax' => array(
-                    'taxType' => 0,
-                    'taxSum' => 0
-                ),
-                'itemPrice' => $allPrice * 100,
-            );
-
-            return $this->SberToPay($id, $ticketProperties, $allPrice, $request);
-        } 
+            return redirect('payorder/' . $id);
+        } else return redirect('basket')->with('modal-info', 'Ошибка создания заказа!');
     }
 
-    public function removeBasketTtem (Request $request) {
+    public function payorder(Request $request)
+    {
+        $id = $request->id;
+        if (!$id) return redirect('personal')->with('modal-info', 'Ошибка создания оплаты заказа! Попробуйте еще раз');
+
+        $order = DB::table('orders')->where('id', $id)->get()->first();
+        if (!$order) return redirect('personal')->with('modal-info', 'Ошибка создания оплаты заказа! Попробуйте еще раз');
+
+        // Составим списк товаров
+        $ticketProperties = $this->getTicketProperties(json_decode($order->properties), $order->deliveryPrice);
+        // return $this->SberToPay($id, $ticketProperties, $order->allPrice, $request);
+        // Оплата с Сбер
+        $vars = array();
+        $vars['userName'] = 'T366401444667-api';
+        $vars['password'] = 'T366401444667';
+
+        $payCount = $order->payCount;
+        $payCount++;
+        DB::table('orders')->where('id', $request->id)->update(['payCount' => $payCount]);
+
+        /* ID заказа в магазине */
+        $vars['orderNumber'] = $id . '_' . $payCount;
+
+        $vars['orderBundle'] = json_encode(
+            array(
+                'cartItems' => array(
+                    'items' => $ticketProperties
+                )
+            ),
+            JSON_UNESCAPED_UNICODE
+        );
+
+        /* Сумма заказа в копейках */
+        $vars['amount'] = $order->allPrice * 100;
+
+        /* URL куда клиент вернется в случае успешной оплаты */
+        $vars['returnUrl'] = url('payok/' . $id); //'http://example.com/success/';
+
+        /* URL куда клиент вернется в случае ошибки */
+        $vars['failUrl'] = url('payerror/' . $id); // 'http://example.com/error/';
+
+        /* Описание заказа, не более 24 символов, запрещены % + \r \n */
+        $vars['description'] = 'Заказ №' . $id . ' на tutuprint.ru';
+
+        $ch = curl_init('https://3dsec.sberbank.ru/payment/rest/register.do?' . http_build_query($vars));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        $res = curl_exec($ch);
+        curl_close($ch);
+        $res = json_decode($res, JSON_OBJECT_AS_ARRAY);
+
+        if (empty($res['orderId'])) {
+            /* Возникла ошибка: */
+            return redirect('personal')->with('modal-info', 'Ошибка оплаты заказа #' . $id . '! Попробуйте еще раз');
+        } else {
+            /* Успех: */
+            /* Тут нужно сохранить ID платежа в своей БД - $res['orderId'] */
+            DB::table('orders')->where('id', $id)->update(array('payId' => $res['orderId']));
+
+            /* Перенаправление клиента на страницу оплаты */
+            return redirect($res['formUrl']);
+        }
+    }
+
+    public function removeBasketTtem(Request $request)
+    {
         if (Auth::user()) {
             $userId = Auth::user()->id;
         } else {
-                $userId =  session()->get('temporaryUser');
+            $userId =  session()->get('temporaryUser');
         }
-        $folder = 'public/basket/'.$userId.'/N_'.$request->basketId;
+        $folder = 'public/basket/' . $userId . '/N_' . $request->basketId;
         Storage::deleteDirectory($folder);
         $result = DB::table('basket')->where('id', $request->id)->delete();
         return Response::json($result);

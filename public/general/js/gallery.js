@@ -640,10 +640,9 @@ function checkLowQuality() {
       document.querySelectorAll('.image-box[lowquality="true"]').forEach(function (elem) {
         elem.setAttribute('lowqualityagree', true);
         elemsToAgree.push(elem.id);
-      });
-
+      });  
       if (elemsToAgree.length > 0) {
-        // console.log (elemsToAgree)
+        
         ajax('/setlowqualityargee', {
           data: elemsToAgree
         });

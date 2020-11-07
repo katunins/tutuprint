@@ -565,7 +565,6 @@ function checkLowQuality () {
       image.querySelector ('.img-alert').classList.add ('hide');
     }
   });
-
   if (lowQuality > 0) {
     // повесим onclick на компку OK модального окна
     setOkModalButton (function () {
@@ -595,7 +594,7 @@ function checkLowQuality () {
           elem.setAttribute ('lowqualityagree', true);
           elemsToAgree.push (elem.id);
         });
-      if (elemsToAgree.length > 0) {
+        if (elemsToAgree.length > 0) {
         // console.log (elemsToAgree)
         ajax ('/setlowqualityargee', {
           data: elemsToAgree,
