@@ -39,7 +39,7 @@
                     $param = json_decode($item->data);
                     $summ += $param->price->data; 
                     $size = str_replace(' ', '', $param->size->data); 
-                    $basketFolder = 'public/basket/' .$item->userId .'/'.'N_'.$item->basketId.'/'.$size;
+                    $basketFolder = '/public/basket/' .$item->userId .'/'.'N_'.$item->basketId.'/'.$size;
                     $thumbnailUrl = Storage::files($basketFolder);
                     if (count($thumbnailUrl) > 0) $thumbnailUrl = Storage::disk('local')->url($thumbnailUrl[0]) ; else $thumbnailUrl = asset ('/images/empty.png');
                 ?>
