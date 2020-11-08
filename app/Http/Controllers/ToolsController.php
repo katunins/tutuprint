@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ToolsController extends Controller
 {
@@ -14,10 +15,22 @@ class ToolsController extends Controller
         session()->forget("noAuthOk");
 
         if (session()->has('temporaryUser')) {
-            // перенесем данные временного пользователя: коризну / заказы
-            DB::table('orders')->where('userId', (string)session()->get('temporaryUser.id'))->update(['userId' => Auth::user()->id]);
-            DB::table('basket')->where('userId', (string)session()->get('temporaryUser.id'))->update(['userId' => Auth::user()->id]);
 
+            $temporaryUser = (string)session()->get('temporaryUser.id');
+            $authUser = Auth::user()->id;
+            // перенесем данные временного пользователя: коризну / заказы
+            DB::table('orders')->where('userId', $temporaryUser)->update(['userId' => $authUser]);
+            DB::table('basket')->where('userId', $temporaryUser)->update(['userId' => $authUser]);
+
+            // Переименуем папку с корзиной
+            // 
+            if(Storage::exists('public/basket/'.$authUser)) {
+                dd ('ok');
+                // Storage::makeDirectory('/path/to/create/your/directory', 0775, true); //creates directory
+            }
+            die();
+            Storage::move('public/basket/' .session()->get('temporaryUser.id'), 'public/basket/'.Auth::user()->id);
+            
             session()->forget('temporaryUser');
         }
 
