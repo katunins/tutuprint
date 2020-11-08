@@ -13,6 +13,7 @@ class ToolsController extends Controller
     // функция запускается после авторизации
     {
         session()->forget("noAuthOk");
+        $returtTo = '/';
 
         if (session()->has('temporaryUser')) {
 
@@ -25,9 +26,11 @@ class ToolsController extends Controller
             $authUserBasket = DB::table('basket')->where('userId', $authUser)->get();
             $temporaryBasketFolder = 'public/basket/'.$temporaryUser;
             $temporaryUserBasket = DB::table('basket')->where('userId', $temporaryUser)->get();
+            
 
             // Если у временного пользователя была корзина, то перенесем ее
             if (count ($temporaryUserBasket)>0) {
+                $returtTo = "/basket";
                 // Если у авторизованого пользователя уже есть товары в корзине, то перенесем с переименованием basketId
                 if(count($authUserBasket)>0) {
                     
@@ -52,7 +55,7 @@ class ToolsController extends Controller
             session()->forget('temporaryUser');
         }
 
-        return redirect()->route('welcome')->with('modal-info', session()->get('modal-info'));
+        return redirect($returtTo)->with('modal-info', session()->get('modal-info'));
 
     }
 
