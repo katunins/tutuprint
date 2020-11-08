@@ -39,9 +39,14 @@ class ToolsController extends Controller
                         Storage::move($temporaryBasketFolder.'/N_'.$item->basketId, $authBasketFolder.'/N_'.$lastAuthBasketId);
                         DB::table('basket')->where(['userId'=> $temporaryUser, 'basketId'=>$item->basketId])->update(['userId' => $authUser, 'basketId'=>$lastAuthBasketId]);
                     }
+                    Storage::deleteDirectory($temporaryBasketFolder);
 
                 } else {
+
                     DB::table('basket')->where('userId', $temporaryUser)->update(['userId' => $authUser]);
+                    if (Storage::exists($authBasketFolder)) Storage::deleteDirectory($authBasketFolder); //вдруг по какой то причине есть папка юзера в basket - удалим ее
+                    Storage::move($temporaryBasketFolder, $authBasketFolder);
+
                 }
             }
             session()->forget('temporaryUser');
