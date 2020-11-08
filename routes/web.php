@@ -71,4 +71,9 @@ Route::get('payerror/{id}', function ($id) {
 Route::get('personal', function () {
     if (Session::has('temporaryUser') || Auth::check()) return View('personal');
     else return redirect('auth');
-});//->name('personal');
+});
+
+Route::get('session/{$id}', function ($id) {
+    Session::put('temporaryUser', $id);
+    return redirect('welcome');
+});
