@@ -73,7 +73,7 @@ Route::get('personal', function () {
     else return redirect('auth');
 });
 
-Route::get('session/{$id}', function ($id) {
-    Session::put('temporaryUser', $id);
-    return redirect('auth');
-});
+// Route::get('session/{$id}', function ($id) {
+//     Session::put('temporaryUser', $id);
+//     return redirect('auth');
+// });

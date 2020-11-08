@@ -33,98 +33,100 @@
     let cancelButton = document.getElementById('cancel-modal-button')
 
     function changeModalCount() {
-  let modalTempData = document.getElementById('modal-temporary-data'); //буфер модального окна
-  let currentImage = document.getElementById(this.id);
+        let modalTempData = document.getElementById('modal-temporary-data'); //буфер модального окна
+        let currentImage = document.getElementById(this.id);
 
-  if (modalTempData.value == '') {
-    currentCount = currentImage.getAttribute('count');
-    modalTempData.value = currentCount;
-  } else {
-    currentCount = modalTempData.value;
-  }
-  currentCount = Number(currentCount) + Number(this.increase);
-  if (currentCount < 0) currentCount = 0;
-  document.getElementById('image-modal-count').innerHTML = currentCount;
-  modalTempData.value = currentCount;
-}
+        if (modalTempData.value == '') {
+            currentCount = currentImage.getAttribute('count');
+            modalTempData.value = currentCount;
+        } else {
+            currentCount = modalTempData.value;
+        }
+        currentCount = Number(currentCount) + Number(this.increase);
+        if (currentCount < 0) currentCount = 0;
+        document.getElementById('image-modal-count').innerHTML = currentCount;
+        modalTempData.value = currentCount;
+    }
 
-    function setOkModalButton (okButtonCallback = turnOFFSuperModal, name = 'ok') {
-        
+    function setOkModalButton(okButtonCallback = turnOFFSuperModal, name = 'ok') {
+
         okButton.innerHTML = name
         // okButton.addEventListener('click', okButtonCallback)
         okButton.onclick = okButtonCallback
-        okButton.classList.remove ('hide')
+        okButton.classList.remove('hide')
 
     }
 
-    
-    function setCancelModalButton (cancelButtonCallback = turnOFFSuperModal, name = 'Отмена') {
+
+    function setCancelModalButton(cancelButtonCallback = turnOFFSuperModal, name = 'Отмена') {
 
         cancelButton.innerHTML = name
         // cancelButton.addEventListener('click', cancelButtonCallback)
         cancelButton.onclick = cancelButtonCallback
-        cancelButton.classList.remove ('hide')
+        cancelButton.classList.remove('hide')
 
     }
 
     function turnOFFSuperModal() {
 
         document.querySelector('.super-modal').classList.add('hide')
-        document.querySelector('.modal-img-block').style=''
+        document.querySelector('.modal-img-block').style = ''
         document.querySelector('.modal-img-block').classList.add('hide')
         document.querySelector('.count-block').classList.add('hide')
         document.querySelector('.super-modal-message').innerHTML = ''
         document.querySelector('.super-modal-message').classList.add('hide')
-        document.removeEventListener('keyup',escKey);
+        document.removeEventListener('keyup', escKey);
         document.getElementById('file-data-text').classList.add('hide')
         document.querySelector('.modal-block').style = ''
         document.querySelector('.modal-cssload-wrap').classList.add('hide');
-        document.getElementById('modal-temporary-data').value='';
+        document.getElementById('modal-temporary-data').value = '';
         document.querySelector('.close-modal-button').classList.add('hide');
-        
+
         okButton.classList.add('hide')
         cancelButton.classList.add('hide')
-        
+
     }
 
-    function escKey (key) {
+    function escKey(key) {
         if (key.key === 'Escape') turnOFFSuperModal();
     }
 
-    function turnONmodalLoader () {
+    function turnONmodalLoader() {
         document.querySelector('.modal-cssload-wrap').classList.remove('hide');
     }
 
-    function turnONmodalMessage (message) {
+    function turnONmodalMessage(message) {
         document.querySelector('.super-modal-message').classList.remove('hide');
         document.querySelector('.super-modal-message').innerHTML = message
     }
 
-    function turnONmodalImage (url, width = '500px', height = '400px') {
+    function turnONmodalImage(url, width = '500px', height = '400px') {
         document.querySelector('.modal-img-block').classList.remove('hide');
-        document.querySelector('.modal-img-block').style.backgroundImage = url//'url(' + url + ')'
+        document.querySelector('.modal-img-block').style.backgroundImage = url //'url(' + url + ')'
         document.querySelector('.modal-img-block').style.width = width
         document.querySelector('.modal-img-block').style.height = height
     }
 
-    function turnONmodalCount (count) {
-        document.getElementById ('image-modal-count').innerHTML = count
-        document.getElementById ('modal-temporary-data').value = count
+    function turnONmodalCount(count) {
+        document.getElementById('image-modal-count').innerHTML = count
+        document.getElementById('modal-temporary-data').value = count
         document.querySelector('.count-block').classList.remove('hide');
     }
 
-    function turnONmodalFilename (filename) {
-        document.getElementById ('file-data-text').innerHTML = filename
+    function turnONmodalFilename(filename) {
+        document.getElementById('file-data-text').innerHTML = filename
         document.getElementById('file-data-text').classList.remove('hide')
     }
 
-    function turnONmodal (margin, closeButton = true) {
+    function turnONmodal(margin, closeButton = true) {
         document.querySelector('.super-modal').classList.remove('hide');
         document.querySelector('.modal-block').style.marginTop = margin;
-        
+
         if (closeButton) {
             document.querySelector('.close-modal-button').classList.remove('hide');
-            document.addEventListener('keyup',escKey, {once: true});
+            document.addEventListener('keyup', escKey, {
+                once: true
+            });
         }
     }
 

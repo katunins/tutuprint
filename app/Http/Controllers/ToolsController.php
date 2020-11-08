@@ -18,30 +18,37 @@ class ToolsController extends Controller
 
             $temporaryUser = (string)session()->get('temporaryUser.id');
             $authUser = Auth::user()->id;
-            // перенесем данные временного пользователя: коризну / заказы
+            // перенесем заказы временного пользователя
             DB::table('orders')->where('userId', $temporaryUser)->update(['userId' => $authUser]);
-            DB::table('basket')->where('userId', $temporaryUser)->update(['userId' => $authUser]);
-
-            // Переименуем папку с корзиной
-            // 
-            if(Storage::exists('public/basket/'.$authUser)) {
-                dd ('ok');
-                // Storage::makeDirectory('/path/to/create/your/directory', 0775, true); //creates directory
-            }
-            die();
-            Storage::move('public/basket/' .session()->get('temporaryUser.id'), 'public/basket/'.Auth::user()->id);
             
+            $authBasketFolder = 'public/basket/'.$authUser;
+            $authUserBasket = DB::table('basket')->where('userId', $authUser)->get();
+            $temporaryBasketFolder = 'public/basket/'.$temporaryUser;
+            $temporaryUserBasket = DB::table('basket')->where('userId', $temporaryUser)->get();
+
+            // Если у временного пользователя была корзина, то перенесем ее
+            if (count ($temporaryUserBasket)>0) {
+                // Если у авторизованого пользователя уже есть товары в корзине, то перенесем с переименованием basketId
+                if(count($authUserBasket)>0) {
+                    
+                    // получим последний порядковый номер корзины авторизованого пользователя
+                    $lastAuthBasketId = DB::table('basket')->where(['userId'=> $authUser])->orderBy('basketId', 'asc')->get()->last()->basketId;
+                    
+                    foreach ($temporaryUserBasket as $item) {
+                        $lastAuthBasketId ++;
+                        Storage::move($temporaryBasketFolder.'/N_'.$item->basketId, $authBasketFolder.'/N_'.$lastAuthBasketId);
+                        DB::table('basket')->where(['userId'=> $temporaryUser, 'basketId'=>$item->basketId])->update(['userId' => $authUser, 'basketId'=>$lastAuthBasketId]);
+                    }
+
+                } else {
+                    DB::table('basket')->where('userId', $temporaryUser)->update(['userId' => $authUser]);
+                }
+            }
             session()->forget('temporaryUser');
         }
 
         return redirect()->route('welcome')->with('modal-info', session()->get('modal-info'));
 
-        // if (session()->has('basketAuth')) {
-        //     session()->forget('basketAuth');
-        //     return redirect('basket')->with('modal-info', session()->get('modal-info'))->with('newAuth', true);
-        // } else {
-        //     return redirect()->route('welcome')->with('modal-info', session()->get('modal-info'));
-        // }
     }
 
     static function getPayStatus ($orderId, $fullResult = false) {
