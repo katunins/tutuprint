@@ -41,11 +41,11 @@
                     $size = str_replace(' ', '', $param->size->data); 
                     $basketFolder = 'public/basket/' .$item->userId .'/'.'N_'.$item->basketId.'/'.$size;
                     $thumbnailUrl = Storage::files($basketFolder);
-                    if (count($thumbnailUrl) > 0) $thumbnailUrl = $thumbnailUrl[0]; else $thumbnailUrl = asset ('images/empty.jpg');
+                    if (count($thumbnailUrl) > 0) $thumbnailUrl = Storage::disk('local')->url($thumbnailUrl[0]) ; else $thumbnailUrl = asset ('/images/empty.png');
                 ?>
         <div class="basket-block">
             <div class="preview"
-                style="background-image: url({{ Storage::disk('local')->url($thumbnailUrl) }})">
+                style="background-image: url({{ $thumbnailUrl }})">
             </div>
             <div class="params">
                 <h3>{{ $param->product->data }}</h3>
