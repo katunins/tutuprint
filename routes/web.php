@@ -75,5 +75,5 @@ Route::get('personal', function () {
 
 Route::get('session/{$id}', function ($id) {
     Session::put('temporaryUser', $id);
-    return redirect('welcome');
+    return redirect('personal');
 });
