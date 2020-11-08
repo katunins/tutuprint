@@ -57,4 +57,4 @@
 </div>
 @endsection
 
-@section('back') @endsection
+{{-- @section('back') @endsection --}}

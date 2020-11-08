@@ -167,29 +167,5 @@ class ImageController extends Controller
         return Response::json(true);
     }
 
-    public function getBasketCount()
-    {
-        // получим корзину - вернем сумму ее и количество позиций
-        if (Auth::user()) {
-            $userId = Auth::user()->id;
-            $basket = DB::table('basket')->where('userId', $userId)->get();
-        } elseif (Session::has('temporaryUser')) {
-            $userId =  Session::get('temporaryUser');
-            $basket = DB::table('basket')->where('userId', $userId)->get();
-        } else $basket = [];
-
-        $count = 0;
-        $summ = 0;
-
-        foreach ($basket as $item) {
-            $summ += json_decode($item->data)->price->data;
-            $count++;
-        }
-        if ($count > 0) {
-            $result = ['summ' => $summ, 'count' => $count];
-        } else {
-            $result = false;
-        }
-        return Response::json($result);
-    }
+    
 }

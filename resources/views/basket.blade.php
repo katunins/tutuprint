@@ -9,32 +9,32 @@
 @section('content')
 <?php 
     $user = App\Http\Controllers\ToolsController::getUser();
-    if ($user) $basket = DB::table('basket')->where('userId', $user['id'])->get(); else $basket=[];
+    if ($user) $basket = DB::table('basket')->where('userId', (string)$user['id'])->get(); else $basket=[];
 ?>
-    @if (count($basket)>0))
-        <?php if(!Auth::check() && !Session::has('noAuthOk')):?>
+@if(count($basket)>0)
+    <?php if(!Auth::check() && !Session::has('noAuthOk')):?>
 
-            <?php Session::put('noAuthOk', true); //пометка о том, что клиенту предлагали авторизоваться?>
-            <script>
-                turnONmodalMessage (
-                'Для начисления бонусных баллов необходимо войти в личный кабинет.'
-                );
+    <?php Session::put('noAuthOk', true); //пометка о том, что клиенту предлагали авторизоваться?>
+    <script>
+        turnONmodalMessage(
+            'Для начисления бонусных баллов необходимо войти в личный кабинет.'
+        );
 
-                setOkModalButton (function () {
-                location.href = "/auth"
-                }, 'Войти');
+        setOkModalButton(function () {
+            location.href = "/auth"
+        }, 'Войти');
 
-                setCancelModalButton (function () {
-                turnOFFSuperModal ();
-                location.href = "/basket"
-                }, 'Продолжить');
-                turnONmodal ('-78px', false);
-            </script>
+        setCancelModalButton(function () {
+            turnOFFSuperModal();
+            location.href = "/basket"
+        }, 'Продолжить');
+        turnONmodal('-78px', false);
 
-        <?php else: ?>
+    </script>
 
-            @foreach ($basket as $item)
-                <?php
+    <?php else: ?>
+    @foreach($basket as $item)
+        <?php
                     $summ = 0;
                     $param = json_decode($item->data);
                     $summ += $param->price->data; 
@@ -43,94 +43,100 @@
                     $thumbnailUrl = Storage::files($basketFolder);
                     if (count($thumbnailUrl) > 0) $thumbnailUrl = $thumbnailUrl[0]; else $thumbnailUrl = asset ('images/empty.jpg');
                 ?>
-               <div class="basket-block">
-                    <div class="preview" style="background-image: url({{ Storage::disk('local')->url($thumbnailUrl) }})"></div>
-                    <div class="params">
-                        <h3>{{ $param->product->data }}</h3>
-                        <ul>
-                            <li>Формат: <span>{{ $param->size->data }}</span></li>
-                            <li>Количество: <span>{{ $param->count->data }} шт.</span></li>
-                            @if($param->whiteborder->data)
-                                <li>Белая рамка по краям</li>
-                            @endif
-                            @if($param->box->data)
-                                <li>Коробка c надписью: "{{ $param->box->text }}"</li>
-                            @endif
-                        </ul>
-                    </div>
-                    <div class="price" price={{ $param->price->data }}>
-                        <span>{{ number_format($param->price->data, 0, '', ' ' ) }}₽</span>
-                        <div>
-                            <button id="basket-remove" data-id={{ $item->id }} onclick='removeBasketItem({{ $item->id }}, {{ $item->basketId }}, "{{ $param->product->data }}")'>Удалить</button>
-                        </div>
-                    </div>
-                </div> 
-            @endforeach
-            <form action="{{ action('BasketController@makeorder') }}" role="form" method="post">
-                @csrf
+        <div class="basket-block">
+            <div class="preview"
+                style="background-image: url({{ Storage::disk('local')->url($thumbnailUrl) }})">
+            </div>
+            <div class="params">
+                <h3>{{ $param->product->data }}</h3>
+                <ul>
+                    <li>Формат: <span>{{ $param->size->data }}</span></li>
+                    <li>Количество: <span>{{ $param->count->data }} шт.</span></li>
+                    @if($param->whiteborder->data)
+                        <li>Белая рамка по краям</li>
+                    @endif
+                    @if($param->box->data)
+                        <li>Коробка c надписью: "{{ $param->box->text }}"</li>
+                    @endif
+                </ul>
+            </div>
+            <div class="price" price={{ $param->price->data }}>
+                <span>{{ number_format($param->price->data, 0, '', ' ' ) }}₽</span>
+                <div>
+                    <button id="basket-remove" data-id={{ $item->id }}
+                        onclick='removeBasketItem({{ $item->id }}, {{ $item->basketId }}, "{{ $param->product->data }}")'>Удалить</button>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <form action="{{ action('BasketController@makeorder') }}" role="form" method="post">
+        @csrf
 
-                <input type="hidden" name="userid" value={{ $user['id'] }}>
-                <input type="hidden" name="price">
-                <input type="hidden" name="deliveryprice">
+        <input type="hidden" name="userid" value={{ $user['id'] }}>
+        <input type="hidden" name="price">
+        <input type="hidden" name="deliveryprice">
 
-                <h3>Способ доставки</h3>
+        <h3>Способ доставки</h3>
 
-                <div class="delivery-block">
-                    <div class="form-block">
-                        <input type="radio" name="delivery" id="vrn_delivery" value="vrn_delivery" checked price=250>
-                        <label for="vrn_delivery">Курьером в Воронеже (250 руб)</label>
-                    </div>
+        <div class="delivery-block">
+            <div class="form-block">
+                <input type="radio" name="delivery" id="vrn_delivery" value="vrn_delivery" checked price=250>
+                <label for="vrn_delivery">Курьером в Воронеже (250 руб)</label>
+            </div>
 
-                    <div class="form-block">
-                        <input type="radio" name="delivery" id="vrn_pickup" value="vrn_pickup" price=0>
-                        <label for="vrn_pickup">Самостоятельно на ул. Театральная, 11</label>
-                    </div>
+            <div class="form-block">
+                <input type="radio" name="delivery" id="vrn_pickup" value="vrn_pickup" price=0>
+                <label for="vrn_pickup">Самостоятельно на ул. Театральная, 11</label>
+            </div>
 
-                    {{-- <div class="form-block">
+            {{-- <div class="form-block">
                     <input type="radio" name="delivery" id="cdek" value="cdek">
                     <label for="cdek">Доставка CDEK в другие регионы</label>
                     </div> --}}
-                </div>
+        </div>
 
-                <div class="form-center-block">
-                    @if(!$errors->get('name'))
-                        <label for="name">Фамилия Имя получателя</label>
-                    @endif
-                    @error('name')
-                        <label class="alert">{{ $message }}</label>
-                    @enderror
-                    <input type="text" name="name" placeholder="Антонов Сергей" value="{{ old('name', $user['name']) }}">
+        <div class="form-center-block">
+            @if(!$errors->get('name'))
+                <label for="name">Фамилия Имя получателя</label>
+            @endif
+            @error('name')
+                <label class="alert">{{ $message }}</label>
+            @enderror
+            <input type="text" name="name" placeholder="Антонов Сергей"
+                value="{{ old('name', $user['name']) }}">
 
-                    <div class="adress-block">
-                        <label for="vrn_adress">Адрес в Воронеже</label>
-                        <input type="text" name="adress" placeholder="Московский проспект, 10 / кв" value="{{ old('adress', $user['adress']) }}">
-                    </div>
+            <div class="adress-block">
+                <label for="vrn_adress">Адрес в Воронеже</label>
+                <input type="text" name="adress" placeholder="Московский проспект, 10 / кв"
+                    value="{{ old('adress', $user['adress']) }}">
+            </div>
 
-                    @if(!$errors->get('tel'))
-                        <label for="tel">Телефон</label>
-                    @endif
-                    @error('tel')
-                        <label class="alert">{{ $message }}</label>
-                    @enderror
-                    <input type="tel" name="tel" placeholder="+7 (___) ___-____" id="tel" value="{{ old('tel', $user['tel']) }}">
-                </div>
+            @if(!$errors->get('tel'))
+                <label for="tel">Телефон</label>
+            @endif
+            @error('tel')
+                <label class="alert">{{ $message }}</label>
+            @enderror
+            <input type="tel" name="tel" placeholder="+7 (___) ___-____" id="tel"
+                value="{{ old('tel', $user['tel']) }}">
+        </div>
 
-                <div class="form-center-block">
-                    <button class="all-price">
-                        <p>Оплатить</p>
-                        <span id="all-price"></span><span>₽</span>
-                    </button>
-                </div>
+        <div class="form-center-block">
+            <button class="all-price">
+                <p>Оплатить</p>
+                <span id="all-price"></span><span>₽</span>
+            </button>
+        </div>
 
-            </form>
-            {{-- тут скрипт потому, что он нужен только при загрузки корзины --}}
-            <script src="{{ asset('js/basket.js') }}"></script>
+    </form>
+    {{-- тут скрипт потому, что он нужен только при загрузки корзины --}}
+    <script src="{{ asset('js/basket.js') }}"></script>
 
-        <?php endif?>
-    @else
-        <div class="empty">Корзина пуста</div>
-        @include('layouts.bigbuttons')    
-    @endif
+    <?php endif?>
+@else
+    <div class="empty">Корзина пуста</div>
+    @include('layouts.bigbuttons')
+@endif
 @endsection
 
 <script>
@@ -156,8 +162,3 @@
     }
 
 </script>
-
-
-
-
-

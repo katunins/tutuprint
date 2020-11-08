@@ -15,8 +15,8 @@ class ToolsController extends Controller
 
         if (session()->has('temporaryUser')) {
             // перенесем данные временного пользователя: коризну / заказы
-            DB::table('orders')->where('userId', session()->get('temporaryUser.id'))->update(['userId' => Auth::user()->id]);
-            DB::table('basket')->where('userId', session()->get('temporaryUser.id'))->update(['userId' => Auth::user()->id]);
+            DB::table('orders')->where('userId', (string)session()->get('temporaryUser.id'))->update(['userId' => Auth::user()->id]);
+            DB::table('basket')->where('userId', (string)session()->get('temporaryUser.id'))->update(['userId' => Auth::user()->id]);
 
             session()->forget('temporaryUser');
         }
@@ -34,7 +34,7 @@ class ToolsController extends Controller
     static function getPayStatus ($orderId, $fullResult = false) {
         // проверка статуса оплаты заказа
 
-        $order = DB::table('orders')->where('id', $orderId)->first();
+        $order = DB::table('orders')->where('id', (string)$orderId)->first();
         if (!$order) return false;
         if (!$order->payId) return false;
 
@@ -53,10 +53,19 @@ class ToolsController extends Controller
         $res = json_decode($res, JSON_OBJECT_AS_ARRAY);
         // return $res;
         if ($res['orderStatus'] == 1 || $res['orderStatus'] == 2) {
-            DB::table('orders')->where('id', $orderId)->update(['payStatus'=>true]);
-            return true;
-        } else return false;
+            DB::table('orders')->where('id', (string)$orderId)->update(['payStatus'=>true]);
+            return ['result'=>true, 'message'=>''];
+        } else return ['result'=>false, 'message'=>$res['errorMessage']];
 
+    }
+
+    public function logout() {
+        // Storage::delete('public/basket/');
+        
+        Auth::logout();
+        session()->forget('noAuthOk');
+        session()->forget('temporaryUser');
+        return redirect()->to('auth');
     }
 
     static function getUser () {

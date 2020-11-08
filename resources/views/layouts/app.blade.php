@@ -33,22 +33,15 @@
             </div>
 
             <div class="personal-block">
-
-                @if(Auth::user())
+                @if(Auth::check())
                     <div class="user">
                         <a href="{{ url ('auth') }}">
                             <img src="{{ asset('images/user.svg') }}" alt="">
                         </a>
                     </div>
-                @elseif(Session::has('temporaryUser'))
+                @else
                     <div class="user temp-user">
                         <a href="{{ url ('personal') }}">
-                            <img src="{{ asset('images/user.svg') }}" alt="">
-                        </a>
-                    </div>
-                @else
-                    <div class="user half-opacity">
-                        <a href="">
                             <img src="{{ asset('images/user.svg') }}" alt="">
                         </a>
                     </div>
@@ -60,27 +53,19 @@
                     </a>
                     <span id="basket-icon-summ"></span>
                 </div>
+            </div>
 
-                {{-- <div class="basket">
-                    <a href="{{ url ('basket') }}">
-                <img src="{{ asset('images/basket.svg') }}" alt="">
-
-                <span id="basket-icon-summ"></span>
-                </a>
-            </div> --}}
         </div>
 
-    </div>
+        @include('layouts.modal')
 
-    @include('layouts.modal')
+        @yield('content')
 
-    @yield('content')
-
-    @if(View::hasSection('back'))
-        <a class="back" href={{ $urlBack }}>
-            <img src="{{ asset('back-button.svg') }}" alt="Назад">
-        </a>
-    @endif
+        @if(View::hasSection('back'))
+            <a class="back" href={{ $urlBack }}>
+                <img src="{{ asset('back-button.svg') }}" alt="Назад">
+            </a>
+        @endif
 
     </div>
 </body>

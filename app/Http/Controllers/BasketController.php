@@ -79,7 +79,7 @@ class BasketController extends Controller
         //     }
         // }
 
-        $basket = DB::table('basket')->where('userId', $userId)->get();
+        $basket = DB::table('basket')->where('userId', (string)$userId)->get();
 
         // получим последний внтренний ID корзины и увеличим его
         $id = 0;
@@ -154,7 +154,7 @@ class BasketController extends Controller
             // $userData = DB::table('users')->where('id', $request->userid)->get()->first();
             if (Auth::user()->tel != $request->tel) 
             {
-                DB::table('users')->where('id', $request->userid)->update(['tel' => $request->tel]);
+                DB::table('users')->where('id', (string)$request->userid)->update(['tel' => $request->tel]);
             }
         } else {
             if ($request->tel) session()->put('temporaryUser.tel', $request->tel);
@@ -164,7 +164,7 @@ class BasketController extends Controller
         
 
         // получим все корзины юзера
-        $basket = DB::table('basket')->where('userId', $request->userid)->get();
+        $basket = DB::table('basket')->where('userId', (string)$request->userid)->get();
         $properties = [];
         // $ticketProperties = [];
         $positionId = 1;
@@ -200,7 +200,7 @@ class BasketController extends Controller
         );
         if ($id) {
             // удалим продукты из корзины
-            DB::table('basket')->where('userId', $request->userid)->delete();
+            DB::table('basket')->where('userId', (string)$request->userid)->delete();
             // Перенесем папку с продуктами в папку заказов
             Storage::move('public/basket/' . $request->userid, 'public/orders/' . $id);
             return redirect('payorder/' . $id);
@@ -212,7 +212,7 @@ class BasketController extends Controller
         $id = $request->id;
         if (!$id) return redirect('personal')->with('modal-info', 'Ошибка создания оплаты заказа! Попробуйте еще раз');
 
-        $order = DB::table('orders')->where('id', $id)->get()->first();
+        $order = DB::table('orders')->where('id', (string)$id)->get()->first();
         if (!$order) return redirect('personal')->with('modal-info', 'Ошибка создания оплаты заказа! Попробуйте еще раз');
 
         // Составим списк товаров
@@ -225,7 +225,7 @@ class BasketController extends Controller
 
         $payCount = $order->payCount;
         $payCount++;
-        DB::table('orders')->where('id', $request->id)->update(['payCount' => $payCount]);
+        DB::table('orders')->where('id', (string)$request->id)->update(['payCount' => $payCount]);
 
         /* ID заказа в магазине */
         $vars['orderNumber'] = $id . '_' . $payCount;
@@ -261,11 +261,11 @@ class BasketController extends Controller
 
         if (empty($res['orderId'])) {
             /* Возникла ошибка: */
-            return redirect('personal')->with('modal-info', 'Ошибка оплаты заказа #' . $id . '! Попробуйте еще раз');
+            return redirect('personal')->with('modal-info', 'Ошибка оплаты заказа #' . $id . '! '.$res ['errorMessage']);
         } else {
             /* Успех: */
             /* Тут нужно сохранить ID платежа в своей БД - $res['orderId'] */
-            DB::table('orders')->where('id', $id)->update(array('payId' => $res['orderId']));
+            DB::table('orders')->where('id', (string)$id)->update(array('payId' => $res['orderId']));
 
             /* Перенаправление клиента на страницу оплаты */
             return redirect($res['formUrl']);
@@ -281,7 +281,33 @@ class BasketController extends Controller
         }
         $folder = 'public/basket/' . $userId . '/N_' . $request->basketId;
         Storage::deleteDirectory($folder);
-        $result = DB::table('basket')->where('id', $request->id)->delete();
+        $result = DB::table('basket')->where('id', (string)$request->id)->delete();
+        return Response::json($result);
+    }
+
+    public function getBasketCount()
+    {
+        // получим корзину - вернем сумму ее и количество позиций
+        if (Auth::user()) {
+            $userId = Auth::user()->id;
+            $basket = DB::table('basket')->where('userId', (string)$userId)->get();
+        } elseif (session()->has('temporaryUser')) {
+            $userId =  session()->get('temporaryUser.id');
+            $basket = DB::table('basket')->where('userId', (string)$userId)->get();
+        } else $basket = [];
+
+        $count = 0;
+        $summ = 0;
+
+        foreach ($basket as $item) {
+            $summ += json_decode($item->data)->price->data;
+            $count++;
+        }
+        if ($count > 0) {
+            $result = ['summ' => $summ, 'count' => $count];
+        } else {
+            $result = false;
+        }
         return Response::json($result);
     }
 }
