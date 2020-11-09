@@ -217,7 +217,7 @@ function addEmptyElems() {
 
     var controlsBlock = document.querySelector('.controls');
     var controlsBlockBottomLine = controlsBlock.offsetTop + controlsBlock.offsetHeight;
-    var ControlBlockisBottom = Number(emptyElemHeight + controlsBlockBottomLine + 40) > window.innerHeight; // console.log (ControlBlockisBottom)
+    var ControlBlockisBottom = Number(emptyElemHeight + controlsBlockBottomLine + 40) > window.innerHeight; // alert (ControlBlockisBottom)
 
     if (ControlBlockisBottom && lastEmptyUnderGalleryScrool) return true;else return false;
   }
@@ -242,7 +242,7 @@ function addEmptyElems() {
       fillEmptyElemsInLine();
     }
   } else {
-    // if (!isPlusButtonMaxBottom) fillEmptyElemsInLine ();
+    // if (isLastEmptyElementMaxBottom) fillEmptyElemsInLine ();
     if (!isElemIsRight(document.getElementById('imgLoadPlusButton'))) fillEmptyElemsInLine();
   } // Запустим функцию, пока кнопка плюс не скроется за линии скрола
 

@@ -3,6 +3,7 @@
 .container {
   max-width: 800px !important;
   display: flex !important;
+  padding-bottom: 0 !important;
 }
 
 .header {
@@ -27,6 +28,9 @@
 .gallery-block .gallery {
   display: grid;
   width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   grid-template-columns: repeat(7, 1fr);
   overflow: overlay;
 }
@@ -111,6 +115,9 @@
 .gallery-block .controls {
   width: 100%;
   margin-bottom: 40px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 .gallery-block .controls .active-button {
@@ -458,20 +465,18 @@
   transition: 0.5s linear all;
 }
 
-@media screen and (max-width: 768px) and (min-height: 500px) {
+@media screen and (max-width: 768px) {
   body {
     justify-content: flex-start !important;
-    height: -webkit-min-content !important;
-    height: -moz-min-content !important;
-    height: min-content !important;
   }
 
   .container {
     width: 100vw !important;
+    padding-bottom: 0 !important;
   }
 
   .header {
-    margin: 30px 10px 10px 10px !important;
+    margin: 10px !important;
   }
 
   .logo img {

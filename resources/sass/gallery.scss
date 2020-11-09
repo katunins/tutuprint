@@ -11,6 +11,7 @@ body {
     // flex-direction: column;
     // overflow: hidden !important;
     display: flex !important;
+    padding-bottom: 0 !important;
 }
 
 .header {
@@ -46,7 +47,7 @@ body {
         display: grid;
         width: 100%;
         // max-height: 100%;
-        // height: fit-content;
+        height: fit-content;
         grid-template-columns: repeat(7, 1fr);
         overflow: overlay;
 
@@ -128,6 +129,8 @@ body {
     .controls {
         width: 100%;
         margin-bottom: 40px;
+    // bottom: 0;
+        height: fit-content;
         // padding: 20px 0 30px;
         // background-color: rgb(238, 235, 235);
 
@@ -557,22 +560,26 @@ $switch-buttion-high: 15px;
 
 // }
 
-@media screen and (max-width: 768px) and (min-height: 500px) {
+@media screen and (max-width: 768px) {
 
     body {
         justify-content: flex-start !important;
-        height: min-content !important;
+    //     position: absolute;
+    // top: 0;
+        // height: min-content !important;
     }
     .container {
         width: 100vw !important;
     // margin-bottom: 0 !important;
-    // padding-bottom: 0 !important;
+    padding-bottom: 0 !important;
     }
 
     .header {
         // height: 40px !important;
-        // margin-top: 30px !important;
-        margin: 30px 10px 10px 10px !important;
+        margin: 10px !important;
+        // margin-top: 20px !important;
+
+        // margin: 30px 10px 10px 10px !important;
     }
 
 
@@ -582,10 +589,8 @@ $switch-buttion-high: 15px;
 
     .gallery-block .gallery {
         grid-template-columns: repeat(6, 1fr);
-
-        
-        // height: 100%;
         overflow: overlay !important;
+
     }
 
     .gallery-block .controls form {

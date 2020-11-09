@@ -139,7 +139,7 @@ function addEmptyElems () {
       controlsBlock.offsetTop + controlsBlock.offsetHeight;
     let ControlBlockisBottom =  Number(emptyElemHeight + controlsBlockBottomLine+40) > window.innerHeight;
     
-    // console.log (ControlBlockisBottom)
+    // alert (ControlBlockisBottom)
     if (ControlBlockisBottom && lastEmptyUnderGalleryScrool) return true; else return false;
 
   }
@@ -165,7 +165,7 @@ function addEmptyElems () {
       fillEmptyElemsInLine ();
     }
   } else {
-    // if (!isPlusButtonMaxBottom) fillEmptyElemsInLine ();
+    // if (isLastEmptyElementMaxBottom) fillEmptyElemsInLine ();
     if (!isElemIsRight (document.getElementById ('imgLoadPlusButton')))
       fillEmptyElemsInLine ();
   }
