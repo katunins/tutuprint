@@ -1,16 +1,16 @@
 @extends('layouts.app')
-
-<blade
-    section|(%26%2339%3Btitle%26%2339%3B%2C%20%26%2339%3B%D0%A1%D0%BE%D0%B3%D0%BB%D0%B0%D1%81%D0%B8%D0%B5%20%D0%BD%D0%B0%20%D0%BE%D0%B1%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D1%83%20%D0%BF%D0%B5%D1%80%D1%81%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D1%85%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%26%2339%3B) />
+@section('title')
+Согласие на обработку персональных данных
+@endsection
 <link rel="stylesheet" href={{ asset('css/login.css') }}>
 
-<style>
+{{-- <style>
     body {
         overflow: scroll !important;
         height: auto !important;
     }
 
-</style>
+</style> --}}
 @section('content')
 
 <div class="agree-text">
@@ -41,7 +41,10 @@
         изменения не противоречат действующему законодательству РФ. Изменения условий настоящих правил вступают в силу
         после их публикации на Сайте.</p>
 </div>
+<a class="back" href={{ url()->previous() }}>
+    <div>ok</div>
+</a>
 @endsection
 
 
-@section('back') @endsection
+{{-- @section('back') @endsection --}}

@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-<blade
-    section|(%26%2339%3Btitle%26%2339%3B%2C%20%26%2339%3B%D0%A0%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%26%2339%3B) />
+@section('title')
+Регистрация
+@endsection
 <link rel="stylesheet" href={{ asset('css/login.css') }}>
 @section('content')
 
@@ -57,6 +58,9 @@
         </div>
         <button class="button" type="submit">Зарегистрироваться</button>
     </form>
+    <div class="restore-pass">
+        <a href="{{ url('auth') }}">Вход в личный кабинет</a>
+    </div>
 
 </div>
 @endsection

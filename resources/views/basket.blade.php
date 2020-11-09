@@ -3,7 +3,7 @@
 @extends('layouts.app')
 
 @section('title', 'Корзина')
-@include('layouts.supermodal')
+{{-- @include('layouts.supermodal') --}}
 <link rel="stylesheet" href={{ asset('css/basket.css') }}>
 
 @section('content')

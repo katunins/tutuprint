@@ -4,11 +4,6 @@
   outline: none;
 }
 
-body {
-  overflow: initial !important;
-  height: initial !important;
-}
-
 .top-back {
   display: block !important;
   margin: 10px 0 0 25px;
@@ -25,14 +20,13 @@ body {
   display: flex;
   margin-top: 15px;
   border: 1px solid #ffcc00;
-  width: 450px;
-  height: 150px;
   border-radius: 10px;
   justify-content: space-around;
   align-items: center;
 }
 
 .preview {
+  margin: 10px;
   width: 80px;
   height: 80px;
   border-radius: 10px;
@@ -54,13 +48,13 @@ body {
 }
 
 .params {
-  width: 150px;
   font-size: 12px;
 }
 
 .params h3 {
   font-weight: 400;
   font-size: 16px;
+  text-transform: capitalize;
 }
 
 .params ul {
@@ -69,7 +63,7 @@ body {
 
 .params li {
   list-style: none;
-  margin-top: 4px;
+  margin-top: 2px;
   font-weight: 300;
 }
 
@@ -78,7 +72,6 @@ body {
 }
 
 .price {
-  width: 70px;
   text-align: center;
 }
 
@@ -89,14 +82,14 @@ body {
 
 .price button {
   margin-top: 10px;
-  padding: 0px 8px;
+  padding: 2px 8px;
   font-size: 12px;
   font-weight: 300;
   cursor: pointer;
 }
 
 form {
-  width: 450px;
+  width: 100%;
   margin-top: 20px;
 }
 
@@ -185,5 +178,11 @@ form .all-price span {
 
 form .all-price p {
   font-size: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  .basket-block {
+    width: 90%;
+  }
 }
 

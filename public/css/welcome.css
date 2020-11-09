@@ -1,6 +1,10 @@
+body {
+  overflow: hidden;
+}
+
 .promo-video-block {
-  width: 330px;
-  margin: 20px auto;
+  margin: 20px;
+  margin-top: 0;
 }
 
 .promo-video-block video {

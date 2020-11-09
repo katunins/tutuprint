@@ -2,6 +2,9 @@
 
 
 <link rel="stylesheet" href={{ asset('css/login.css') }}>
+@section('title')
+Вход в личный кабинет    
+@endsection
 @section('content')
 
 <div class="auth-form">

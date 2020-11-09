@@ -100,7 +100,10 @@
         document.querySelector('.super-modal-message').innerHTML = message
     }
 
-    function turnONmodalImage(url, width = '500px', height = '400px') {
+    function turnONmodalImage(url, width = document.documentElement.clientWidth*0.8, height = document.documentElement.clientWidth*0.8) {
+        // костыль для мобилки
+        if (width > 500) width = 500
+        if (height > 500) height = 400
         document.querySelector('.modal-img-block').classList.remove('hide');
         document.querySelector('.modal-img-block').style.backgroundImage = url //'url(' + url + ')'
         document.querySelector('.modal-img-block').style.width = width
@@ -119,8 +122,11 @@
     }
 
     function turnONmodal(margin, closeButton = true) {
+        
         document.querySelector('.super-modal').classList.remove('hide');
-        document.querySelector('.modal-block').style.marginTop = margin;
+        
+        let shiftUp = (window.innerHeight - document.querySelector('.modal-block').clientHeight)/2
+        document.querySelector('.modal-block').style.top = shiftUp;//margin;
 
         if (closeButton) {
             document.querySelector('.close-modal-button').classList.remove('hide');

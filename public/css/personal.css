@@ -1,18 +1,27 @@
 @charset "UTF-8";
 
 .personal {
+  display: flex;
   margin-top: 20px;
+  width: 90%;
+  border: 1px solid #ffcc00;
+  border-radius: 10px;
 }
 
 .contact {
   display: flex;
-  margin-top: 15px;
-  border: 1px solid #ffcc00;
-  width: 450px;
-  height: 150px;
-  border-radius: 10px;
+  width: 100%;
+  padding: 40px 10px;
   justify-content: space-around;
   align-items: center;
+}
+
+.contact .personal-block {
+  text-align: center;
+}
+
+.contact .personal-block .personal-info {
+  text-align: left;
 }
 
 .contact svg {
@@ -153,10 +162,6 @@
 
   .contact svg {
     width: 20px;
-  }
-
-  .personal {
-    margin: 20px 10px 0 10px;
   }
 
   .order {

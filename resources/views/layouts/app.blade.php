@@ -14,51 +14,49 @@
 </head>
 
 <body>
-    <div class="container">
-        {{-- @dump ((Session::all()), 'Auth -'.Auth::check()) --}}
-
-        <div class="header">
-            <div class="top-back-button" <?php if (URL::current() == url ('/') || View::hasSection('back')) {?>
-                style="visibility: hidden" <?php } ?>>
-                <?php $urlBack = (URL::previous() == URL::current()) ? '/' : URL::previous(); ?>
-                <a href={{ $urlBack }}>
-                    <img src="{{ asset('back-button.svg') }}" alt="Назад">
-                </a>
-            </div>
-
-            <div class="logo">
-                <a href="{{ url ('/') }}">
-                    <img src="{{ asset ('logo.svg') }}" alt="tutuprint.ru">
-                </a>
-            </div>
-
-            <div class="personal-block">
-                @if(Auth::check())
-                    <div class="user">
-                        <a href="{{ url ('auth') }}">
-                            <img src="{{ asset('images/user.svg') }}" alt="">
-                        </a>
-                    </div>
-                @else
-                    <div class="user temp-user">
-                        <a href="{{ url ('personal') }}">
-                            <img src="{{ asset('images/user.svg') }}" alt="">
-                        </a>
-                    </div>
-                @endif
-
-                <div class="basket half-opacity">
-                    <a href="{{ url ('basket') }}">
-                        <img src="{{ asset('images/basket.svg') }}" alt="">
-                    </a>
-                    <span id="basket-icon-summ"></span>
-                </div>
-            </div>
-
+    @include('layouts.supermodal')
+    <div class="header">
+        <div class="top-back-button" <?php if (URL::current() == url ('/') || View::hasSection('back')) {?>
+            style="visibility: hidden" <?php } ?>>
+            <?php $urlBack = (URL::previous() == URL::current()) ? '/' : URL::previous(); ?>
+            <a href={{ $urlBack }}>
+                <img src="{{ asset('back-button.svg') }}" alt="Назад">
+            </a>
         </div>
 
-        @include('layouts.modal')
+        <div class="logo">
+            <a href="{{ url ('/') }}">
+                <img src="{{ asset ('logo.svg') }}" alt="tutuprint.ru">
+            </a>
+        </div>
 
+        <div class="personal-block">
+            @if(Auth::check())
+                <div class="user">
+                    <a href="{{ url ('auth') }}">
+                        <img src="{{ asset('images/user.svg') }}" alt="">
+                    </a>
+                </div>
+            @else
+                <div class="user temp-user">
+                    <a href="{{ url ('personal') }}">
+                        <img src="{{ asset('images/user.svg') }}" alt="">
+                    </a>
+                </div>
+            @endif
+
+            <div class="basket half-opacity">
+                <a href="{{ url ('basket') }}">
+                    <img src="{{ asset('images/basket.svg') }}" alt="">
+                </a>
+                <span id="basket-icon-summ"></span>
+            </div>
+        </div>
+
+    </div>
+    @include('layouts.modal')
+    <div class="container">
+        {{-- @dump ((Session::all()), 'Auth -'.Auth::check()) --}}
         @yield('content')
 
         @if(View::hasSection('back'))
@@ -70,9 +68,6 @@
     </div>
 </body>
 
-{{-- @if(Auth::user())
-    {{ dd (Auth::id()) }}
-@endif--}}
 
 </html>
 <script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>

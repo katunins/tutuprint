@@ -1,3 +1,12 @@
+body {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.back {
+  line-height: 1.5;
+}
+
 .auth-form {
   width: 250px;
 }
@@ -13,7 +22,7 @@ form {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 50px auto 0px;
+  margin-top: 10px;
 }
 
 form input {
@@ -41,6 +50,7 @@ form .button {
 
 form p {
   font-size: 14px;
+  margin: 15px 0;
 }
 
 .button {
@@ -56,7 +66,8 @@ form p {
 .agree {
   font-size: 12px;
   text-align: start;
-  margin-top: 30px;
+  margin-top: 40px;
+  margin-bottom: 10px;
 }
 
 .agree a {
@@ -65,14 +76,15 @@ form p {
 }
 
 .agree-text {
-  width: 80%;
   text-align: left;
   font-size: 13px;
-  margin-top: 30px;
 }
 
 .agree-text p {
   margin: 10px 0;
+  font-weight: 300;
+  font-size: 13px;
+  text-align: justify;
 }
 
 .agree-text li {
@@ -90,6 +102,10 @@ form p {
   text-align: center;
   margin-top: 20px;
   font-size: 14px;
+}
+
+.checkbox {
+  margin-bottom: 40px;
 }
 
 .checkbox input {

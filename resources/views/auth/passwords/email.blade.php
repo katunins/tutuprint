@@ -38,6 +38,6 @@
 
         @endsection
 
-        @section('back')
+        {{-- @section('back')
         "/auth"
-        @endsection
+        @endsection --}}

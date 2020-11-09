@@ -1,13 +1,15 @@
 <?php
 use App\Http\Controllers\ImageController; 
 ?>
-
+@section('title')
+Онлайн печать фотографий с доставкой
+@endsection
 @extends('layouts.app')
 <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
 
 @section('content')
 
-@include('layouts.supermodal')
+
 
 <div class="gallery-block">
 
@@ -22,7 +24,7 @@ use App\Http\Controllers\ImageController;
         <div class="image-box" id={{ $item['id'] }} url={{ $item['url'] }} width={{ $item['width'] }}
             heigh={{ $item['heigh'] }} size={{ $item['size'] }}
             style="background-image: url( {{ asset($item['thumbnail']) }})" count={{ $item['count'] }}
-            <?php if($item['lowqualityagree']):?> lowqualityagree <?php endif ?>>
+            <?php if(isset($item['lowqualityagree'])):?> lowqualityagree <?php endif ?>>
             
             <div class="img-count hide"></div>
             <div class="img-select hide"></div>
@@ -137,15 +139,17 @@ use App\Http\Controllers\ImageController;
             <div class="to-order-block">
 
 
-                <div class="price-block"><span id="price-to-basket"></span>₽</div>
-
+                <div class="basket-button-price-block">
+                    <div class="price-block"><span id="price-to-basket"></span>₽</div>
+                    <button id="add-to-basket-button"><img src="{{ asset('images/basket.svg') }}" alt=""> Добавить</button>
+                </div>
 
                 <div class="price-description-block">
                     <p id="description-1"></p>
                     <p id="description-2"></p>
                 </div>
 
-                <button id="add-to-basket-button"><img src="{{ asset('images/basket.svg') }}" alt=""> Добавить</button>
+                
 
             </div>
         </form>

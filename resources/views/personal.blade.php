@@ -1,5 +1,8 @@
 @extends('layouts.app')
 <link rel="stylesheet" href={{ asset('css/personal.css') }}>
+@section('title')
+Кабинет пользователя    
+@endsection
 @section('content')
 
 <div class="personal">
@@ -9,20 +12,29 @@
     @if($user)
         <?php $userId = $user['id']; ?>
         <div class="contact">
-            <div class="">
-                <h3>{{ $user['name'] }}</h3>
-                <p>{{ $user['email'] }}</p>
-                <p>{{ $user['tel'] }}
-
-                    <div class="links">
-                        @if(Auth::check())
+            <div class="personal-block">
+                <div class="personal-info">
+                    @if ($user['name'])
+                        <h3>{{ $user['name'] }}</h3>
+                    @endif
+                    @if($user['email'])
+                        <p>{{ $user['email'] }}</p>
+                    @endif
+                    @if($user['tel'])
+                        <p>{{ $user['tel'] }}
+                    @endif
+                </div>
+                
+                    @if(Auth::check())
+                        <div class="links">
                             <a href="">Изменить - тест</a>
                             <a class="logout" href="/logout">Выйти из аккаунта</a>
-                        @else
-                            <a href="{{ asset('auth') }}">Авторизация</a>
-                        @endif
+                        </div>
+                    @else
+                        <a href="{{ asset('auth') }}">Авторизация</a>
+                    @endif
 
-                    </div>
+                
             </div>
             <div>
                 <svg viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">

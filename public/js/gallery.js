@@ -190,7 +190,7 @@ function switchClearAllButton(status) {
 
 function addEmptyElems() {
   // функция проверяет заполнена ли галерея фотографиями или есть пустые места.
-  // добавляет в DOM пустые EMPTY элементы необходимого количества на всю возможную высоту window
+  // добавляет в DOM пустые EMPTY элементы необходимого количества на всю необходимую высоту window
   // console.log ('Функция запущена');
   function isElemIsRight(elem) {
     // вспомогательная функция проверяет элемент находится в конце (справа) своего родителя (gallert)
@@ -204,12 +204,21 @@ function addEmptyElems() {
     a;
   }
 
-  function isControlsBlockMaxBottom() {
-    var lineHeight = document.querySelector('.imgLoadPlusButton').offsetHeight; // расстояние на которую смещается блок Controls, если добавляется ряд image-box, она равна высоте блока, к примеру Plus
+  function isLastEmptyElementMaxBottom() {
+    // Если последний empty спрячется при добавлении новой линии за скрол, то возвращает true
+    var galleryBlock = document.querySelector('.gallery');
+    var galleyBottomLine = Number(galleryBlock.offsetTop + galleryBlock.offsetHeight);
+    var emptyElements = document.querySelectorAll('.fake-empty-block');
+    var lastEmptyElement = emptyElements[emptyElements.length - 1];
+    var lastEmptyElementBottomLine = Number(lastEmptyElement.offsetTop + lastEmptyElement.offsetHeight);
+    var lastEmptyUnderGalleryScrool = Number(lastEmptyElementBottomLine + lastEmptyElement.offsetHeight) > galleyBottomLine; // Если блок с кнопками управления уйдет за экран при добавлении новой линии, то вренет true
+
+    var emptyElemHeight = document.querySelector('.imgLoadPlusButton').offsetHeight; // расстояние на которую смещается блок Controls, если добавляется ряд image-box, она равна высоте блока, к примеру Plus
 
     var controlsBlock = document.querySelector('.controls');
-    var controlsBlockBottom = controlsBlock.offsetTop + controlsBlock.offsetHeight;
-    return lineHeight + controlsBlockBottom > window.innerHeight;
+    var controlsBlockBottomLine = controlsBlock.offsetTop + controlsBlock.offsetHeight;
+    var ControlBlockisBottom = Number(emptyElemHeight + controlsBlockBottomLine + 40) > window.innerHeight;
+    if (ControlBlockisBottom && lastEmptyUnderGalleryScrool) return true;else return false;
   }
 
   function fillEmptyElemsInLine() {
@@ -232,12 +241,15 @@ function addEmptyElems() {
       fillEmptyElemsInLine();
     }
   } else {
-    if (!isControlsBlockMaxBottom) fillEmptyElemsInLine();
+    // if (!isPlusButtonMaxBottom) fillEmptyElemsInLine ();
     if (!isElemIsRight(document.getElementById('imgLoadPlusButton'))) fillEmptyElemsInLine();
-  } // Запустим функцию, пока есть возможность двигать вблок Controls вниз
+  } // Запустим функцию, пока кнопка плюс не скроется за линии скрола
 
 
-  while (!isControlsBlockMaxBottom()) {
+  line = 0; // - на всякий случай защитимся от багов. Сделаем максимум 10 линий
+
+  while (!isLastEmptyElementMaxBottom() && line < 10) {
+    line++;
     fillEmptyElemsInLine();
   }
 

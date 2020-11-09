@@ -6,6 +6,25 @@
   color: #3b3b3b;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  max-height: 1100px;
+  overflow: hidden;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 430px;
+  overflow: overlay;
+  margin-bottom: 30px;
+  padding-bottom: 50px;
+}
+
 b {
   font-weight: 400;
 }
@@ -31,27 +50,14 @@ button:focus {
   outline: none;
 }
 
-body {
-  display: flex;
-  align-items: center;
-  width: 100vw;
-}
-
-.container {
-  display: flex;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .header {
-  width: 100%;
-  max-width: 470px;
+  width: 90%;
+  max-width: 340px;
   height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 20px;
 }
 
 .header * {
@@ -123,12 +129,8 @@ body {
 
 .modal {
   margin: 0px auto 30px;
-  font-size: 16px;
-  font-weight: 300;
-  padding: 20px 20px;
   background-color: #ffcc00;
-  width: 320px;
-  text-align: center;
+  width: 90%;
   -webkit-animation-name: open;
           animation-name: open;
   -webkit-animation-duration: 1s;
@@ -141,8 +143,15 @@ body {
           animation-delay: 3s;
 }
 
-.modal svg {
-  width: 20px;
+.modal p {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 300;
+  margin: 15px;
+}
+
+.modal p img {
+  width: 15px;
   margin-right: 5px;
 }
 
@@ -173,18 +182,16 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-  .modal {
-    width: 250px;
-    padding: 10px 20px;
-    margin-bottom: 15px;
+  .super-modal * {
+    font-size: 13px;
   }
-}
 
-@media screen and (max-height: 560px) {
-  body {
-    overflow: scroll;
-    height: auto;
-    margin: 20px 0;
+  .super-modal {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  .modal-block {
+    padding: 20px !important;
   }
 }
 

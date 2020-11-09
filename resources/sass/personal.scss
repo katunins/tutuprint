@@ -1,17 +1,31 @@
 .personal {
+    display: flex;
     margin-top: 20px;
+    width: 90%;
+    border: 1px solid #ffcc00;
+    border-radius: 10px;
 }
 
 .contact {
 
     display: flex;
-    margin-top: 15px;
-    border: 1px solid #ffcc00;
-    width: 450px;
-    height: 150px;
-    border-radius: 10px;
+    // margin-top: 15px;
+
+    // width: 450px;
+    width: 100%;
+    padding: 40px 10px;
+
     justify-content: space-around;
     align-items: center;
+
+    .personal-block {
+        text-align: center;
+        
+
+        .personal-info {
+            text-align: left;
+        }
+    }
 
     svg {
         width: 30px;
@@ -66,8 +80,8 @@
 
     .goods {
         font-size: 12px;
-    width: 200px;
-    
+        width: 200px;
+
         li {
             list-style: none;
             margin-bottom: 3px;
@@ -78,16 +92,17 @@
         font-size: 18px;
         font-weight: 400;
         text-align: center;
-    
+
         div {
             margin-bottom: 4px;
         }
-    
+
         span {
             opacity: 0.5;
         }
-    
-        a, .pay-button {
+
+        a,
+        .pay-button {
             border: none;
             cursor: pointer;
             font-size: 14px;
@@ -110,6 +125,7 @@
 .wait {
     color: green;
 }
+
 .wait:after {
     content: "В очереди на печать";
 }
@@ -117,6 +133,7 @@
 .print {
     color: green;
 }
+
 .print:after {
     content: "В печати";
 }
@@ -124,6 +141,7 @@
 .ready {
     color: green;
 }
+
 .ready::after {
     content: "Готов к выдачи";
 }
@@ -132,6 +150,7 @@
 .shiped {
     color: green;
 }
+
 .shiped::after {
     content: "Отправлен";
 }
@@ -139,6 +158,7 @@
 .finished {
     color: orange;
 }
+
 .finished::after {
     content: "Завершен";
 }
@@ -157,19 +177,24 @@
             width: 20px;
         }
     }
-    .personal {
-        margin: 20px 10px 0 10px;
-    }
+
+    // .personal {
+    //     margin: 20px 10px 0 10px;
+    // }
+
     .order {
         font-size: 12px;
         padding: 10px;
     }
+
     .goods {
         font-size: 11px;
     }
+
     .cost {
         width: 90px;
         font-size: 16px;
+
         a {
             font-size: 12px;
         }
