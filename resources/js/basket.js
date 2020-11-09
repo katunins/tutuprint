@@ -64,4 +64,10 @@ document.addEventListener ('DOMContentLoaded', function () {
       recalcAllPrice ();
     };
   });
+
+  // если есть ошибка - на всякий случай сделаем скрол к ней (вниз)
+  if (document.querySelector('.alert')) {
+    var scrollingElement = (document.querySelector('.container'));
+    scrollingElement.scrollTop = scrollingElement.scrollHeight;
+  }
 });
