@@ -266,15 +266,15 @@ window.updateBasketIconCount = function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/welcome.scss */"./resources/sass/welcome.scss");
-__webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/bigbuttons.scss */"./resources/sass/bigbuttons.scss");
-__webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/personal.scss */"./resources/sass/personal.scss");
-__webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/login.scss */"./resources/sass/login.scss");
-__webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/gallery.scss */"./resources/sass/gallery.scss");
-__webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/supermodal.scss */"./resources/sass/supermodal.scss");
-__webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/basket.scss */"./resources/sass/basket.scss");
-module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/welcome.scss */"./resources/sass/welcome.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/bigbuttons.scss */"./resources/sass/bigbuttons.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/personal.scss */"./resources/sass/personal.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/login.scss */"./resources/sass/login.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/gallery.scss */"./resources/sass/gallery.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/supermodal.scss */"./resources/sass/supermodal.scss");
+__webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/basket.scss */"./resources/sass/basket.scss");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

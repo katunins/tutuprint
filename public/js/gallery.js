@@ -493,7 +493,7 @@ function turnSelectMode() {
     document.querySelector('.general-params-block').classList.remove('hide');
     document.getElementById('imgLoadPlusButton').classList.remove('hide');
     document.getElementById('clearAllImagesButton').classList.add('hide');
-    document.querySelector('.to-order-block').classList.remove('half-opacity');
+    document.querySelector('.to-order-block').classList.remove('half-opacity', 'modal-hide');
     document.querySelector('.info').classList.remove('half-opacity'); // document.getElementById('clearAllImagesButton').classList.remove ('half-opacity')
   } else {
     // режим выделения ВКЛЮЧЕН
@@ -510,7 +510,7 @@ function turnSelectMode() {
     document.querySelector('.general-params-block').classList.add('hide');
     document.getElementById('imgLoadPlusButton').classList.add('hide');
     document.getElementById('clearAllImagesButton').classList.remove('hide');
-    document.querySelector('.to-order-block').classList.add('half-opacity');
+    document.querySelector('.to-order-block').classList.add('half-opacity', 'modal-hide');
     document.querySelector('.info').classList.add('half-opacity'); // document.getElementById('clearAllImagesButton').classList.add ('half-opacity')
 
     document.getElementById('general-image-modal-count').innerHTML = 1;
@@ -951,7 +951,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

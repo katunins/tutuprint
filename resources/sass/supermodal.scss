@@ -36,6 +36,11 @@ h3 {
     justify-content: center;
     align-items: center;
 
+    hr {
+        margin: 20px 0;
+        color: gray;
+    }
+
     .super-model-buttons {
         display: flex;
         button {

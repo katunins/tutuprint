@@ -474,7 +474,7 @@ function turnSelectMode () {
     document.getElementById ('clearAllImagesButton').classList.add ('hide');
     document
       .querySelector ('.to-order-block')
-      .classList.remove ('half-opacity');
+      .classList.remove ('half-opacity','modal-hide');
     document.querySelector ('.info').classList.remove ('half-opacity');
     // document.getElementById('clearAllImagesButton').classList.remove ('half-opacity')
   } else {
@@ -496,7 +496,7 @@ function turnSelectMode () {
     document.querySelector ('.general-params-block').classList.add ('hide');
     document.getElementById ('imgLoadPlusButton').classList.add ('hide');
     document.getElementById ('clearAllImagesButton').classList.remove ('hide');
-    document.querySelector ('.to-order-block').classList.add ('half-opacity');
+    document.querySelector ('.to-order-block').classList.add ('half-opacity','modal-hide');
     document.querySelector ('.info').classList.add ('half-opacity');
     // document.getElementById('clearAllImagesButton').classList.add ('half-opacity')
     document.getElementById ('general-image-modal-count').innerHTML = 1;

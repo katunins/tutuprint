@@ -184,6 +184,10 @@ button:focus {
 }
 
 @media screen and (max-width: 768px) {
+  .modal-hide {
+    display: none;
+  }
+
   .super-modal * {
     font-size: 13px;
   }

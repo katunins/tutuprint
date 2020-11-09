@@ -193,11 +193,9 @@ height: 10px;
 }
 
 @media screen and (max-width: 768px) {
-    // .modal {
-    //     width: 250px;
-    //     padding: 10px 20px;
-    //     margin-bottom: 15px;
-    // }
+    .modal-hide {
+        display: none; //решает костыль в галерее с вертикальным отбражением кнопки заказать
+    }
 
     .super-modal * {
         font-size: 13px;

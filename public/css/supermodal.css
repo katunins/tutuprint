@@ -37,6 +37,11 @@ h3 {
   align-items: center;
 }
 
+.modal-block hr {
+  margin: 20px 0;
+  color: gray;
+}
+
 .modal-block .super-model-buttons {
   display: flex;
 }
