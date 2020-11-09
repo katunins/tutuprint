@@ -28,9 +28,6 @@
   display: grid;
   width: 100%;
   max-height: 100%;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
   grid-template-columns: repeat(7, 1fr);
   overflow: overlay;
 }

@@ -13,28 +13,3 @@ body {
           filter: opacity(0.7);
 }
 
-@media screen and (max-width: 768px) {
-  .container {
-    margin-bottom: 30px;
-  }
-
-  .promo-video-block {
-    min-width: 0;
-    width: 90%;
-    max-width: 50vh;
-  }
-}
-
-@media (max-device-width: 330px) {
-  .container {
-    margin-bottom: 30px;
-  }
-}
-
-@media screen and (max-height: 560px) {
-  .promo-video-block {
-    max-width: none;
-    width: 330px;
-  }
-}
-
