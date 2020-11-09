@@ -48,8 +48,8 @@
             <div class="basket half-opacity">
                 <a href="{{ url ('basket') }}">
                     <img src="{{ asset('images/basket.svg') }}" alt="">
-                </a>
-                <span id="basket-icon-summ"></span>
+                </a><br>
+                <div id="basket-icon-summ"></div>
             </div>
         </div>
 
