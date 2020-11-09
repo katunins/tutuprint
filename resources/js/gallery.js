@@ -139,7 +139,9 @@ function addEmptyElems () {
       controlsBlock.offsetTop + controlsBlock.offsetHeight;
     let ControlBlockisBottom =  Number(emptyElemHeight + controlsBlockBottomLine+40) > window.innerHeight;
     
+    // console.log (ControlBlockisBottom)
     if (ControlBlockisBottom && lastEmptyUnderGalleryScrool) return true; else return false;
+
   }
 
   function fillEmptyElemsInLine () {

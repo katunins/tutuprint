@@ -27,7 +27,6 @@
 .gallery-block .gallery {
   display: grid;
   width: 100%;
-  max-height: 100%;
   grid-template-columns: repeat(7, 1fr);
   overflow: overlay;
 }
@@ -459,72 +458,16 @@
   transition: 0.5s linear all;
 }
 
-@media screen and (max-height: 500px) {
-  .container {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  .header {
-    height: initial !important;
-    margin: 30px 10px 10px 10px !important;
-  }
-
-  .logo img {
-    height: 35px !important;
-  }
-
-  .param-check-block {
-    margin-top: 0px;
-  }
-
-  .general-params-block *,
-  .general-additional-params-block * {
-    font-size: 12px;
-  }
-
-  .group-change-button {
-    margin-bottom: 0;
-  }
-
-  .gallery-block .gallery label {
-    background-size: 70px;
-  }
-
-  .gallery-block .gallery .fake-empty-block {
-    background-size: 90px;
-  }
-
-  .basket-button-price-block {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 260px;
-  }
-
-  .to-order-block button {
-    margin-top: 0;
-  }
-
-  .info {
-    transform: translateY(47px);
-    margin-left: 0;
-  }
-
-  .gallery-block .controls {
-    margin-bottom: 20px;
-  }
-}
-
 @media screen and (max-width: 768px) and (min-height: 500px) {
   body {
     justify-content: flex-start !important;
+    height: -webkit-min-content !important;
+    height: -moz-min-content !important;
+    height: min-content !important;
   }
 
   .container {
     width: 100vw !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
   }
 
   .header {
@@ -537,6 +480,7 @@
 
   .gallery-block .gallery {
     grid-template-columns: repeat(6, 1fr);
+    overflow: overlay !important;
   }
 
   .gallery-block .controls form {

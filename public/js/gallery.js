@@ -217,7 +217,8 @@ function addEmptyElems() {
 
     var controlsBlock = document.querySelector('.controls');
     var controlsBlockBottomLine = controlsBlock.offsetTop + controlsBlock.offsetHeight;
-    var ControlBlockisBottom = Number(emptyElemHeight + controlsBlockBottomLine + 40) > window.innerHeight;
+    var ControlBlockisBottom = Number(emptyElemHeight + controlsBlockBottomLine + 40) > window.innerHeight; // console.log (ControlBlockisBottom)
+
     if (ControlBlockisBottom && lastEmptyUnderGalleryScrool) return true;else return false;
   }
 
