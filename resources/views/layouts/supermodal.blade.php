@@ -126,6 +126,9 @@
         document.querySelector('.super-modal').classList.remove('hide');
         
         let shiftUp = (window.innerHeight - document.querySelector('.modal-block').clientHeight)/2
+        if (!document.querySelector('.modal-img-block').classList.contains('hide')) {
+            shiftUp -=shiftUp/2
+        }
         document.querySelector('.modal-block').style.top = shiftUp;//margin;
 
         if (closeButton) {
