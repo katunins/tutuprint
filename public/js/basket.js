@@ -155,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (document.querySelector('.alert')) {
     var scrollingElement = document.querySelector('.container');
     scrollingElement.scrollTop = scrollingElement.scrollHeight;
+    alert(scrollingElement.scrollHeight);
   }
 });
 
