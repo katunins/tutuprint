@@ -21,6 +21,7 @@ mix
   .sass('resources/sass/personal.scss', 'public/css')
   .sass('resources/sass/login.scss', 'public/css')
   .sass('resources/sass/gallery.scss', 'public/css')
+  .sass('resources/sass/about.scss', 'public/css')
   .sass('resources/sass/supermodal.scss', 'public/css')
   .sass('resources/sass/basket.scss', 'public/css')
   .sass('resources/sass/app.scss', 'public/css');

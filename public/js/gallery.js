@@ -939,10 +939,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   checkLowQuality(); // клик на кнопку добавить в корзину
 
-  document.getElementById('add-to-basket-button').onclick = pressAddToBasket;
-  setOkModalButton();
-  turnONmodalMessage(document.getElementById('info-page').innerHTML);
-  turnONmodal(0);
+  document.getElementById('add-to-basket-button').onclick = pressAddToBasket; // setOkModalButton ();
+  // turnONmodalMessage (document.getElementById ('info-page').innerHTML);
+  // turnONmodal (0);
 });
 
 /***/ }),

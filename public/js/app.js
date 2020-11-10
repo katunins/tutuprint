@@ -171,6 +171,17 @@ window.updateBasketIconCount = function () {
 
 /***/ }),
 
+/***/ "./resources/sass/about.scss":
+/*!***********************************!*\
+  !*** ./resources/sass/about.scss ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -260,9 +271,9 @@ window.updateBasketIconCount = function () {
 /***/ }),
 
 /***/ 0:
-/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/welcome.scss ./resources/sass/bigbuttons.scss ./resources/sass/personal.scss ./resources/sass/login.scss ./resources/sass/gallery.scss ./resources/sass/supermodal.scss ./resources/sass/basket.scss ./resources/sass/app.scss ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************/
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/welcome.scss ./resources/sass/bigbuttons.scss ./resources/sass/personal.scss ./resources/sass/login.scss ./resources/sass/gallery.scss ./resources/sass/about.scss ./resources/sass/supermodal.scss ./resources/sass/basket.scss ./resources/sass/app.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -272,6 +283,7 @@ __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sas
 __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/personal.scss */"./resources/sass/personal.scss");
 __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/login.scss */"./resources/sass/login.scss");
 __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/gallery.scss */"./resources/sass/gallery.scss");
+__webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/about.scss */"./resources/sass/about.scss");
 __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/supermodal.scss */"./resources/sass/supermodal.scss");
 __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/basket.scss */"./resources/sass/basket.scss");
 module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/sass/app.scss */"./resources/sass/app.scss");

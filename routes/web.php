@@ -35,6 +35,10 @@ Route::get('basket', function () {
     return View('basket');
 });
 
+Route::get('about', function () {
+    return View('about');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('updatecount', 'ImageController@updateSessionImageCount');

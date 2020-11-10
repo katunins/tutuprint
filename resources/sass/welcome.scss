@@ -1,6 +1,7 @@
-body {
-    overflow: hidden;
+body, .container {
+    overflow: hidden !important;
 }
+
 
 
 .promo-video-block {
