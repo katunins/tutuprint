@@ -5,11 +5,18 @@ body {
 
 
 .back {
-    line-height: 1.5;
+    // line-height: 1;
+    text-align: center;
+    width: 100%;
+    margin-top: 40px;
 }
 
 .auth-form {
-    width: 250px;
+    width: 270px;
+
+    button {
+        width: 250px;
+    }
 }
 
 
@@ -21,8 +28,9 @@ body {
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
+    text-align: center;
     width: 100%;
     margin-top: 10px;
 
@@ -40,14 +48,12 @@ form {
     }
 
     a {
-        opacity: 0.6;
+        // opacity: 0.6;
         font-size: 14px;
     }
 
     .button {
-        background-color: FFCC00;
-        border: none;
-        margin-top: 30px;
+        margin-top: 10px;
     }
 
     p {
@@ -56,21 +62,22 @@ form {
     }
 }
 
-.button {
-    width: 100%;
-    padding: 10px 0;
-    font-size: 16px;
-    background-color: transparent;
-    border: 1px solid grey;
-    cursor: pointer;
-    text-decoration: none;
-}
+// .button {
+//     width: 100%;
+//     padding: 10px 0;
+//     font-size: 16px;
+//     background-color: transparent;
+//     border: 1px solid grey;
+//     cursor: pointer;
+//     text-decoration: none;
+// }
 
 .agree {
     font-size: 12px;
-    text-align: start;
-    margin-top: 40px;
-    margin-bottom: 10px;
+    text-align: center;
+    margin: 50px 0 20px;
+    // margin-top: 10px;
+    // margin-bottom: 10px;
 
     a {
         opacity: 1;
@@ -80,19 +87,18 @@ form {
 
 .agree-text {
     // width: 80%;
+    margin: 0 10px;
     text-align: left;
     font-size: 13px;
     // margin-top: 30px;
 
     p {
         margin: 10px 0;
-        font-weight: 300;
-    font-size: 13px;
-    text-align: justify;
+    // text-align: justify;
     }
 
     li {
-        margin-left: 20px;
+        margin-left: 10px;
         list-style: none;
     }
 }
@@ -122,49 +128,49 @@ form {
     }
 }
 
-.register {
-    width: 100%-1;
-    padding: 10px 0;
-    font-size: 16px;
-    font-weight: 300;
-    background-color: transparent;
-    border: 1px solid #ffcc00;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-    margin-top: 10px;
-}
+// .register {
+//     width: 100%-1;
+//     padding: 10px 0;
+//     font-size: 16px;
+//     font-weight: 300;
+//     background-color: transparent;
+//     border: 1px solid #ffcc00;
+//     cursor: pointer;
+//     text-decoration: none;
+//     text-align: center;
+//     margin-top: 10px;
+// }
 
-@media screen and (max-width: 768px) {
-    label {
-        font-size: 14px;
-    }
+// @media screen and (max-width: 768px) {
+//     label {
+//         font-size: 14px;
+//     }
 
-    form input {
-        padding: 5px;
-    }
+//     form input {
+//         padding: 5px;
+//     }
 
-    .button,
-    .register {
-        width: 200px;
-        font-size: 14px;
-    }
-    .agree-text {
-        width: 90%;
-        font-size: 12px;
-        margin-top: 10px;
+//     .button,
+//     .register {
+//         width: 200px;
+//         font-size: 14px;
+//     }
+//     .agree-text {
+//         width: 90%;
+//         font-size: 12px;
+//         margin-top: 10px;
 
-        p {
-            margin: 8px 0;
-        }
-        li {
-            font-size: 10px;
-        }
-    }
-}
+//         p {
+//             margin: 8px 0;
+//         }
+//         li {
+//             font-size: 10px;
+//         }
+//     }
+// }
 
-@media (max-device-width: 330px) {
-    .container {
-        margin-bottom: 30px;
-    }
-}
+// @media (max-device-width: 330px) {
+//     .container {
+//         margin-bottom: 30px;
+//     }
+// }

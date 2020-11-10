@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+@media screen and (min-height: 768px) {
+  body {
+    overflow: auto !important;
+    height: auto !important;
+  }
+}
+
 * {
   outline: none;
 }

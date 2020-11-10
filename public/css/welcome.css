@@ -4,14 +4,13 @@ body,
 }
 
 .promo-video-block {
-  margin: 20px auto;
+  margin: 20px 0 35px;
   margin-top: 0;
-  width: 320px;
 }
 
 .promo-video-block video {
   width: 100%;
-  -webkit-filter: opacity(0.8);
-          filter: opacity(0.8);
+  -webkit-filter: opacity(0.9);
+          filter: opacity(0.9);
 }
 

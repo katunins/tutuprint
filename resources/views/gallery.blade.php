@@ -62,7 +62,7 @@ use App\Http\Controllers\ImageController;
                     <img src="images/info.svg" alt="">
                 </div>
                 <div class="param-block group-change-button">
-                    <button type="button" id="changeGroupButton" value="off">Режим выделения</button>
+                    <button class="button" type="button" id="changeGroupButton" value="off">Режим выделения</button>
 
                 </div>
 
@@ -98,7 +98,7 @@ use App\Http\Controllers\ImageController;
                 <div class="general-params-block">
                     <div class="param-block">
                         <div class="param active" switchdata='false' name='product' value='photoprint'>фотографии</div>
-                        <div class="button">
+                        <div class="switch-button">
                             <input type="checkbox" class="checkbox switcher">
                             <div class="knobs"></div>
                             <div class="layer"></div>
@@ -110,7 +110,7 @@ use App\Http\Controllers\ImageController;
                     <div class="param-block">
                         <div class="param active" switchdata='false' name='size' value='10x15' minWidth=1795
                             minHeigh=1205>10 x 15 cm</div>
-                        <div class="button">
+                        <div class="switch-button">
                             <input type="checkbox" class="checkbox switcher size-switcher">
                             <div class="knobs"></div>
                             <div class="layer"></div>
@@ -145,7 +145,7 @@ use App\Http\Controllers\ImageController;
 
                 <div class="basket-button-price-block">
                     <div class="price-block"><span id="price-to-basket"></span>₽</div>
-                    <button id="add-to-basket-button"><img src="{{ asset('images/basket.svg') }}"
+                    <button class="button yellow-background" id="add-to-basket-button"><img src="{{ asset('images/basket.svg') }}"
                             alt=""> Добавить</button>
                 </div>
 

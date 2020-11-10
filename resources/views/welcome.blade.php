@@ -9,8 +9,15 @@
 
 
 <div class="promo-video-block">
-    <video autoplay playsinline muted loop src="{{ asset ('video/promo.mov') }}"></video>
+    <video  preload="yes" type='video/mov' autoplay playsinline muted loop preload="yes" autoplay loop width="100%" height="auto" playsinline>
+        <source src="video/promo.mp4" type="video/mp4">
+        <source src="video/promo.mov" type="video/mov">
+        <source src="video/promo.webm" type="video/webm">
+        <source src="video/promo.orv" type="video/ogv">
+    </video>
 </div>
+
+
 
 @include('layouts.bigbuttons')
 @endsection

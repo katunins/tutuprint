@@ -41,9 +41,9 @@
         изменения не противоречат действующему законодательству РФ. Изменения условий настоящих правил вступают в силу
         после их публикации на Сайте.</p>
 </div>
-<a class="back" href={{ url()->previous() }}>
-    <div>ok</div>
-</a>
+<div class="back">
+    <a class="button" href={{ url()->previous() }}>ok</a>
+</div>
 @endsection
 
 

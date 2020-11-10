@@ -5,25 +5,25 @@
 @section('title', 'Информация о сервисе tutuprint.ru')
 
 @section('content')
-    <div class="main-image">
+    <div class="textblock">
         <img src="images/about/cards.jpg" alt="">
     </div>
-
     <div class="textblock contacts">
         <p>
             <a class="tel" href="tel:88001000797"><img src="images/about/tel.svg" alt=""> 8 (800) 100 0797</a>
             {{-- <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <a class="tel" href="tel:+74732106400"><img src="images/about/tel.svg" alt=""> 210-64-00</a> --}}
+            <a class="tel" href="tel:+74732106400"><img src="images/about/tel.svg" alt=""> 210-64-00</a>
+            --}}
         </p>
-        <p>
-            <a href="https://api.whatsapp.com/send?phone=79529545560‬"><img src="images/about/whatsapp.svg" alt=""> Пишите
-                нам в Whatapp</a>
-        </p>
+        <div class="adress-block">
+            <p><a href=""><img src="images/about/location.svg" alt=""> Воронеж, ул. Театральная 11</a></p>
+        
         <p><a href="mailto:admin@tutuprint.ru"><img src="images/about/mail.svg" alt=""> admin@tutuprint.ru</a></p>
-        <p><a href=""><img src="images/about/location.svg" alt=""> Офис г. Воронеж, ул. Театральная 11</a></p>
+        <p><a href="https://api.whatsapp.com/send?phone=79529545560‬"><img src="images/about/whatsapp.svg" alt=""> Мы в whatsapp</a></p>    
+        </div>
     </div>
     <div class="textblock">
-
+        <h3>О нас</h3>
         <p><b>tutuprint.ru</b> - сервис печати фотографий с доставкой. Наш багаж опыта и знаний в фотопечати начинается в
             2008. Все это время мы печатали фотокниги профессиональным фотогарфам. Сегодня и вы можете попробвать качество
             наших
@@ -50,41 +50,44 @@
             платёжных
             систем:</p>
         <p>
-            <ul>
-                <li>МИР;</li>
-                <li>VISA International;</li>
-                <li>Mastercard Worldwide;</li>
-                <li>JCB.</li>
-            </ul>
-            <img src="images/about/paycards.jpg" alt="">
+        <ul>
+            <li>МИР;</li>
+            <li>VISA International;</li>
+            <li>Mastercard Worldwide;</li>
+            <li>JCB.</li>
+        </ul>
+        <img src="images/about/paycards.jpg" alt="">
         </p>
-        <p class="mini">Для оплаты (ввода реквизитов Вашей карты) Вы будете перенаправлены на платёжный шлюз ПАО СБЕРБАНК. Соединение с
+        <p class="mini">Для оплаты (ввода реквизитов Вашей карты) Вы будете перенаправлены на платёжный шлюз ПАО СБЕРБАНК.
+            Соединение с
             платёжным шлюзом и передача информации осуществляется в защищённом режиме с использованием протокола шифрования
             SSL.
             В случае если Ваш банк поддерживает технологию безопасного проведения интернет-платежей Verified By Visa,
             MasterCard
             SecureCode, MIR Accept, J-Secure, для проведения платежа также может потребоваться ввод специального пароля.</p>
 
-        <p class="mini">Настоящий сайт поддерживает 256-битное шифрование. Конфиденциальность сообщаемой персональной информации
+        <p class="mini">Настоящий сайт поддерживает 256-битное шифрование. Конфиденциальность сообщаемой персональной
+            информации
             обеспечивается ПАО СБЕРБАНК. Введённая информация не будет предоставлена третьим лицам за исключением случаев,
             предусмотренных законодательством РФ. Проведение платежей по банковским картам осуществляется в строгом
             соответствии
             с требованиями платёжных систем МИР, Visa Int., MasterCard Europe Sprl, JCB.</p>
-        <p><b>Возврат товара</b>
+        {{-- <p><b>Возврат товара</b> --}}
 
-            Срок возврата товара надлежащего качества составляет 30 дней с момента получения товара.
+            <p>Срок возврата товара надлежащего качества составляет 30 дней с момента получения товара.
 
             Возврат переведённых средств, производится на ваш банковский счёт в течение 5-30 рабочих дней (срок зависит от
             банка, который выдал вашу банковскую карту).</p>
     </div>
     <div class="textblock">
-        <p><b>Реквизиты:</b>
+        <h3>Реквизиты</h3>
             <li>394052, Воронежская обл, г Воронеж, ул Матросова 145Б-11</li>
             <li>ИП КАТУНИН ПАВЕЛ АЛЕКСАНДРОВИЧ</li>
             <li>ИНН: 366401444667</li>
-            <li>ОГРНИП: 306366408900013‰</li></p>
+            <li>ОГРНИП: 306366408900013</li>
+        </p>
     </div>
-    <div class="toback">
-        <button class="button">Назад</button>
+    <div class="back">
+        <a class="button" href="/" alt="">Назад</a>
     </div>
 @endsection

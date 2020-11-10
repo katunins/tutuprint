@@ -1,3 +1,10 @@
+@media screen and (min-height: 768px) {
+    body {
+        overflow: auto !important;
+        height: auto !important;
+    }
+}
+
 .personal {
     display: flex;
     margin-top: 20px;

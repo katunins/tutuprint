@@ -54,8 +54,9 @@
         </div>
 
     </div>
-    @include('layouts.modal')
+    
     <div class="container">
+        @include('layouts.modal')
         {{-- @dump ((Session::all()), 'Auth -'.Auth::check()) --}}
         @yield('content')
 

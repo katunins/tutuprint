@@ -123,7 +123,7 @@
         </div>
 
         <div class="form-center-block">
-            <button class="all-price">
+            <button class="button all-price">
                 <p>Оплатить</p>
                 <span id="all-price"></span><span>₽</span>
             </button>

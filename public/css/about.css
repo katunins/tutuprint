@@ -1,12 +1,5 @@
-.main-image {
-  width: 100%;
-  display: inline-block;
-  text-align: center;
-}
-
-.main-image img {
-  width: 90%;
-  opacity: 0.7;
+.container {
+  max-width: 600px !important;
 }
 
 .textblock {
@@ -23,6 +16,10 @@
   margin: 20px;
 }
 
+.textblock h3 {
+  text-align: center;
+}
+
 .textblock li,
 .textblock p.mini {
   font-size: 13px;
@@ -34,7 +31,7 @@
 }
 
 .contacts {
-  margin: 30px;
+  text-align: center;
 }
 
 .contacts img {
@@ -45,11 +42,21 @@
 
 .contacts a {
   text-decoration: none;
-  font-size: 14px;
+  font-size: 16px;
 }
 
-.contacts p {
-  margin: 13px;
+.contacts a.tel {
+  font-size: 26px;
+  margin: 40px;
+}
+
+.contacts .adress-block {
+  text-align: left;
+}
+
+.contacts .adress-block p {
+  margin: 8px;
+  margin-left: 40px;
 }
 
 .button {
@@ -62,8 +69,9 @@
   text-decoration: none;
 }
 
-.toback {
+.back {
   width: 100%;
   text-align: center;
+  margin-top: 40px;
 }
 

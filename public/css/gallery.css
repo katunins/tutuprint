@@ -1,9 +1,14 @@
 @charset "UTF-8";
 
+body {
+  justify-content: start !important;
+}
+
 .container {
   max-width: 800px !important;
   display: flex !important;
   padding-bottom: 0 !important;
+  margin-bottom: 10px !important;
 }
 
 .header {
@@ -114,7 +119,6 @@
 
 .gallery-block .controls {
   width: 100%;
-  margin-bottom: 40px;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
@@ -179,7 +183,6 @@
   height: 30px;
   background: transparent;
   padding: 4px 0;
-  border-radius: 3px;
   border: 1px solid #bebdbd;
   font-weight: 300;
   cursor: pointer;
@@ -194,7 +197,6 @@
 .general-params-block .buttons button,
 .general-additional-params-block .buttons button {
   border: 1px solid #bebdbd;
-  border-radius: 3px;
   width: 100px;
   height: 30px;
   background: transparent;
@@ -238,21 +240,6 @@
   width: 100%;
   text-align: center;
   font-weight: 300;
-}
-
-.param-block button {
-  border: none;
-  outline: none;
-  background-color: transparent;
-  cursor: pointer;
-  font-weight: 300;
-  font-size: 14px;
-  padding-bottom: 3px;
-  border-bottom: 1px solid #bebdbd;
-}
-
-.param-block button:active {
-  opacity: 0.3;
 }
 
 .param-check-block {
@@ -324,6 +311,13 @@
   margin-bottom: 25px;
 }
 
+.group-change-button button {
+  font-size: 14px;
+  width: 250px;
+  height: 30px;
+  line-height: 0;
+}
+
 .param-check-block {
   margin-top: 20px;
 }
@@ -347,19 +341,6 @@
   margin: 10px auto;
 }
 
-.to-order-block button {
-  font-size: 14px;
-  font-weight: 300;
-  cursor: pointer;
-  outline: none;
-  border: none;
-  width: 160px;
-  height: 40;
-  background-color: #ffcc00;
-  margin-top: 20px;
-  border-radius: 3px;
-}
-
 .to-order-block button img {
   width: 18px;
   opacity: 0.7;
@@ -375,7 +356,7 @@
   display: none !important;
 }
 
-.button {
+.switch-button {
   position: relative;
   top: 50%;
   width: 75px;
@@ -385,7 +366,7 @@
   border-radius: 100px;
 }
 
-.button * {
+.switch-button * {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -393,8 +374,8 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.button .knobs,
-.button .layer {
+.switch-button .knobs,
+.switch-button .layer {
   position: absolute;
   top: 0;
   right: 0;
@@ -403,7 +384,7 @@
   border-radius: 100px;
 }
 
-.button .checkbox {
+.switch-button .checkbox {
   position: relative;
   width: 100%;
   height: 100%;
@@ -414,17 +395,17 @@
   z-index: 3;
 }
 
-.button .knobs {
+.switch-button .knobs {
   z-index: 2;
 }
 
-.button .layer {
+.switch-button .layer {
   border: 1px solid rgba(160, 160, 160, 0.699);
   transition: 0.3s ease all;
   z-index: 1;
 }
 
-.button .knobs {
+.switch-button .knobs {
   position: absolute;
   top: 0px;
   left: -15px;
@@ -436,7 +417,7 @@
   transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
 }
 
-.button .checkbox:checked + .knobs {
+.switch-button .checkbox:checked + .knobs {
   left: 15px;
 }
 
@@ -466,10 +447,6 @@
 }
 
 @media screen and (max-width: 768px) {
-  body {
-    justify-content: flex-start !important;
-  }
-
   .container {
     width: 100vw !important;
     padding-bottom: 0 !important;
@@ -477,10 +454,6 @@
 
   .header {
     margin: 10px !important;
-  }
-
-  .logo img {
-    height: 35px !important;
   }
 
   .gallery-block .gallery {
@@ -525,8 +498,8 @@
   }
 
   .info {
-    transform: translateY(47px);
-    margin-left: 0;
+    margin-left: -10px;
+    width: 23px;
   }
 }
 

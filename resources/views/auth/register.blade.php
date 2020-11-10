@@ -56,7 +56,7 @@
             персональных
             данных
         </div>
-        <button class="button" type="submit">Зарегистрироваться</button>
+        <button class="button yellow-background" type="submit">Зарегистрироваться</button>
     </form>
     <div class="restore-pass">
         <a href="{{ url('auth') }}">Вход в личный кабинет</a>

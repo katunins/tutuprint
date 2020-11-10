@@ -39,7 +39,7 @@
                 autocomplete="new-password" placeholder="Подтвердите пароль">
         </div>
 
-        <button class="button" type="submit">Обновить пароль</button>
+        <button class="button yellow-background" type="submit">Обновить пароль</button>
     </form>
 
 </div>

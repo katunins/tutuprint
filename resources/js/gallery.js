@@ -902,7 +902,9 @@ function pressAddToBasket (event) {
   };
 
   ajax ('/addtobasket', params);
+  
   updateBasketIconCount ();
+  updatePrice ()
 
   setOkModalButton (function () {
     turnOFFSuperModal ();

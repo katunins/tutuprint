@@ -31,7 +31,7 @@
             @enderror
         </div>
 
-        <button class="button" type="submit">Отправить</button>
+        <button class="button yellow-background" type="submit">Отправить</button>
 
     </form>
     <div>

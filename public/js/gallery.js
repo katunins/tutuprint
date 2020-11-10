@@ -863,6 +863,7 @@ function pressAddToBasket(event) {
   };
   ajax('/addtobasket', params);
   updateBasketIconCount();
+  updatePrice();
   setOkModalButton(function () {
     turnOFFSuperModal(); // Удалим все блоки с изображениями
 

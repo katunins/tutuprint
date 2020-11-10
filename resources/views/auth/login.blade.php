@@ -41,9 +41,10 @@
             <label for="remebmer">Запомнить меня</label>
         </div>
 
-        <button class="button" type="submit">Войти</button>
+        <button class="button yellow-background" type="submit">Войти</button>
         @if(Route::has('register'))
-            <a class="register" href="{{ route('register') }}">Зарегистрироваться</a>
+        <button class="button" onclick="location.href='{{ route('register') }}'">Зарегистрироваться</button>
+            {{-- <a class="button" href="{{ route('register') }}">Зарегистрироваться</a> --}}
         @endif
     </form>
 
