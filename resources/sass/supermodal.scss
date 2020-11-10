@@ -2,6 +2,30 @@
     display: none;
 }
 
+.infotext {
+    text-align: left;
+    margin: 0 20px;
+}
+
+.infoimage {
+    width: 100%;
+    margin-bottom: 20px
+}
+
+.infoimage>img {
+    width: 100%;
+}
+
+.separator {
+    width: 15px;
+    height: 5px;
+    background-image: url(images/galleryinfo/separator.svg);
+    margin: 40px auto;
+    // margin-bottom: 40px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
 .super-modal {
     width: 100%;
     height: 100%;
@@ -9,6 +33,7 @@
     left: 0;
     background-color: rgba(255, 255, 255, 0.5);
     z-index: 4;
+    overflow: overlay;
 
     * {
         font-weight: 300;

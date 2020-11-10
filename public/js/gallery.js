@@ -882,7 +882,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('.info').onclick = function () {
     setOkModalButton();
     turnONmodalMessage(document.getElementById('info-page').innerHTML);
-    turnONmodal(0, false);
+    turnONmodal(0);
   };
 
   turnOFFSuperModal();
@@ -940,6 +940,9 @@ document.addEventListener('DOMContentLoaded', function () {
   checkLowQuality(); // клик на кнопку добавить в корзину
 
   document.getElementById('add-to-basket-button').onclick = pressAddToBasket;
+  setOkModalButton();
+  turnONmodalMessage(document.getElementById('info-page').innerHTML);
+  turnONmodal(0);
 });
 
 /***/ }),
@@ -951,7 +954,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

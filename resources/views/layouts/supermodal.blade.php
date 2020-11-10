@@ -129,7 +129,10 @@
         if (!document.querySelector('.modal-img-block').classList.contains('hide')) {
             shiftUp -=shiftUp/2
         }
-        document.querySelector('.modal-block').style.top = shiftUp;//margin;
+         
+        if (shiftUp > 0) ; else shiftUp = 40; //немного сместим большое окно от верхней шапки
+        document.querySelector('.modal-block').style.marginBottom = 40
+        document.querySelector('.modal-block').style.top = shiftUp
 
         if (closeButton) {
             document.querySelector('.close-modal-button').classList.remove('hide');

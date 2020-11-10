@@ -6,11 +6,12 @@ body {
 .promo-video-block {
     // width: 330px;
     // width: 100%;
-    margin: 20px;
+    margin: 20px auto;
     margin-top: 0;
+    width: 320px;
 
     video {
         width: 100%;
-        filter: opacity(0.7);
+        filter: opacity(0.8);
     }
 }

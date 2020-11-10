@@ -924,10 +924,11 @@ function pressAddToBasket (event) {
 }
 
 document.addEventListener ('DOMContentLoaded', function () {
+  
   document.querySelector ('.info').onclick = () => {
     setOkModalButton ();
     turnONmodalMessage (document.getElementById ('info-page').innerHTML);
-    turnONmodal (0, false);
+    turnONmodal (0);
   };
 
   turnOFFSuperModal ();
@@ -999,4 +1000,8 @@ document.addEventListener ('DOMContentLoaded', function () {
 
   // клик на кнопку добавить в корзину
   document.getElementById ('add-to-basket-button').onclick = pressAddToBasket;
+
+  setOkModalButton ();
+  turnONmodalMessage (document.getElementById ('info-page').innerHTML);
+  turnONmodal (0);
 });
