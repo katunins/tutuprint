@@ -584,9 +584,25 @@ $switch-buttion-high: 15px;
     }
 
 
-    // .logo img {
-    //     height: 35px !important;
-    // }
+    .param-block {
+        margin-bottom: 10px;
+    }
+
+    .switch-button {
+        width: 100px;
+        height: 22px;
+        margin: 0;
+    }
+
+    .switch-button .knobs {
+        left: -21px;
+        width: 21px;
+        height: 22px;
+    }
+
+    .switch-button .checkbox:checked + .knobs {
+        left: 21px;
+    }
 
     .gallery-block .gallery {
         grid-template-columns: repeat(6, 1fr);
@@ -604,7 +620,7 @@ $switch-buttion-high: 15px;
 
     .general-params-block *,
     .general-additional-params-block * {
-        font-size: 14px;
+        font-size: 16px !important;
     }
 
     .group-change-button {
@@ -628,6 +644,7 @@ $switch-buttion-high: 15px;
         flex-direction: row;
         align-items: center;
         width: 260px;
+        margin-top: 10px;
         // order: 3;
     }
 
