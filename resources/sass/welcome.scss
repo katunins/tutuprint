@@ -27,3 +27,11 @@ body, .container {
     margin-top: 0;
 }
 }
+
+@media screen and (max-heght: 665x) {
+    .promo-video-block {
+        width: 300px;
+        height: auto;
+        margin: 10px auto;
+    }
+    }
