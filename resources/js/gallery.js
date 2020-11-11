@@ -137,7 +137,7 @@ function addEmptyElems () {
     let controlsBlock = document.querySelector ('.controls');
     let controlsBlockBottomLine =
       controlsBlock.offsetTop + controlsBlock.offsetHeight;
-    let ControlBlockisBottom =  Number(emptyElemHeight + controlsBlockBottomLine+40) > window.innerHeight;
+    let ControlBlockisBottom =  Number(emptyElemHeight + controlsBlockBottomLine) > window.innerHeight;
     
     // alert (ControlBlockisBottom)
     if (ControlBlockisBottom && lastEmptyUnderGalleryScrool) return true; else return false;

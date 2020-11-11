@@ -66,13 +66,12 @@ button:focus {
 }
 
 .header {
-  width: 90%;
-  max-width: 340px;
+  width: 100%;
+  max-width: 500px;
   height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px;
 }
 
 .header * {
@@ -82,7 +81,8 @@ button:focus {
 .header .top-back-button,
 .header .personal-block {
   width: 70px;
-  text-align: center;
+  text-align: left;
+  margin: 0 20px;
 }
 
 .header .top-back-button img {
@@ -122,6 +122,7 @@ button:focus {
   border-radius: 8px;
   margin-top: 1px;
   height: 10px;
+  text-align: center;
 }
 
 .top-back {
@@ -185,6 +186,10 @@ button:focus {
 }
 
 @media screen and (max-width: 768px) {
+  .header {
+    height: 40px;
+  }
+
   body {
     position: absolute;
     top: 0;
