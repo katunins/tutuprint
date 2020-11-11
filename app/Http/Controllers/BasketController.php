@@ -228,7 +228,7 @@ class BasketController extends Controller
         DB::table('orders')->where('id', (string)$request->id)->update(['payCount' => $payCount]);
 
         /* ID заказа в магазине */
-        $vars['orderNumber'] = $id . '_' . $payCount;
+        $vars['orderNumber'] = 'test_'.$id . '_' . $payCount;
 
         $vars['orderBundle'] = json_encode(
             array(
