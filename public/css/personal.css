@@ -9,8 +9,7 @@
 
 .personal {
   display: flex;
-  margin-top: 20px;
-  width: 90%;
+  width: 99%;
   border: 1px solid #ffcc00;
   border-radius: 10px;
 }
@@ -89,6 +88,17 @@
   margin-bottom: 3px;
 }
 
+.order .goods .one-good {
+  margin-bottom: 20px;
+}
+
+.order .goods .more-button {
+  background: none;
+  border: none;
+  transform: translateY(-16px);
+  font-weight: 400;
+}
+
 .order .cost {
   font-size: 18px;
   font-weight: 400;
@@ -114,8 +124,8 @@
 }
 
 .status {
-  margin-top: 10px;
   font-weight: 300;
+  line-height: 0;
 }
 
 .wait {
@@ -163,12 +173,9 @@
 }
 
 @media screen and (max-width: 768px) {
-  .contact {
-    width: 250px;
-  }
-
-  .contact svg {
-    width: 20px;
+  .personal {
+    width: 95%;
+    margin-bottom: 10px;
   }
 
   .order {

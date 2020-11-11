@@ -7,8 +7,8 @@
 
 .personal {
     display: flex;
-    margin-top: 20px;
-    width: 90%;
+    // margin-top: 20px;
+    width: 99%;
     border: 1px solid #ffcc00;
     border-radius: 10px;
 }
@@ -27,7 +27,7 @@
 
     .personal-block {
         text-align: center;
-        
+
 
         .personal-info {
             text-align: left;
@@ -93,6 +93,18 @@
             list-style: none;
             margin-bottom: 3px;
         }
+
+        .one-good {
+            margin-bottom: 20px;
+        }
+
+        .more-button {
+            background: none;
+            border: none;
+            transform: translateY(-16px);
+    font-weight: 400;
+        }
+
     }
 
     .cost {
@@ -125,8 +137,8 @@
 
 
 .status {
-    margin-top: 10px;
     font-weight: 300;
+    line-height: 0;
 }
 
 .wait {
@@ -177,13 +189,18 @@
 }
 
 @media screen and (max-width: 768px) {
-    .contact {
-        width: 250px;
-
-        svg {
-            width: 20px;
-        }
+    .personal {
+        width: 95%;
+        margin-bottom: 10px;
     }
+
+    // .contact {
+    //     // width: 250px;
+
+    //     svg {
+    //         width: 20px;
+    //     }
+    // }
 
     // .personal {
     //     margin: 20px 10px 0 10px;
