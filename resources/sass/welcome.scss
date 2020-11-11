@@ -16,3 +16,14 @@ body, .container {
         filter: opacity(0.9);
     }
 }
+
+@media screen and (max-width: 768px) {
+.header {
+    margin-top: 5px !important;
+    margin-bottom: 15px !important;
+}    
+.promo-video-block {
+    margin: 20px 0 15px;
+    margin-top: 0;
+}
+}
