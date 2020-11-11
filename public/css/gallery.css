@@ -450,10 +450,12 @@ body {
   .container {
     width: 100vw !important;
     padding-bottom: 0 !important;
+    margin-bottom: 30px !important;
   }
 
   .header {
     margin: 10px !important;
+    margin-top: 0 !important;
   }
 
   .param-block {
