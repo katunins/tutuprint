@@ -11,15 +11,11 @@
     <div class="textblock contacts">
         <p>
             <a class="tel" href="tel:88001000797"><img src="images/about/tel.svg" alt=""> 8 (800) 100 0797</a>
-            {{-- <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <a class="tel" href="tel:+74732106400"><img src="images/about/tel.svg" alt=""> 210-64-00</a>
-            --}}
         </p>
         <div class="adress-block">
-            <p><a href=""><img src="images/about/location.svg" alt=""> Воронеж, ул. Театральная 11</a></p>
-        
-        <p><a href="mailto:admin@tutuprint.ru"><img src="images/about/mail.svg" alt=""> admin@tutuprint.ru</a></p>
-        <p><a href="https://api.whatsapp.com/send?phone=79529545560‬"><img src="images/about/whatsapp.svg" alt=""> Мы в whatsapp</a></p>    
+            <div><a href=""><img src="images/about/location.svg" alt=""><br>Воронеж, ул. Театральная 11</a></div>
+            <div><a href="mailto:admin@tutuprint.ru"><img src="images/about/mail.svg" alt=""><br>admin@tutuprint.ru</a></div>
+            <div><a href="https://api.whatsapp.com/send?phone=79529545560‬"><img src="images/about/whatsapp.svg" alt=""><br>Мы в whatsapp</a></div>    
         </div>
     </div>
     <div class="textblock">

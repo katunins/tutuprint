@@ -24,6 +24,7 @@ body {
     height: 100vh;
     width: 100vw;
     max-height: 1100px;
+
     
     overflow: hidden;
     justify-content: center;
@@ -211,10 +212,17 @@ height: 10px;
         height: 0;
         margin: 0 auto;
         padding: 0;
+        overflow: hidden;
     }
 }
 
 @media screen and (max-width: 768px) {
+
+    body {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 
     .modal-hide {
         display: none; //решает костыль в галерее с вертикальным отбражением кнопки заказать
