@@ -1,19 +1,11 @@
 @charset "UTF-8";
 
-body {
-  justify-content: start !important;
-}
-
 .container {
   max-width: 800px !important;
   height: 100%;
   display: flex !important;
   padding-bottom: 0 !important;
   margin-bottom: 10px !important;
-}
-
-.header {
-  margin: 20px auto;
 }
 
 .top-back {

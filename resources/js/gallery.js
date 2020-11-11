@@ -1,8 +1,8 @@
 const priceArr = new Object ({
   photoprint: {
     size: {
-      '10x15': 10,
-      '15x21': 20,
+      '10x15': 18,
+      '15x21': 36,
     },
     'white-border': {
       '10x15': {
@@ -41,8 +41,8 @@ const priceArr = new Object ({
   },
   photocards: {
     size: {
-      '10x15': 30,
-      '15x21': 50,
+      '10x15': 40,
+      '15x21': 80,
     },
     'white-border': {
       '10x15': {

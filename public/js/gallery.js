@@ -96,8 +96,8 @@
 var priceArr = new Object({
   photoprint: {
     size: {
-      '10x15': 10,
-      '15x21': 20
+      '10x15': 18,
+      '15x21': 36
     },
     'white-border': {
       '10x15': {
@@ -130,8 +130,8 @@ var priceArr = new Object({
   },
   photocards: {
     size: {
-      '10x15': 30,
-      '15x21': 50
+      '10x15': 40,
+      '15x21': 80
     },
     'white-border': {
       '10x15': {
@@ -954,7 +954,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/js/gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })
