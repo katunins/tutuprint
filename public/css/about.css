@@ -1,5 +1,6 @@
 .container {
   max-width: 600px !important;
+  margin-bottom: 60px !important;
 }
 
 .textblock {
