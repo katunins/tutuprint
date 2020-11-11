@@ -458,6 +458,10 @@ body {
     margin-top: 0 !important;
   }
 
+  .gallery-block .controls {
+    min-height: 234px;
+  }
+
   .param-block {
     margin-bottom: 10px;
   }
