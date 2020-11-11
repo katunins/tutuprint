@@ -4,7 +4,8 @@ body {
 }
 
 .container {
-    max-width: 800px !important;    
+    max-width: 800px !important;
+    height: 100%;
     // height: 100% !important;
     // flex-direction: column;
     // overflow: hidden !important;
@@ -573,7 +574,7 @@ $switch-buttion-high: 15px;
         width: 100vw !important;
     // margin-bottom: 0 !important;
     padding-bottom: 0 !important;
-    margin-bottom: 75px !important;
+    margin-bottom: 0px !important;
     }
 
     .header {
@@ -585,9 +586,9 @@ $switch-buttion-high: 15px;
         // margin: 30px 10px 10px 10px !important;
     }
 
-    .gallery-block .controls {
-        min-height: 234px;
-    }
+    // .gallery-block .controls {
+    //     min-height: 234px;
+    // }
 
     .param-block {
         margin-bottom: 10px;

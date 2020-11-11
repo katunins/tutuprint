@@ -6,6 +6,7 @@ body {
 
 .container {
   max-width: 800px !important;
+  height: 100%;
   display: flex !important;
   padding-bottom: 0 !important;
   margin-bottom: 10px !important;
@@ -450,11 +451,7 @@ body {
   .container {
     width: 100vw !important;
     padding-bottom: 0 !important;
-    margin-bottom: 75px !important;
-  }
-
-  .gallery-block .controls {
-    min-height: 234px;
+    margin-bottom: 0px !important;
   }
 
   .param-block {
