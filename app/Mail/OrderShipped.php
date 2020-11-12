@@ -28,6 +28,6 @@ class OrderShipped extends Mailable
      */
     public function build()
     {
-        return $this->from('admin@tutuprint.ru')->view('views.layouts.ordershipped');
+        return $this->from('admin@tutuprint.ru')->view('layouts.ordershipped');
     }
 }
