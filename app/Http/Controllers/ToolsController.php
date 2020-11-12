@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Mail;
 
 class ToolsController extends Controller
 {
@@ -67,11 +68,11 @@ class ToolsController extends Controller
         if (!$order->payId) return false;
 
         $vars = array();
-        $vars['userName'] = 'T366401444667-api';
-        $vars['password'] = 'T366401444667';
+        $vars['userName'] = 'P366401444667-api';
+        $vars['password'] = 'Well+9187';
         $vars['orderId'] = $order->payId;
         
-        $ch = curl_init('https://3dsec.sberbank.ru/payment/rest/getOrderStatusExtended.do?' . http_build_query($vars));
+        $ch = curl_init('https://securepayments.sberbank.ru/payment/rest/getOrderStatusExtended.do?' . http_build_query($vars));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -114,5 +115,17 @@ class ToolsController extends Controller
                 'tel'=>session()->get('temporaryUser.tel'),
             ];       
         } else return false;
+    }
+
+    
+    // уведомление о заказе
+    static function sendOrderNotification ($id) {
+        $data = array('name'=>"Virat Gandhi");
+  
+        Mail::send(['text'=>'mail'], ['name'=>"tutuprint"], function($message) {
+            $message->to('katunin.pavel@gmail.com', 'Tutorials Point')->subject
+            ('Заказ на tutuprint');
+            $message->from('admin@tutuprint.','Pavel Katunin');
+        });
     }
 }

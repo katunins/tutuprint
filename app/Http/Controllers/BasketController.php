@@ -219,15 +219,15 @@ class BasketController extends Controller
         // return $this->SberToPay($id, $ticketProperties, $order->allPrice, $request);
         // Оплата с Сбер
         $vars = array();
-        $vars['userName'] = 'T366401444667-api';
-        $vars['password'] = 'T366401444667';
+        $vars['userName'] = 'P366401444667-api';
+        $vars['password'] = 'Well+9187';
 
         $payCount = $order->payCount;
         $payCount++;
         DB::table('orders')->where('id', (string)$request->id)->update(['payCount' => $payCount]);
 
         /* ID заказа в магазине */
-        $vars['orderNumber'] = 'test_'.$id . '_' . $payCount;
+        $vars['orderNumber'] = $id . '_' . $payCount;
 
         $vars['orderBundle'] = json_encode(
             array(
@@ -250,7 +250,7 @@ class BasketController extends Controller
         /* Описание заказа, не более 24 символов, запрещены % + \r \n */
         $vars['description'] = 'Заказ №' . $id . ' на tutuprint.ru';
 
-        $ch = curl_init('https://3dsec.sberbank.ru/payment/rest/register.do?' . http_build_query($vars));
+        $ch = curl_init('https://securepayments.sberbank.ru/payment/rest/register.do?' . http_build_query($vars));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HEADER, false);

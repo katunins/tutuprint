@@ -61,6 +61,7 @@ Route::get('payorder/{id}', 'BasketController@payorder');
 Route::post('makeorder', 'BasketController@makeorder');
 
 Route::get('payok/{id}', function ($id) {
+    App\Http\Controllers\ToolsController::sendOrderNotification ($id);
     $request = App\Http\Controllers\ToolsController::getPayStatus ($id);
     if ($request['result'])
     return redirect('personal')->with('modal-info', 'Заказ №' . $id . ' оплачен! В ближайшее время с вами свяжется менеджер!');
