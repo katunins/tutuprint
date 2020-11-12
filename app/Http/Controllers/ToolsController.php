@@ -125,7 +125,7 @@ class ToolsController extends Controller
         Mail::send(['text'=>'mail'], ['name'=>"tutuprint"], function($message) {
             $message->to('katunin.pavel@gmail.com', 'Tutorials Point')->subject
             ('Заказ на tutuprint');
-            $message->from('admin@tutuprint.','Pavel Katunin');
+            $message->from('admin@tutuprint','Pavel Katunin');
         });
     }
 }

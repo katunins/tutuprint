@@ -187,6 +187,10 @@ button:focus {
 }
 
 @media screen and (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   .modal-hide {
     display: none;
   }
