@@ -144,6 +144,7 @@ use App\Http\Controllers\ImageController;
 
 
                 <div class="basket-button-price-block">
+                    <input type="hidden" id="int-price-to-basket" name="" id="" value=0>
                     <div class="price-block"><span id="price-to-basket"></span>₽</div>
                     <button class="button yellow-background" id="add-to-basket-button"><img src="{{ asset('images/basket.svg') }}"
                             alt=""> Добавить</button>

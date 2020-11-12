@@ -209,6 +209,8 @@ function addEmptyElems() {
     var galleryBlock = document.querySelector('.gallery');
     var galleyBottomLine = Number(galleryBlock.offsetTop + galleryBlock.offsetHeight);
     var emptyElements = document.querySelectorAll('.fake-empty-block');
+    if (emptyElements.length == 0) return false; //для ситуации, где empty элемент вообще отсутсвует
+
     var lastEmptyElement = emptyElements[emptyElements.length - 1];
     var lastEmptyElementBottomLine = Number(lastEmptyElement.offsetTop + lastEmptyElement.offsetHeight);
     var lastEmptyUnderGalleryScrool = Number(lastEmptyElementBottomLine + lastEmptyElement.offsetHeight) > galleyBottomLine; // Если блок с кнопками управления уйдет за экран при добавлении новой линии, то вренет true
@@ -292,6 +294,7 @@ function updatePrice() {
 
   var priceToBasket = pricePerOne * count + priceAdditionally;
   document.querySelector('input[name="summ"]').value = priceToBasket;
+  document.getElementById('int-price-to-basket').value = priceToBasket;
   document.getElementById('price-to-basket').innerHTML = priceToBasket.toLocaleString('rus-IN');
   var productName = document.querySelector('.param.active[name="product"]').innerHTML;
   document.getElementById('description-1').innerHTML = productName + ': <b>' + count + ' шт.</b> x <b>' + pricePerOne + '₽</b>';
@@ -858,25 +861,36 @@ function pressAddToBasket(event) {
     },
     price: {
       name: 'Стоимость',
-      data: document.getElementById('price-to-basket').innerHTML
+      data: document.getElementById('int-price-to-basket').value
     }
-  };
-  ajax('/addtobasket', params);
-  updateBasketIconCount();
-  updatePrice();
-  setOkModalButton(function () {
-    turnOFFSuperModal(); // Удалим все блоки с изображениями
+  }; // пока ждет ответ - loader
 
-    document.querySelectorAll('.image-box').forEach(function (elem) {
-      elem.parentNode.removeChild(elem);
-    });
-    addEmptyElems();
-  }, 'Добавить еще');
-  setCancelModalButton(function () {
-    document.location.href = '/basket';
-  }, 'В корзину');
-  turnONmodalMessage('Фотографии (' + getPhotoCount() + ' шт.) добавлены в корзину.<br>Желаете ли еще загрузить фотографии или перейти в коризну?');
+  turnONmodalLoader();
   turnONmodal('-78px', false);
+  ajax('/addtobasket', params, function (result) {
+    turnOFFSuperModal();
+
+    if (result === true) {
+      updateBasketIconCount();
+      updatePrice();
+      setOkModalButton(function () {
+        turnOFFSuperModal(); // Удалим все блоки с изображениями
+
+        document.querySelectorAll('.image-box').forEach(function (elem) {
+          elem.parentNode.removeChild(elem);
+        });
+        addEmptyElems();
+      }, 'Добавить еще');
+      setCancelModalButton(function () {
+        document.location.href = '/basket';
+      }, 'В корзину');
+      turnONmodalMessage('Фотографии (' + getPhotoCount() + ' шт.) добавлены в корзину.<br>Желаете ли еще загрузить фотографии или перейти в коризну?');
+      turnONmodal('-78px', false);
+    } else {
+      alert('К сожалению на сервере произошла какая то ошибка! Проверьте козрзину. Если ошибка повториться, сообщите пожалуйста на почту admin@tutuprint.ru');
+      window.location = '/basket';
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -124,8 +124,7 @@ class BasketController extends Controller
                 'data' => json_encode($request->input())
             ],
         ]);
-
-        return Response::json();
+        return Response::json(true);
     }
 
     public function makeOrder(Request $request)

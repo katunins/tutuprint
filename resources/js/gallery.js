@@ -1,4 +1,4 @@
-const priceArr = new Object ({
+const priceArr = new Object({
   photoprint: {
     size: {
       '10x15': 18,
@@ -81,38 +81,38 @@ const priceArr = new Object ({
   },
 });
 
-function getPhotoCount () {
-  let allPhotos = document.querySelectorAll ('.image-box');
+function getPhotoCount() {
+  let allPhotos = document.querySelectorAll('.image-box');
   let count = 0;
-  allPhotos.forEach (el => {
-    count += Number (el.getAttribute ('count'));
+  allPhotos.forEach(el => {
+    count += Number(el.getAttribute('count'));
   });
   return count;
 }
 
-function switchClearAllButton (status) {
+function switchClearAllButton(status) {
   // сменим название и назначение кнопки Стереть все
-  let clearAllButton = document.getElementById ('clearAllImagesButton');
+  let clearAllButton = document.getElementById('clearAllImagesButton');
   if (status == 'all') {
-    clearAllButton.removeEventListener ('click', clearSelected, false);
-    clearAllButton.addEventListener ('click', clearAll, false);
+    clearAllButton.removeEventListener('click', clearSelected, false);
+    clearAllButton.addEventListener('click', clearAll, false);
     clearAllButton.innerHTML = 'Удалить все';
   } else {
-    clearAllButton.removeEventListener ('click', clearAll, false);
-    clearAllButton.addEventListener ('click', clearSelected, false);
+    clearAllButton.removeEventListener('click', clearAll, false);
+    clearAllButton.addEventListener('click', clearSelected, false);
     clearAllButton.innerHTML = 'Удалить выбранные';
   }
 }
 
-function addEmptyElems () {
+function addEmptyElems() {
   // функция проверяет заполнена ли галерея фотографиями или есть пустые места.
   // добавляет в DOM пустые EMPTY элементы необходимого количества на всю необходимую высоту window
   // console.log ('Функция запущена');
 
-  function isElemIsRight (elem) {
+  function isElemIsRight(elem) {
     // вспомогательная функция проверяет элемент находится в конце (справа) своего родителя (gallert)
     let margin = 1;
-    let gallery = document.querySelector ('.gallery');
+    let gallery = document.querySelector('.gallery');
     let galleryRightSide =
       window.innerWidth - (gallery.offsetLeft + gallery.offsetWidth); //правый край блока родителя - gallery
 
@@ -122,94 +122,95 @@ function addEmptyElems () {
     a;
   }
 
-  function isLastEmptyElementMaxBottom () {
-    
+  function isLastEmptyElementMaxBottom() {
+
     // Если последний empty спрячется при добавлении новой линии за скрол, то возвращает true
-    let galleryBlock = document.querySelector ('.gallery')
-    let galleyBottomLine = Number (galleryBlock.offsetTop+galleryBlock.offsetHeight)
-    let emptyElements = document.querySelectorAll ('.fake-empty-block')
+    let galleryBlock = document.querySelector('.gallery')
+    let galleyBottomLine = Number(galleryBlock.offsetTop + galleryBlock.offsetHeight)
+    let emptyElements = document.querySelectorAll('.fake-empty-block')
+    if (emptyElements.length == 0) return false //для ситуации, где empty элемент вообще отсутсвует
     let lastEmptyElement = emptyElements[emptyElements.length - 1];
     let lastEmptyElementBottomLine = Number(lastEmptyElement.offsetTop + lastEmptyElement.offsetHeight)
-    let lastEmptyUnderGalleryScrool =  Number(lastEmptyElementBottomLine+lastEmptyElement.offsetHeight) > galleyBottomLine
+    let lastEmptyUnderGalleryScrool = Number(lastEmptyElementBottomLine + lastEmptyElement.offsetHeight) > galleyBottomLine
 
     // Если блок с кнопками управления уйдет за экран при добавлении новой линии, то вренет true
-    let emptyElemHeight = document.querySelector ('.imgLoadPlusButton').offsetHeight; // расстояние на которую смещается блок Controls, если добавляется ряд image-box, она равна высоте блока, к примеру Plus
-    let controlsBlock = document.querySelector ('.controls');
+    let emptyElemHeight = document.querySelector('.imgLoadPlusButton').offsetHeight; // расстояние на которую смещается блок Controls, если добавляется ряд image-box, она равна высоте блока, к примеру Plus
+    let controlsBlock = document.querySelector('.controls');
     let controlsBlockBottomLine =
       controlsBlock.offsetTop + controlsBlock.offsetHeight;
-    let ControlBlockisBottom =  Number(emptyElemHeight + controlsBlockBottomLine) > window.innerHeight;
-    
+    let ControlBlockisBottom = Number(emptyElemHeight + controlsBlockBottomLine) > window.innerHeight;
+
     // alert (ControlBlockisBottom)
     if (ControlBlockisBottom && lastEmptyUnderGalleryScrool) return true; else return false;
 
   }
 
-  function fillEmptyElemsInLine () {
+  function fillEmptyElemsInLine() {
     // если элемент в конце строки
 
     // var fakeEndElem = document.getElementById ('fake-end-elem');
     do {
-      var emptyElem = document.createElement ('div');
-      emptyElem.classList.add ('fake-empty-block');
-      emptyElem.setAttribute ('drop', true);
-      gallery.appendChild (emptyElem);
-    } while (!isElemIsRight (emptyElem));
+      var emptyElem = document.createElement('div');
+      emptyElem.classList.add('fake-empty-block');
+      emptyElem.setAttribute('drop', true);
+      gallery.appendChild(emptyElem);
+    } while (!isElemIsRight(emptyElem));
   }
 
-  let gallery = document.querySelector ('.gallery');
+  let gallery = document.querySelector('.gallery');
 
   // Завершим строку из EMPTY блоков, если есть пустые места, например при удалении
-  let emptyElements = document.querySelectorAll ('.fake-empty-block');
+  let emptyElements = document.querySelectorAll('.fake-empty-block');
   if (emptyElements.length > 0) {
-    if (!isElemIsRight (emptyElements[emptyElements.length - 1])) {
-      fillEmptyElemsInLine ();
+    if (!isElemIsRight(emptyElements[emptyElements.length - 1])) {
+      fillEmptyElemsInLine();
     }
   } else {
     // if (isLastEmptyElementMaxBottom) fillEmptyElemsInLine ();
-    if (!isElemIsRight (document.getElementById ('imgLoadPlusButton')))
-      fillEmptyElemsInLine ();
+    if (!isElemIsRight(document.getElementById('imgLoadPlusButton')))
+      fillEmptyElemsInLine();
   }
 
   // Запустим функцию, пока кнопка плюс не скроется за линии скрола
   line = 0 // - на всякий случай защитимся от багов. Сделаем максимум 10 линий
-  
-  while (!isLastEmptyElementMaxBottom () && line <10) {
+
+  while (!isLastEmptyElementMaxBottom() && line < 10) {
     line++
-    fillEmptyElemsInLine ();
+    fillEmptyElemsInLine();
   }
 
-  resizeDropArea ();
+  resizeDropArea();
 }
 
-function resizeDropArea () {
-  let dropArea = document.querySelector ('.dropPlus');
-  let gallery = document.querySelector ('.gallery');
+function resizeDropArea() {
+  let dropArea = document.querySelector('.dropPlus');
+  let gallery = document.querySelector('.gallery');
   dropArea.style.height = gallery.offsetHeight;
-  dropArea.querySelector ('img').style.marginTop = gallery.offsetHeight / 2;
+  dropArea.querySelector('img').style.marginTop = gallery.offsetHeight / 2;
 }
 
-function updatePrice () {
+function updatePrice() {
   let paramSelected = {
-    product: document.querySelector ('.param.active[name="product"]').attributes
+    product: document.querySelector('.param.active[name="product"]').attributes
       .value.value,
-    size: document.querySelector ('.param.active[name="size"]').attributes.value
+    size: document.querySelector('.param.active[name="size"]').attributes.value
       .value,
-    'white-border': document.getElementById ('white-border').checked,
-    box: document.getElementById ('box').checked,
+    'white-border': document.getElementById('white-border').checked,
+    box: document.getElementById('box').checked,
   };
 
   let pricePerOne = priceArr[paramSelected.product].size[paramSelected.size];
-  let count = getPhotoCount ();
-  let basketButton = document.getElementById ('add-to-basket-button');
+  let count = getPhotoCount();
+  let basketButton = document.getElementById('add-to-basket-button');
   if (count == 0) {
-    basketButton.classList.add ('half-opacity');
+    basketButton.classList.add('half-opacity');
   } else {
-    basketButton.classList.remove ('half-opacity');
+    basketButton.classList.remove('half-opacity');
   }
 
   if (paramSelected.box) {
     priceAdditionally = 0;
-    priceArr[paramSelected.product].box[paramSelected.size].forEach (ee => {
+    priceArr[paramSelected.product].box[paramSelected.size].forEach(ee => {
       if (count <= ee.maxCount && count >= ee.minCount)
         priceAdditionally = ee.price;
     });
@@ -219,83 +220,85 @@ function updatePrice () {
 
   let priceToBasket = pricePerOne * count + priceAdditionally;
 
-  document.querySelector ('input[name="summ"]').value = priceToBasket;
-  document.getElementById (
+  document.querySelector('input[name="summ"]').value = priceToBasket;
+  
+  document.getElementById('int-price-to-basket').value=priceToBasket
+  document.getElementById(
     'price-to-basket'
-  ).innerHTML = priceToBasket.toLocaleString ('rus-IN');
+  ).innerHTML = priceToBasket.toLocaleString('rus-IN');
 
-  let productName = document.querySelector ('.param.active[name="product"]')
+  let productName = document.querySelector('.param.active[name="product"]')
     .innerHTML;
-  document.getElementById ('description-1').innerHTML =
+  document.getElementById('description-1').innerHTML =
     productName + ': <b>' + count + ' шт.</b> x <b>' + pricePerOne + '₽</b>';
-  document.getElementById ('description-2').innerHTML = paramSelected.box
+  document.getElementById('description-2').innerHTML = paramSelected.box
     ? '+ коробка: <b>' + priceAdditionally + '₽</b>'
     : '';
 }
 
-function switchRefresh (element) {
+function switchRefresh(element) {
   // обновление переключателя
-  let switchStatus = element.checked.toString ();
-  let params = element.parentNode.parentNode.querySelectorAll ('.param');
-  params.forEach (el => {
-    if (el.getAttribute ('switchdata') === switchStatus) {
-      el.classList.add ('active');
-      el.classList.remove ('inactive');
+  let switchStatus = element.checked.toString();
+  let params = element.parentNode.parentNode.querySelectorAll('.param');
+  params.forEach(el => {
+    if (el.getAttribute('switchdata') === switchStatus) {
+      el.classList.add('active');
+      el.classList.remove('inactive');
     } else {
-      el.classList.add ('inactive');
-      el.classList.remove ('active');
+      el.classList.add('inactive');
+      el.classList.remove('active');
     }
   });
 
-  updatePrice ();
+  updatePrice();
 }
 
 const imageBoxOpenModalListener = function () {
   ``;
 
-  turnONmodalImage (this.style.backgroundImage);
+  turnONmodalImage(this.style.backgroundImage);
 
-  turnONmodal ('-306px');
-  turnONmodalCount (this.getAttribute ('count'));
+  turnONmodal('-306px');
+  turnONmodalCount(this.getAttribute('count'));
 
-  function formatSize (length) {
+  function formatSize(length) {
     var i = 0, type = ['б', 'Кб', 'Мб', 'Гб', 'Тб', 'Пб'];
     while ((length / 1000) | 0 && i < type.length - 1) {
       length /= 1024;
       i++;
     }
-    return length.toFixed (2) + ' ' + type[i];
+    return length.toFixed(2) + ' ' + type[i];
   }
 
-  let filename = this.getAttribute ('url').split ('/').pop ();
-  let filesize = formatSize (this.getAttribute ('size'));
+  let filename = this.getAttribute('url').split('/').pop();
+  let filesize = formatSize(this.getAttribute('size'));
   let resolution =
-    this.getAttribute ('width') + ' x ' + this.getAttribute ('heigh');
-  let alert = this.getAttribute ('lowquality')
+    this.getAttribute('width') + ' x ' + this.getAttribute('heigh');
+  let alert = this.getAttribute('lowquality')
     ? '<img src="images/alert.png">'
     : '';
 
-  turnONmodalFilename (
+  turnONmodalFilename(
     filename +
-      '<br><span>' +
-      alert +
-      '(' +
-      filesize +
-      ', ' +
-      resolution +
-      'px)</span>'
+    '<br><span>' +
+    alert +
+    '(' +
+    filesize +
+    ', ' +
+    resolution +
+    'px)</span>'
   );
 
-  setOkModalButton (
+  setOkModalButton(
     function () {
-      let newCount = document.getElementById ('modal-temporary-data').value;
+      let newCount = document.getElementById('modal-temporary-data').value;
       if (newCount == '') return true;
 
-      this.setAttribute ('count', newCount);
-      let imageCountElement = this.querySelector ('div.img-count');
+      this.setAttribute('count', newCount);
+      let imageCountElement = this.querySelector('div.img-count');
 
       //Передадим данные в контроллер для изменения данных сессии
-      ajax ('/updatecount', {
+      ajax('/updatecount', {
         data: [
           {
             id: this.id,
@@ -307,30 +310,30 @@ const imageBoxOpenModalListener = function () {
       // покажем количество, если более 1шт
       if (newCount > 1) {
         imageCountElement.innerHTML = newCount + 'x';
-        imageCountElement.classList.remove ('hide');
+        imageCountElement.classList.remove('hide');
       } else {
-        imageCountElement.classList.add ('hide');
+        imageCountElement.classList.add('hide');
       }
 
       // удалим фотогарфию
       if (newCount == 0) {
         // this.parentNode.this
-        this.parentNode.removeChild (this);
+        this.parentNode.removeChild(this);
         // this.remove ();
       }
-      updatePrice ();
-      turnOFFSuperModal ();
+      updatePrice();
+      turnOFFSuperModal();
       // добавим пустые эелементы
-      addEmptyElems ();
-    }.bind (this)
+      addEmptyElems();
+    }.bind(this)
   );
 
   document
-    .querySelectorAll ('.inc-modal-button')
-    .forEach (changeModalButton => {
-      changeModalButton.onclick = changeModalCount.bind ({
+    .querySelectorAll('.inc-modal-button')
+    .forEach(changeModalButton => {
+      changeModalButton.onclick = changeModalCount.bind({
         id: this.id,
-        increase: changeModalButton.getAttribute ('direction'),
+        increase: changeModalButton.getAttribute('direction'),
       });
     });
 };
@@ -338,11 +341,11 @@ const imageBoxOpenModalListener = function () {
 const generalChangeCountListner = function () {
   // изменяет количество выбранных фотографий
   let newGeneralCount =
-    window.selectElemsArr.count + Number (this.getAttribute ('direction'));
+    window.selectElemsArr.count + Number(this.getAttribute('direction'));
 
   if (newGeneralCount >= 0) {
     window.selectElemsArr.count = newGeneralCount;
-    document.getElementById (
+    document.getElementById(
       'general-image-modal-count'
     ).innerHTML = newGeneralCount;
   }
@@ -351,39 +354,39 @@ const generalChangeCountListner = function () {
 const generalButtonsListnerSave = function () {
   // конпка группового выбора СОХРАНИТЬ
   let arrList = [];
-  window.selectElemsArr.list.forEach (data => {
-    arrList.push ({
+  window.selectElemsArr.list.forEach(data => {
+    arrList.push({
       id: data,
       count: window.selectElemsArr.count,
     });
     // изменим количество в DIV элементах
-    let elem = document.getElementById (data);
+    let elem = document.getElementById(data);
     if (window.selectElemsArr.count > 0) {
-      elem.setAttribute ('count', window.selectElemsArr.count);
-      elem.querySelector ('.img-count').innerHTML =
+      elem.setAttribute('count', window.selectElemsArr.count);
+      elem.querySelector('.img-count').innerHTML =
         window.selectElemsArr.count + 'x';
     } else {
-      elem.parentNode.removeChild (elem);
+      elem.parentNode.removeChild(elem);
     }
   });
   // Передадим данные в контроллер для изменения данных сессии
-  ajax ('/updatecount', {
+  ajax('/updatecount', {
     data: arrList,
   });
-  updatePrice ();
-  clearGeneralCount ();
-  turnSelectMode ();
+  updatePrice();
+  clearGeneralCount();
+  turnSelectMode();
   // добавим пустые эелементы
-  addEmptyElems ();
+  addEmptyElems();
 };
 
 const generalButtonsListnerCancel = function () {
   // конпка группового выбора ОТМЕНА
-  clearGeneralCount ();
-  turnSelectMode ();
+  clearGeneralCount();
+  turnSelectMode();
 };
 
-function clearGeneralCount () {
+function clearGeneralCount() {
   window.selectElemsArr = {
     list: [],
     count: 1,
@@ -391,168 +394,168 @@ function clearGeneralCount () {
   // document.getElementById('general-image-modal-count').innerHTML = 1;
 }
 
-function turnAdditionalConfigButtons () {
+function turnAdditionalConfigButtons() {
   let status = window.selectElemsArr.list.length !== 0;
 
   if (status) {
     document
-      .querySelector ('.general-count-block')
-      .classList.remove ('half-opacity');
+      .querySelector('.general-count-block')
+      .classList.remove('half-opacity');
     document
-      .getElementById ('general-additional-button-save')
-      .classList.remove ('half-opacity');
+      .getElementById('general-additional-button-save')
+      .classList.remove('half-opacity');
 
     document
-      .querySelector ('.general-additional-params-block')
-      .querySelector ('p')
-      .classList.add ('hide');
+      .querySelector('.general-additional-params-block')
+      .querySelector('p')
+      .classList.add('hide');
   } else {
     document
-      .querySelector ('.general-count-block')
-      .classList.add ('half-opacity');
+      .querySelector('.general-count-block')
+      .classList.add('half-opacity');
     document
-      .getElementById ('general-additional-button-save')
-      .classList.add ('half-opacity');
+      .getElementById('general-additional-button-save')
+      .classList.add('half-opacity');
 
     document
-      .querySelector ('.general-additional-params-block')
-      .querySelector ('p')
-      .classList.remove ('hide');
-    clearGeneralCount ();
+      .querySelector('.general-additional-params-block')
+      .querySelector('p')
+      .classList.remove('hide');
+    clearGeneralCount();
   }
 }
 
 const imageSelectListener = function () {
-  let selectElem = this.querySelector ('.img-select');
-  if (selectElem.classList.contains ('hide')) {
+  let selectElem = this.querySelector('.img-select');
+  if (selectElem.classList.contains('hide')) {
     // элемент выбран
-    selectElem.classList.remove ('hide');
-    window.selectElemsArr.list.push (this.id);
+    selectElem.classList.remove('hide');
+    window.selectElemsArr.list.push(this.id);
   } else {
     // элемент Не выбран
-    selectElem.classList.add ('hide');
+    selectElem.classList.add('hide');
     let idTodelete = this.id;
-    window.selectElemsArr.list = window.selectElemsArr.list.filter (function (
+    window.selectElemsArr.list = window.selectElemsArr.list.filter(function (
       item
     ) {
       return item !== idTodelete;
     });
   }
-  turnAdditionalConfigButtons ();
+  turnAdditionalConfigButtons();
 
   // Если есть выбранные элементы, то сменить назначение кнопки Стереть все на стереть выбранные и обратно
   if (window.selectElemsArr.list.length > 0) {
-    switchClearAllButton ('selected');
+    switchClearAllButton('selected');
   } else {
-    switchClearAllButton ('all');
+    switchClearAllButton('all');
   }
 };
 
-function turnSelectMode () {
-  let button = document.getElementById ('changeGroupButton');
+function turnSelectMode() {
+  let button = document.getElementById('changeGroupButton');
   let status = button.value == 'on' ? true : false;
-  let imageBoxes = document.querySelectorAll ('.image-box');
+  let imageBoxes = document.querySelectorAll('.image-box');
 
   if (status) {
     // режим выделения ВЫКЛЮЧЕН
     button.value = 'off';
-    button.classList.remove ('hide');
-    imageBoxes.forEach (elem => {
-      elem.removeEventListener ('click', imageSelectListener, false);
-      elem.addEventListener ('click', imageBoxOpenModalListener, false);
-      if (elem.getAttribute ('count') > 1) {
-        elem.querySelector ('.img-count').classList.remove ('hide');
+    button.classList.remove('hide');
+    imageBoxes.forEach(elem => {
+      elem.removeEventListener('click', imageSelectListener, false);
+      elem.addEventListener('click', imageBoxOpenModalListener, false);
+      if (elem.getAttribute('count') > 1) {
+        elem.querySelector('.img-count').classList.remove('hide');
       }
-      elem.querySelector ('.img-select').classList.add ('hide');
+      elem.querySelector('.img-select').classList.add('hide');
     });
 
     document
-      .querySelector ('.general-additional-params-block')
-      .classList.add ('hide');
-    document.querySelector ('.general-params-block').classList.remove ('hide');
-    document.getElementById ('imgLoadPlusButton').classList.remove ('hide');
-    document.getElementById ('clearAllImagesButton').classList.add ('hide');
+      .querySelector('.general-additional-params-block')
+      .classList.add('hide');
+    document.querySelector('.general-params-block').classList.remove('hide');
+    document.getElementById('imgLoadPlusButton').classList.remove('hide');
+    document.getElementById('clearAllImagesButton').classList.add('hide');
     document
-      .querySelector ('.to-order-block')
-      .classList.remove ('half-opacity','modal-hide');
-    document.querySelector ('.info').classList.remove ('hide');
+      .querySelector('.to-order-block')
+      .classList.remove('half-opacity', 'modal-hide');
+    document.querySelector('.info').classList.remove('hide');
     // document.getElementById('clearAllImagesButton').classList.remove ('half-opacity')
   } else {
     // режим выделения ВКЛЮЧЕН
     button.value = 'on';
-    button.classList.add ('hide');
+    button.classList.add('hide');
 
-    clearGeneralCount (); //очистим массив с выбранным количеством
+    clearGeneralCount(); //очистим массив с выбранным количеством
 
-    imageBoxes.forEach (elem => {
-      elem.removeEventListener ('click', imageBoxOpenModalListener, false);
-      elem.addEventListener ('click', imageSelectListener, false);
-      elem.querySelector ('.img-count').classList.add ('hide');
+    imageBoxes.forEach(elem => {
+      elem.removeEventListener('click', imageBoxOpenModalListener, false);
+      elem.addEventListener('click', imageSelectListener, false);
+      elem.querySelector('.img-count').classList.add('hide');
     });
 
     document
-      .querySelector ('.general-additional-params-block')
-      .classList.remove ('hide');
-    document.querySelector ('.general-params-block').classList.add ('hide');
-    document.getElementById ('imgLoadPlusButton').classList.add ('hide');
-    document.getElementById ('clearAllImagesButton').classList.remove ('hide');
-    document.querySelector ('.to-order-block').classList.add ('half-opacity','modal-hide');
-    document.querySelector ('.info').classList.add ('hide');
+      .querySelector('.general-additional-params-block')
+      .classList.remove('hide');
+    document.querySelector('.general-params-block').classList.add('hide');
+    document.getElementById('imgLoadPlusButton').classList.add('hide');
+    document.getElementById('clearAllImagesButton').classList.remove('hide');
+    document.querySelector('.to-order-block').classList.add('half-opacity', 'modal-hide');
+    document.querySelector('.info').classList.add('hide');
     // document.getElementById('clearAllImagesButton').classList.add ('half-opacity')
-    document.getElementById ('general-image-modal-count').innerHTML = 1;
+    document.getElementById('general-image-modal-count').innerHTML = 1;
   }
 }
 
-function clearAll () {
+function clearAll() {
   // настроем моадальное окно
-  setOkModalButton (function () {
+  setOkModalButton(function () {
     // Удалим все блоки с изображениями
-    document.querySelectorAll ('.image-box').forEach (elem => {
-      elem.parentNode.removeChild (elem);
+    document.querySelectorAll('.image-box').forEach(elem => {
+      elem.parentNode.removeChild(elem);
     });
 
-    ajax ('/eraseall', {});
+    ajax('/eraseall', {});
 
-    updatePrice ();
-    turnSelectMode ();
-    turnOFFSuperModal ();
-    addEmptyElems ();
+    updatePrice();
+    turnSelectMode();
+    turnOFFSuperModal();
+    addEmptyElems();
   });
-  setCancelModalButton ();
+  setCancelModalButton();
 
-  turnONmodalMessage ('Удалить все загруженные фотографии?');
-  turnONmodal ('-78px');
+  turnONmodalMessage('Удалить все загруженные фотографии?');
+  turnONmodal('-78px');
 }
 
-function clearSelected () {
+function clearSelected() {
   let arrList = [];
-  window.selectElemsArr.list.forEach (data => {
-    arrList.push ({
+  window.selectElemsArr.list.forEach(data => {
+    arrList.push({
       id: data,
       count: 0,
     });
     // изменим количество в DIV элементах
-    let elem = document.getElementById (data);
-    elem.parentNode.removeChild (elem);
+    let elem = document.getElementById(data);
+    elem.parentNode.removeChild(elem);
   });
   // Передадим данные в контроллер для изменения данных сессии
-  ajax ('/updatecount', {
+  ajax('/updatecount', {
     data: arrList,
   });
-  updatePrice ();
-  clearGeneralCount ();
-  turnSelectMode ();
+  updatePrice();
+  clearGeneralCount();
+  turnSelectMode();
   // добавим пустые эелементы
-  addEmptyElems ();
-  switchClearAllButton ('all');
+  addEmptyElems();
+  switchClearAllButton('all');
 }
 
-function checkLowQuality () {
+function checkLowQuality() {
   // уведомляет клиента о низком разрешении
   let lowQuality = 0;
-  document.querySelectorAll ('.image-box').forEach (image => {
-    let currentWidth = Number (image.getAttribute ('width'));
-    let currentHeigh = Number (image.getAttribute ('heigh'));
+  document.querySelectorAll('.image-box').forEach(image => {
+    let currentWidth = Number(image.getAttribute('width'));
+    let currentHeigh = Number(image.getAttribute('heigh'));
 
     // console.log (currentWidth, currentHeigh)
 
@@ -566,77 +569,77 @@ function checkLowQuality () {
     // let minHeigh = Number (
     //   document.querySelector ('.active[name="size"]').getAttribute ('minWidth')
     // );
-    let minWidth = Number (
-      document.querySelector ('.active[name="size"]').getAttribute ('minHeigh')
+    let minWidth = Number(
+      document.querySelector('.active[name="size"]').getAttribute('minHeigh')
     );
 
     // эта проверка по всем сторонам currentWidth < minWidth || currentHeigh < minHeigh
     if (currentWidth < minWidth) {
-      image.setAttribute ('lowQuality', true);
-      image.querySelector ('.img-alert').classList.remove ('hide');
+      image.setAttribute('lowQuality', true);
+      image.querySelector('.img-alert').classList.remove('hide');
 
-      if (!image.hasAttribute ('lowqualityagree')) lowQuality++;
+      if (!image.hasAttribute('lowqualityagree')) lowQuality++;
     } else {
-      image.removeAttribute ('lowQuality');
-      image.querySelector ('.img-alert').classList.add ('hide');
+      image.removeAttribute('lowQuality');
+      image.querySelector('.img-alert').classList.add('hide');
     }
   });
   if (lowQuality > 0) {
     // повесим onclick на компку OK модального окна
-    setOkModalButton (function () {
+    setOkModalButton(function () {
       let arrList = [];
       document
-        .querySelectorAll ('.image-box[lowquality="true"]')
-        .forEach (elem => {
-          arrList.push ({
+        .querySelectorAll('.image-box[lowquality="true"]')
+        .forEach(elem => {
+          arrList.push({
             id: elem.id,
             count: 0,
           });
-          elem.parentNode.removeChild (elem);
+          elem.parentNode.removeChild(elem);
         });
-      ajax ('/updatecount', {
+      ajax('/updatecount', {
         data: arrList,
       });
-      updatePrice ();
-      addEmptyElems ();
-      turnOFFSuperModal ();
+      updatePrice();
+      addEmptyElems();
+      turnOFFSuperModal();
     }, 'Удалить');
 
-    setCancelModalButton (function () {
+    setCancelModalButton(function () {
       let elemsToAgree = [];
       document
-        .querySelectorAll ('.image-box[lowquality="true"]')
-        .forEach (elem => {
-          elem.setAttribute ('lowqualityagree', true);
-          elemsToAgree.push (elem.id);
+        .querySelectorAll('.image-box[lowquality="true"]')
+        .forEach(elem => {
+          elem.setAttribute('lowqualityagree', true);
+          elemsToAgree.push(elem.id);
         });
-        if (elemsToAgree.length > 0) {
+      if (elemsToAgree.length > 0) {
         // console.log (elemsToAgree)
-        ajax ('/setlowqualityargee', {
+        ajax('/setlowqualityargee', {
           data: elemsToAgree,
         });
       }
-      turnOFFSuperModal ();
+      turnOFFSuperModal();
     }, 'Оставить');
 
-    turnONmodalImage ("url('images/alert.png')", '40px', '100px');
-    turnONmodalMessage (
+    turnONmodalImage("url('images/alert.png')", '40px', '100px');
+    turnONmodalMessage(
       'Разрешение у некоторых загруженных фотографий (' +
-        lowQuality +
-        'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Оставить их или удалить?'
+      lowQuality +
+      'шт) ниже необходимого. При печати у этих фотографий может быть слабая детализация. Оставить их или удалить?'
     );
-    turnONmodal ('-78px');
+    turnONmodal('-78px');
   }
 }
 
-function filesUpload () {
+function filesUpload() {
   if (!this.files) return; //вдруг нажемт ESC при выборе файлов и this будет без файлов
 
   let token = document
-    .querySelector ('meta[name="csrf-token"]')
-    .getAttribute ('content');
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute('content');
 
-  let nowTime = new Date ().getTime ();
+  let nowTime = new Date().getTime();
   let lastProgressUpload = 0;
   let lastProgressResize = 0;
   let progressUpload = 0;
@@ -648,11 +651,11 @@ function filesUpload () {
   let nowTimeUpload = nowTime;
   let nowTimeResize = nowTime;
 
-  function changeProgress (progressAll) {
+  function changeProgress(progressAll) {
     // обновляет процент в модальном окне
     let spanAllProgress = document
-      .querySelector ('.super-modal-message')
-      .querySelector ('span');
+      .querySelector('.super-modal-message')
+      .querySelector('span');
 
     if (spanAllProgress) {
       if (progressAll > spanAllProgress.innerHTML) {
@@ -661,11 +664,11 @@ function filesUpload () {
     }
   }
 
-  function progressUpdate () {
+  function progressUpdate() {
     // расчитывает общий процент загрузки и ресайза + обновляет текст
 
-    var progressAll = Math.round (progressUpload + progressResize);
-    changeProgress (progressAll);
+    var progressAll = Math.round(progressUpload + progressResize);
+    changeProgress(progressAll);
 
     // обновим скорости и последние пероиды Resize и Upload
     if (progressResize > 0 && progressResize < 50) {
@@ -687,41 +690,41 @@ function filesUpload () {
     let allSpeed = speedUpdate + speedResize;
     let lastAllPeriods = lastResizePeriod + lastUploadPeriod;
 
-    clearInterval (shiftProgress); //отключим предыдущую итерацию Shift
+    clearInterval(shiftProgress); //отключим предыдущую итерацию Shift
 
     if (allSpeed > 0) {
       let shiftPeriod = 0;
-      var shiftProgress = setInterval (function () {
+      var shiftProgress = setInterval(function () {
         // Что бы не было слишком резких прыжков в проценте в момент этой паузы запустим Shift цикл со скоростью последней итерации
         shiftPeriod++;
         if (shiftPeriod > lastAllPeriods) {
-          clearInterval (shiftProgress);
+          clearInterval(shiftProgress);
         } else {
-          changeProgress (progressAll + shiftPeriod);
+          changeProgress(progressAll + shiftPeriod);
         }
       }, allSpeed);
     }
   }
 
-  function getResize () {
+  function getResize() {
     // Запрашиваем на сервере статус resize
-    fetch ('/progress').then (response => response.text ()).then (data => {
+    fetch('/progress').then(response => response.text()).then(data => {
       if (data && data != lastProgressResize * 2) {
         lastProgressResize = progressResize;
         progressResize = data / 2;
         lastTimeResize = nowTimeResize;
-        nowTimeResize = new Date ().getTime ();
-        progressUpdate ();
+        nowTimeResize = new Date().getTime();
+        progressUpdate();
       }
     });
   }
 
-  turnONmodalLoader ();
-  turnONmodalMessage ('Загрузка <span></span> %');
-  turnONmodal ('-135px');
+  turnONmodalLoader();
+  turnONmodalMessage('Загрузка <span></span> %');
+  turnONmodal('-135px');
 
-  const xhr = new XMLHttpRequest ();
-  xhr.open ('POST', '/imageupload', true);
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/imageupload', true);
 
   xhr.upload.onprogress = function (event) {
     // Запрашиваем итерации во время загрузки файлов
@@ -729,55 +732,55 @@ function filesUpload () {
       lastProgressUpload = progressUpload;
       progressUpload = event.loaded / event.total * 100 / 2;
       lastTimeUpload = nowTimeUpload;
-      nowTimeUpload = new Date ().getTime ();
-      progressUpdate ();
+      nowTimeUpload = new Date().getTime();
+      progressUpdate();
     }
   };
 
-  let progressListener = setInterval (getResize, 500);
+  let progressListener = setInterval(getResize, 500);
 
   xhr.onload = event => {
     // return false
 
-    let gallery = document.querySelector ('.gallery');
-    let elementBefore = gallery.querySelector ('form');
+    let gallery = document.querySelector('.gallery');
+    let elementBefore = gallery.querySelector('form');
     // console.log (event.target.response)
-    JSON.parse (event.target.response).forEach (result => {
+    JSON.parse(event.target.response).forEach(result => {
       // Добавим загруженную миниатюру в элемент
 
-      let elem = document.createElement ('div');
+      let elem = document.createElement('div');
       elem.id = result.id;
-      elem.classList.add ('image-box');
-      elem.setAttribute ('count', 1);
-      elem.setAttribute ('url', result.url);
-      elem.setAttribute ('width', result.width);
-      elem.setAttribute ('heigh', result.heigh);
-      elem.setAttribute ('size', result.size);
+      elem.classList.add('image-box');
+      elem.setAttribute('count', 1);
+      elem.setAttribute('url', result.url);
+      elem.setAttribute('width', result.width);
+      elem.setAttribute('heigh', result.heigh);
+      elem.setAttribute('size', result.size);
       elem.style = 'background-image: url(' + result.thumbnail + ')';
       elem.innerHTML =
         '<div class="img-count hide"></div><div class="img-select hide"></div><div class="img-alert hide"></div>';
-      elem.addEventListener ('click', imageBoxOpenModalListener, false);
-      gallery.insertBefore (elem, elementBefore);
+      elem.addEventListener('click', imageBoxOpenModalListener, false);
+      gallery.insertBefore(elem, elementBefore);
 
       // удалим пустые EMPTY блоки, если необходимо
-      let fakeEmptyBlock = document.querySelector ('.fake-empty-block');
+      let fakeEmptyBlock = document.querySelector('.fake-empty-block');
       if (fakeEmptyBlock) {
-        document.querySelector ('.gallery').removeChild (fakeEmptyBlock);
+        document.querySelector('.gallery').removeChild(fakeEmptyBlock);
       }
     });
-    getResize (); //последний запрос, что бы сбросить в 0
-    clearInterval (progressListener);
-    turnOFFSuperModal ();
-    updatePrice ();
-    addEmptyElems ();
-    document.getElementById ('imgLoad').value = null;
-    checkLowQuality ();
+    getResize(); //последний запрос, что бы сбросить в 0
+    clearInterval(progressListener);
+    turnOFFSuperModal();
+    updatePrice();
+    addEmptyElems();
+    document.getElementById('imgLoad').value = null;
+    checkLowQuality();
   };
 
-  xhr.setRequestHeader ('enctype', 'multipart/form-data');
-  xhr.setRequestHeader ('X-CSRF-TOKEN', token);
+  xhr.setRequestHeader('enctype', 'multipart/form-data');
+  xhr.setRequestHeader('X-CSRF-TOKEN', token);
 
-  var formData = new FormData ();
+  var formData = new FormData();
   var isImagesTypeTrue = false;
 
   trueFilesType = 0;
@@ -789,73 +792,73 @@ function filesUpload () {
       this.files[i].type == 'image/png'
     ) {
       trueFilesType++;
-      formData.append ('images[]', this.files[i]);
+      formData.append('images[]', this.files[i]);
     } else {
       falseFilesType++;
     }
   }
   if (trueFilesType > 0) {
-    xhr.send (formData);
+    xhr.send(formData);
   } else {
-    turnOFFSuperModal ();
+    turnOFFSuperModal();
     //   turnONmodalLoader ();
-    turnONmodalMessage (
+    turnONmodalMessage(
       'Тип некоторых файлов не подходит к печати (' +
-        falseFilesType +
-        ' шт.)<br>Используйте файлы форматом jpg'
+      falseFilesType +
+      ' шт.)<br>Используйте файлы форматом jpg'
     );
-    setOkModalButton (function () {
-      turnOFFSuperModal ();
+    setOkModalButton(function () {
+      turnOFFSuperModal();
     }, 'Ok');
-    turnONmodal ('-135px');
+    turnONmodal('-135px');
     return false;
   }
   // if (isImagesTypeTrue) xhr.send (formData);
 }
 
-function createDropListener () {
+function createDropListener() {
   // обработчик события перетаскивания фотографий в gallery
-  let droptarget = document.querySelector ('.gallery');
+  let droptarget = document.querySelector('.gallery');
 
   // уберем собития стандартного открытия файла в соседнем окне
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach (eventName => {
-    droptarget.addEventListener (
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    droptarget.addEventListener(
       eventName,
       function (e) {
-        e.preventDefault ();
-        e.stopPropagation ();
+        e.preventDefault();
+        e.stopPropagation();
       },
       false
     );
   });
 
-  var dropPlus = document.querySelector ('.dropPlus');
-  ['dragenter', 'dragover'].forEach (eventName => {
-    droptarget.addEventListener (
+  var dropPlus = document.querySelector('.dropPlus');
+  ['dragenter', 'dragover'].forEach(eventName => {
+    droptarget.addEventListener(
       eventName,
       function (event) {
-        dropPlus.classList.add ('drop-visibility');
-        dropPlus.classList.remove ('drop-no-visibility');
+        dropPlus.classList.add('drop-visibility');
+        dropPlus.classList.remove('drop-no-visibility');
       },
       false
     );
   });
-  droptarget.addEventListener (
+  droptarget.addEventListener(
     'dragleave',
     function (event) {
-      dropPlus.classList.remove ('drop-visibility');
-      dropPlus.classList.add ('drop-no-visibility');
+      dropPlus.classList.remove('drop-visibility');
+      dropPlus.classList.add('drop-no-visibility');
     },
     false
   );
-  droptarget.addEventListener (
+  droptarget.addEventListener(
     'drop',
     function (event) {
-      dropPlus.classList.remove ('drop-visibility');
-      dropPlus.classList.add ('drop-no-visibility');
+      dropPlus.classList.remove('drop-visibility');
+      dropPlus.classList.add('drop-no-visibility');
       var files = event.dataTransfer.files;
-      var dropFilesUpload = filesUpload.bind (event.dataTransfer);
-      dropFilesUpload ();
+      var dropFilesUpload = filesUpload.bind(event.dataTransfer);
+      dropFilesUpload();
 
       // for (var i = 0; i < files.length; i++) {
       //   var file = files[i];
@@ -868,140 +871,155 @@ function createDropListener () {
   );
 }
 
-function pressAddToBasket (event) {
+function pressAddToBasket(event) {
   // кнопка добавить в корзину
-  event.preventDefault ();
+  event.preventDefault();
 
   // Добавим в корзину
   let params = {
     product: {
       name: 'Продукт',
-      data: document.querySelector ('.param.active[name="product"]').innerHTML,
+      data: document.querySelector('.param.active[name="product"]').innerHTML,
     },
     size: {
       name: 'Формат',
-      data: document.querySelector ('.param.active[name="size"]').innerHTML,
+      data: document.querySelector('.param.active[name="size"]').innerHTML,
     },
     whiteborder: {
       name: 'Белая рамка по краям',
-      data: document.getElementById ('white-border').checked,
+      data: document.getElementById('white-border').checked,
     },
     count: {
       name: 'Количество',
-      data: getPhotoCount (),
+      data: getPhotoCount(),
     },
     box: {
       name: 'Коробка',
-      data: document.getElementById ('box').checked,
-      text: document.getElementById ('text-for-box').value,
+      data: document.getElementById('box').checked,
+      text: document.getElementById('text-for-box').value,
     },
     price: {
       name: 'Стоимость',
-      data: document.getElementById ('price-to-basket').innerHTML,
+      data: document.getElementById('int-price-to-basket').value,
     },
   };
-
-  ajax ('/addtobasket', params);
   
-  updateBasketIconCount ();
-  updatePrice ()
+  // пока ждет ответ - loader
+  turnONmodalLoader()
+  turnONmodal('-78px', false);
 
-  setOkModalButton (function () {
-    turnOFFSuperModal ();
-    // Удалим все блоки с изображениями
-    document.querySelectorAll ('.image-box').forEach (elem => {
-      elem.parentNode.removeChild (elem);
-    });
-    addEmptyElems ();
-  }, 'Добавить еще');
-  setCancelModalButton (function () {
-    document.location.href = '/basket';
-  }, 'В корзину');
-  turnONmodalMessage (
-    'Фотографии (' +
-      getPhotoCount () +
-      ' шт.) добавлены в корзину.<br>Желаете ли еще загрузить фотографии или перейти в коризну?'
-  );
-  turnONmodal ('-78px', false);
+  ajax('/addtobasket', params, function (result) {
+
+    turnOFFSuperModal ()
+    if (result === true) {
+      updateBasketIconCount();
+      updatePrice()
+
+      setOkModalButton(function () {
+        turnOFFSuperModal();
+        // Удалим все блоки с изображениями
+        document.querySelectorAll('.image-box').forEach(elem => {
+          elem.parentNode.removeChild(elem);
+        });
+        addEmptyElems();
+      }, 'Добавить еще');
+      setCancelModalButton(function () {
+        document.location.href = '/basket';
+      }, 'В корзину');
+      turnONmodalMessage(
+        'Фотографии (' +
+        getPhotoCount() +
+        ' шт.) добавлены в корзину.<br>Желаете ли еще загрузить фотографии или перейти в коризну?'
+      );
+      turnONmodal('-78px', false);
+    } else {
+      alert ('К сожалению на сервере произошла какая то ошибка! Проверьте козрзину. Если ошибка повториться, сообщите пожалуйста на почту admin@tutuprint.ru')
+      window.location = '/basket'
+    }
+
+
+  });
+
+
 }
 
-document.addEventListener ('DOMContentLoaded', function () {
-  
-  document.querySelector ('.info').onclick = () => {
-    setOkModalButton ();
-    turnONmodalMessage (document.getElementById ('info-page').innerHTML);
-    turnONmodal (0);
+document.addEventListener('DOMContentLoaded', function () {
+
+  document.querySelector('.info').onclick = () => {
+    setOkModalButton();
+    turnONmodalMessage(document.getElementById('info-page').innerHTML);
+    turnONmodal(0);
   };
 
-  turnOFFSuperModal ();
-  updatePrice ();
+  turnOFFSuperModal();
+  updatePrice();
 
   // добавим пустые эелементы
-  addEmptyElems ();
+  addEmptyElems();
 
   // обработчик нажатия на кнопку группового изменения
-  document.getElementById ('changeGroupButton').onclick = turnSelectMode;
+  document.getElementById('changeGroupButton').onclick = turnSelectMode;
 
   // обработчик на кнопку удалить все
-  switchClearAllButton ('all');
+  switchClearAllButton('all');
 
   // обработчик переключателя
-  document.querySelectorAll ('.switcher').forEach (elem => {
-    elem.addEventListener ('click', function () {
-      switchRefresh (this);
-      if (this.classList.contains ('size-switcher')) checkLowQuality ();
+  document.querySelectorAll('.switcher').forEach(elem => {
+    elem.addEventListener('click', function () {
+      switchRefresh(this);
+      if (this.classList.contains('size-switcher')) checkLowQuality();
     });
   });
 
   // обработчик пересчета цены с коробкой
-  document.getElementById ('box').addEventListener ('click', function () {
-    let textForBox = document.querySelector ('.text-for-box');
+  document.getElementById('box').addEventListener('click', function () {
+    let textForBox = document.querySelector('.text-for-box');
     if (this.checked) {
-      textForBox.classList.remove ('hide');
+      textForBox.classList.remove('hide');
     } else {
-      textForBox.classList.add ('hide');
-      document.querySelector ('textarea[name="text-for-box"]').value = '';
+      textForBox.classList.add('hide');
+      document.querySelector('textarea[name="text-for-box"]').value = '';
     }
-    updatePrice ();
+    updatePrice();
   });
 
-  document.querySelectorAll ('.image-box').forEach (elem => {
+  document.querySelectorAll('.image-box').forEach(elem => {
     // пропишем стартовые колличества
-    let count = elem.getAttribute ('count');
-    let imageCountElement = elem.querySelector ('div.img-count');
+    let count = elem.getAttribute('count');
+    let imageCountElement = elem.querySelector('div.img-count');
 
     // покажем количество, если более 1шт
     if (count > 1) {
       imageCountElement.innerHTML = count + 'x';
-      imageCountElement.classList.remove ('hide');
+      imageCountElement.classList.remove('hide');
     }
 
     // обработчик нажатия на фотогарфию
-    elem.addEventListener ('click', imageBoxOpenModalListener, false);
+    elem.addEventListener('click', imageBoxOpenModalListener, false);
   });
 
   //Обработчик кнопок группового изменения Сохранить, Отмена и изменения количества
   document
-    .getElementById ('general-additional-button-save')
-    .addEventListener ('click', generalButtonsListnerSave, false);
+    .getElementById('general-additional-button-save')
+    .addEventListener('click', generalButtonsListnerSave, false);
   document
-    .getElementById ('general-additional-button-cancel')
-    .addEventListener ('click', generalButtonsListnerCancel, false);
-  document.querySelectorAll ('.general-inc-modal-button').forEach (elem => {
-    elem.addEventListener ('click', generalChangeCountListner, false);
+    .getElementById('general-additional-button-cancel')
+    .addEventListener('click', generalButtonsListnerCancel, false);
+  document.querySelectorAll('.general-inc-modal-button').forEach(elem => {
+    elem.addEventListener('click', generalChangeCountListner, false);
   });
 
   // обработчик загрузки фотографий
-  document.getElementById ('imgLoad').onchange = filesUpload;
+  document.getElementById('imgLoad').onchange = filesUpload;
 
   // запустим обработчик события перетаскивания фотографий в gallery
-  createDropListener ();
+  createDropListener();
 
   // проверим на плохое качество
-  checkLowQuality ();
+  checkLowQuality();
 
   // клик на кнопку добавить в корзину
-  document.getElementById ('add-to-basket-button').onclick = pressAddToBasket;
+  document.getElementById('add-to-basket-button').onclick = pressAddToBasket;
 
   // setOkModalButton ();
   // turnONmodalMessage (document.getElementById ('info-page').innerHTML);

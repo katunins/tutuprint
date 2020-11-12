@@ -1,10 +1,7 @@
 window.ajax = function (
   url,
   data,
-  callBack = response => {
-    // console.log ('ajax', response);
-    // return true
-  }
+  callBack = null
 ) {
   fetch (url, {
     headers: {
@@ -21,7 +18,7 @@ window.ajax = function (
   })
     .then (response => response.json ())
     .then (response => {
-      callBack (response);
+      if (callBack) callBack (response);
       // console.log (callBack);
     })
     .catch (function (error) {

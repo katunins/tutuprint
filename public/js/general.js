@@ -94,9 +94,7 @@
 /***/ (function(module, exports) {
 
 window.ajax = function (url, data) {
-  var callBack = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function (response) {// console.log ('ajax', response);
-    // return true
-  };
+  var callBack = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   fetch(url, {
     headers: {
       'Content-Type': 'application/json',
@@ -110,7 +108,7 @@ window.ajax = function (url, data) {
   }).then(function (response) {
     return response.json();
   }).then(function (response) {
-    callBack(response); // console.log (callBack);
+    if (callBack) callBack(response); // console.log (callBack);
   })["catch"](function (error) {
     console.log(error);
   });
@@ -140,7 +138,7 @@ window.updateBasketIconCount = function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/katunin/Documents/tutuprint.ru/resources/js/general.js */"./resources/js/general.js");
+module.exports = __webpack_require__(/*! /Users/pavelkatunin/Documents/tutuprint.ru/resources/js/general.js */"./resources/js/general.js");
 
 
 /***/ })
