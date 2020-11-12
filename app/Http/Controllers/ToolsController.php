@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Mail;
 
 class ToolsController extends Controller
 {
@@ -120,12 +119,7 @@ class ToolsController extends Controller
     
     // уведомление о заказе
     static function sendOrderNotification ($id) {
-        $data = array('name'=>"Virat Gandhi");
-  
-        Mail::send(['text'=>'mail'], ['name'=>"tutuprint"], function($message) {
-            $message->to('katunin.pavel@gmail.com', 'Tutorials Point')->subject
-            ('Заказ на tutuprint');
-            $message->from('admin@tutuprint','Pavel Katunin');
-        });
+
+        \Mail::to('katunin.pavel@gmail.com')->send(new \App\Mail\AdminMail(['id'=>$id]));
     }
 }
