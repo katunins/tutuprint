@@ -120,6 +120,6 @@ class ToolsController extends Controller
     // уведомление о заказе
     static function sendOrderNotification ($id) {
 
-        \Mail::to('katunin.pavel@gmail.com')->send(new \App\Mail\OrderShipped($id=$id));
+        \Mail::to('katunin.pavel@gmail.com')->send(new \App\Mail\OrderShipped(['id'=>$id]));
     }
 }
