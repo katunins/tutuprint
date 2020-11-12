@@ -142,7 +142,7 @@ form {
 
         input:checked + label::before {
             background-color: #ffcc00;
-            padding: 1px 4px;
+            padding: 1px 3px;
             content: "\2713";
         }
     }
