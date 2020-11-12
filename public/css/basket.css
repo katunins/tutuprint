@@ -119,12 +119,18 @@ form .delivery-block input {
   display: none;
 }
 
+form .delivery-block label {
+  width: 100%;
+}
+
 form .delivery-block label::before {
   margin-right: 10px;
-  padding: 1px 10px;
+  padding: 1px 9px;
   border-radius: 20px;
   border: 1px solid gray;
   width: 300px;
+  height: auto;
+  white-space: pre;
   content: " ";
 }
 
