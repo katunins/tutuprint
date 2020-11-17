@@ -72,8 +72,11 @@ class ImageController extends Controller
         $folder = 'public/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token');
         $thumbnailFolder = 'storage/upload/' . Carbon::now()->format('d-m-Y') . '/' . $request->session()->get('_token') . '/Thumbnail/'; // кривое решение из за Image Intervention - он не может доступ получить к Storage
         $files = $request->file('images');
+        $result = [];
 
         for ($i = 0; $i < count($files); $i++) {
+
+            if ($files[$i]->getSize() == 0) continue;
 
 
             $original_name = Str::slug(explode('.', $files[$i]->getClientOriginalName())[0]);

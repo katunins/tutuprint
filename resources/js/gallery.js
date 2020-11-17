@@ -719,6 +719,15 @@ function filesUpload() {
     });
   }
 
+  function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
   turnONmodalLoader();
   turnONmodalMessage('Загрузка <span></span> %');
   turnONmodal('-135px');
@@ -745,6 +754,23 @@ function filesUpload() {
     let gallery = document.querySelector('.gallery');
     let elementBefore = gallery.querySelector('form');
     // console.log (event.target.response)
+    
+    // защита от ошибки
+    let response = event.target.response
+    if (IsJsonString(response)) {
+      result = JSON.parse(response)
+    } else { result = [] }
+    
+  
+    // if (typeof result == 'undefined') {
+    //   turnOFFSuperModal ()
+    //   turnONmodalMessage('В процессе загрузки возникла ошибка (((. Поробуйте еще раз.');
+    //   setOkModalButton(function () {
+    //     turnOFFSuperModal ()
+    //   }, 'Ok');
+    //   turnONmodal('-135px');
+    // }
+
     JSON.parse(event.target.response).forEach(result => {
       // Добавим загруженную миниатюру в элемент
 
@@ -768,6 +794,10 @@ function filesUpload() {
         document.querySelector('.gallery').removeChild(fakeEmptyBlock);
       }
     });
+    
+    document.getElementById('imgLoad').value = null;
+    clearInterval(progressListener);  
+    turnOFFSuperModal();
     getResize(); //последний запрос, что бы сбросить в 0
     clearInterval(progressListener);
     turnOFFSuperModal();
@@ -914,24 +944,26 @@ function pressAddToBasket(event) {
     if (result === true) {
       updateBasketIconCount();
       updatePrice()
+      document.location.href = '/basket';
 
-      setOkModalButton(function () {
-        turnOFFSuperModal();
-        // Удалим все блоки с изображениями
-        document.querySelectorAll('.image-box').forEach(elem => {
-          elem.parentNode.removeChild(elem);
-        });
-        addEmptyElems();
-      }, 'Добавить еще');
-      setCancelModalButton(function () {
-        document.location.href = '/basket';
-      }, 'В корзину');
-      turnONmodalMessage(
-        'Фотографии (' +
-        getPhotoCount() +
-        ' шт.) добавлены в корзину.<br>Желаете ли еще загрузить фотографии или перейти в коризну?'
-      );
-      turnONmodal('-78px', false);
+      // setOkModalButton(function () {
+      //   turnOFFSuperModal();
+      //   // Удалим все блоки с изображениями
+      //   document.querySelectorAll('.image-box').forEach(elem => {
+      //     elem.parentNode.removeChild(elem);
+      //   });
+      //   addEmptyElems();
+      // }, 'Добавить еще');
+      // setCancelModalButton(function () {
+      //   document.location.href = '/basket';
+      // }, 'В корзину');
+      // turnONmodalMessage(
+      //   'Фотографии (' +
+      //   getPhotoCount() +
+      //   ' шт.) добавлены в корзину.<br>Желаете ли еще загрузить фотографии или перейти в коризну?'
+      // );
+      // turnONmodal('-78px', false);
+
     } else {
       alert ('К сожалению на сервере произошла какая то ошибка! Проверьте козрзину. Если ошибка повториться, сообщите пожалуйста на почту admin@tutuprint.ru')
       window.location = '/basket'
