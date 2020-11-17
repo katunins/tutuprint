@@ -25,11 +25,27 @@
         fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=4707336305974096&ev=PageView&noscript=1"
-    /></noscript>
+            src="https://www.facebook.com/tr?id=4707336305974096&ev=PageView&noscript=1" /></noscript>
     <!-- End Facebook Pixel Code -->
-  
-  
+
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+ 
+    ym(69494278, "init", {
+         clickmap:true,
+         trackLinks:true,
+         accurateTrackBounce:true,
+         webvisor:true
+    });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/69494278" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
 
 </head>
 
@@ -52,17 +68,17 @@
 
         <div class="personal-block">
             @if(Auth::check())
-                <div class="user">
-                    <a href="{{ url ('auth') }}">
-                        <img src="{{ asset('images/user.svg') }}" alt="">
-                    </a>
-                </div>
+            <div class="user">
+                <a href="{{ url ('auth') }}">
+                    <img src="{{ asset('images/user.svg') }}" alt="">
+                </a>
+            </div>
             @else
-                <div class="user temp-user">
-                    <a href="{{ url ('personal') }}">
-                        <img src="{{ asset('images/user.svg') }}" alt="">
-                    </a>
-                </div>
+            <div class="user temp-user">
+                <a href="{{ url ('personal') }}">
+                    <img src="{{ asset('images/user.svg') }}" alt="">
+                </a>
+            </div>
             @endif
 
             <div class="basket half-opacity">
@@ -74,16 +90,16 @@
         </div>
 
     </div>
-    
+
     <div class="container">
         @include('layouts.modal')
         {{-- @dump ((Session::all()), 'Auth -'.Auth::check()) --}}
         @yield('content')
 
         @if(View::hasSection('back'))
-            <a class="back" href={{ $urlBack }}>
-                <img src="{{ asset('back-button.svg') }}" alt="Назад">
-            </a>
+        <a class="back" href={{ $urlBack }}>
+            <img src="{{ asset('back-button.svg') }}" alt="Назад">
+        </a>
         @endif
 
     </div>
