@@ -39,7 +39,7 @@ use App\Http\Controllers\ImageController;
         @endif
 
         <form class="hide" action="" method="post">
-            <input type="file" id="imgLoad" multiple name="image[]">
+            <input type="file" id="imgLoad" multiple name="image[]" accept="image/*">
         </form>
         <label class="imgLoadPlusButton" drop="true" for="imgLoad" id="imgLoadPlusButton"
             style="background-image: url({{ asset('images/plus.svg') }})">
