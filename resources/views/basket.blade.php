@@ -12,27 +12,7 @@
     if ($user) $basket = DB::table('basket')->where('userId', (string)$user['id'])->get(); else $basket=[];
 ?>
 @if(count($basket)>0)
-    <?php if(!Auth::check() && !Session::has('noAuthOk')):?>
 
-    <?php Session::put('noAuthOk', true); //пометка о том, что клиенту предлагали авторизоваться?>
-    <script>
-        turnONmodalMessage(
-            'Для начисления бонусных баллов необходимо войти в личный кабинет.'
-        );
-
-        setOkModalButton(function () {
-            location.href = "/auth"
-        }, 'Войти');
-
-        setCancelModalButton(function () {
-            turnOFFSuperModal();
-            location.href = "/basket"
-        }, 'Продолжить');
-        turnONmodal('-78px', false);
-
-    </script>
-
-    <?php else: ?>
     @foreach($basket as $item)
         <?php
                     $summ = 0;
@@ -98,17 +78,17 @@
 
         <div class="form-center-block">
             @if(!$errors->get('name'))
-                <label for="name">Фамилия Имя получателя</label>
+                {{-- <label for="name">Имя Фамилия</label> --}}
             @endif
             @error('name')
                 <label class="alert">{{ $message }}</label>
             @enderror
-            <input type="text" name="name" placeholder="Антонов Сергей"
+            <input type="text" name="name" placeholder="Введите Имя получателя"
                 value="{{ old('name', $user['name']) }}">
 
             <div class="adress-block">
-                <label for="vrn_adress">Адрес в Воронеже</label>
-                <input type="text" name="adress" placeholder="Московский проспект, 10 / кв"
+                <label for="vrn_adress"> </label>
+                <input type="text" name="adress" placeholder="Введите адрес доставки в Воронеже"
                     value="{{ old('adress', $user['adress']) }}">
             </div>
 
@@ -133,7 +113,6 @@
     {{-- тут скрипт потому, что он нужен только при загрузки корзины --}}
     <script src="{{ asset('js/basket.js') }}"></script>
 
-    <?php endif?>
 @else
     <div class="empty">Корзина пуста</div>
     @include('layouts.bigbuttons')
