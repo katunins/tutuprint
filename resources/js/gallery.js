@@ -633,6 +633,7 @@ function checkLowQuality() {
 }
 
 function filesUpload() {
+  ym(69494278,'reachGoal','loadimages')
   if (!this.files) return; //вдруг нажемт ESC при выборе файлов и this будет без файлов
 
   let token = document
