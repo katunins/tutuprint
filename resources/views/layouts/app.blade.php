@@ -103,6 +103,7 @@
         @endif
 
     </div>
+    <input type="hidden" name="copyright" value="Pavel Katunin. www.ikatunin.ru">
 </body>
 
 
